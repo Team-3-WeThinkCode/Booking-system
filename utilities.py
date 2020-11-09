@@ -76,7 +76,7 @@ def delete_event(service):
     outfile.close()
     
 
-def list_events(service):
+def list_slots(service):
     # Get the UCT time that is current and formats it to allow for google API parameter 
     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
     # Get the UCT time that is current + 7 days added and formats it to allow for google API parameter 
@@ -86,13 +86,13 @@ def list_events(service):
                                         timeMax=end_date, singleEvents=True,
                                         orderBy='startTime').execute()
     events = events_result.get('items', [])
-    print('<' +'-'*80+'>')
+    print('<' +'-'*80+'>\n')
     if not events:
         print('No open slots available.')
     for event in events:
         start = event['start'].get('dateTime', event['start'].get('date'))
         print(event['summary'], start, event['id'])
-        print('<' +'-'*80+'>')
+        print('<' +'-'*80+'>\n')
 
 
 def get_events(service):

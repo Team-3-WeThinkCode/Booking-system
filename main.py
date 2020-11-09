@@ -34,5 +34,5 @@ if __name__ == "__main__":
     elif command == 2:
         utils.delete_event(student.service)
     elif command == 3:
-        utils.list_events(codeclinic.service)
+        utils.list_slots(codeclinic.service)
 
