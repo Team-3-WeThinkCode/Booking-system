@@ -61,7 +61,7 @@ def create_booking(username, service):
     else:
         print('Sorry, slot is already booked. Choose another slot.')
 
-
+#?
 def delete_event(service):  
     with open('data_files/data.json', 'r+') as json_file:
         data = json.load(json_file)
@@ -77,16 +77,22 @@ def delete_event(service):
     
 
 def list_events(service):
-    page_token = None
-    while True:
-        events = service.events().list(calendarId='primary', pageToken=page_token).execute()
-        for event in events['items']:
-            with open('data_files/events.json', 'a+') as json_file:
-                json.dump(event, json_file, sort_keys=True, indent=4)
-            json_file.close()
-        page_token = events.get('nextPageToken')
-        if not page_token:
-            break
+    # Get the UCT time that is current and formats it to allow for google API parameter 
+    now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
+    # Get the UCT time that is current + 7 days added and formats it to allow for google API parameter 
+    end_date = ((datetime.datetime.utcnow()) + datetime.timedelta(days=7)).isoformat() + 'Z'
+    print('Displaying all open slots for the next 7 days.')
+    events_result = service.events().list(calendarId='primary', timeMin=now,
+                                        timeMax=end_date, singleEvents=True,
+                                        orderBy='startTime').execute()
+    events = events_result.get('items', [])
+    print('<' +'-'*80+'>')
+    if not events:
+        print('No open slots available.')
+    for event in events:
+        start = event['start'].get('dateTime', event['start'].get('date'))
+        print(event['summary'], start, event['id'])
+        print('<' +'-'*80+'>')
 
 
 def get_events(service):

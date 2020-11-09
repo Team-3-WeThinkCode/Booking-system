@@ -62326,4 +62326,100 @@
     },
     "status": "confirmed",
     "updated": "2020-11-04T07:45:06.809Z"
+}{
+    "created": "2020-11-09T08:29:40.000Z",
+    "creator": {
+        "email": "code.clinic.test@gmail.com",
+        "self": true
+    },
+    "description": "Recursion",
+    "end": {
+        "dateTime": "2020-11-10T10:30:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3209821161134000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=ZnViM2x1b2N2YWVjcGV1MXZrZGtpNGpxOGsgY29kZS5jbGluaWMudGVzdEBt",
+    "iCalUID": "fub3luocvaecpeu1vkdki4jq8k@google.com",
+    "id": "fub3luocvaecpeu1vkdki4jq8k",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "code.clinic.test@gmail.com",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-10T10:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "Code Clinic - codeclinic",
+    "updated": "2020-11-09T08:29:40.567Z"
+}{
+    "created": "2020-11-09T08:29:40.000Z",
+    "creator": {
+        "email": "code.clinic.test@gmail.com",
+        "self": true
+    },
+    "description": "Recursion",
+    "end": {
+        "dateTime": "2020-11-10T10:30:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3209821161134000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=ZnViM2x1b2N2YWVjcGV1MXZrZGtpNGpxOGsgY29kZS5jbGluaWMudGVzdEBt",
+    "iCalUID": "fub3luocvaecpeu1vkdki4jq8k@google.com",
+    "id": "fub3luocvaecpeu1vkdki4jq8k",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "code.clinic.test@gmail.com",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-10T10:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "Code Clinic - codeclinic",
+    "updated": "2020-11-09T08:29:40.567Z"
+}{
+    "created": "2020-11-09T08:29:40.000Z",
+    "creator": {
+        "email": "code.clinic.test@gmail.com",
+        "self": true
+    },
+    "description": "Recursion",
+    "end": {
+        "dateTime": "2020-11-10T10:30:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3209821161134000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=ZnViM2x1b2N2YWVjcGV1MXZrZGtpNGpxOGsgY29kZS5jbGluaWMudGVzdEBt",
+    "iCalUID": "fub3luocvaecpeu1vkdki4jq8k@google.com",
+    "id": "fub3luocvaecpeu1vkdki4jq8k",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "code.clinic.test@gmail.com",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-10T10:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "Code Clinic - codeclinic",
+    "updated": "2020-11-09T08:29:40.567Z"
 }

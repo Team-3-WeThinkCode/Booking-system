@@ -33,6 +33,6 @@ if __name__ == "__main__":
         utils.create_booking(student.username, student.service)
     elif command == 2:
         utils.delete_event(student.service)
-    else:
-        utils.list_calendars()
+    elif command == 3:
+        utils.list_events(codeclinic.service)
 
