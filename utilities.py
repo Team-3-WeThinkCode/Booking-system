@@ -130,7 +130,6 @@ def create_makeshift_event(summary, location, description, start_date_time, end_
 
 def already_exists(new_event, service):
     events = get_date_events(new_event['start']['dateTime'],get_events(service))
-    print(events)
     event_list = [new_event['start']['dateTime'] for new_event in events]
     if new_event['start']['dateTime'] not in event_list:
         return False
