@@ -1,3 +1,6 @@
+import json
+import datetime
+
 def get_user_input():
     while True:
         command = input('Please choose an option from the list:\n1) Create calendar event\n2) Delete calendar event\n3) List calendar events\n')
