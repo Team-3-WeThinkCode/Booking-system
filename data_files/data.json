@@ -752,4 +752,36 @@
     "status": "confirmed",
     "summary": "Code Clinic - codeclinic",
     "updated": "2020-11-09T08:29:40.567Z"
+}{
+    "created": "2020-11-09T12:32:56.000Z",
+    "creator": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "description": "Recursion",
+    "end": {
+        "dateTime": "2020-11-09T10:30:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3209850352666000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=dmE5YWJmZG4zcXM5MzN1ZGNpa2JiYjU1N28gY3ByaW5zbG9vQHN0dWRlbnQud2V0aGlua2NvZGUuY28uemE",
+    "iCalUID": "va9abfdn3qs933udcikbbb557o@google.com",
+    "id": "va9abfdn3qs933udcikbbb557o",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-09T10:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "Code Clinic - cprinsloo",
+    "updated": "2020-11-09T12:32:56.333Z"
 }

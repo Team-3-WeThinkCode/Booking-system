@@ -1,10 +1,5 @@
-def get_user_input():
-    while True:
-        command = input('Please choose an option from the list:\n1) Create calendar event\n2) Delete calendar event\n3) List calendar events\n')
-        if command.isdigit():
-            if int(command) >= 1 and int(command) <= 3:
-                return int(command)
-
+import datetime
+import json
 
 def create_delete_calendar(service):
     """
@@ -66,7 +61,7 @@ def create_booking(username, service):
     else:
         print('Sorry, slot is already booked. Choose another slot.')
 
-#?
+
 def delete_event(service):  
     with open('data_files/data.json', 'r+') as json_file:
         data = json.load(json_file)

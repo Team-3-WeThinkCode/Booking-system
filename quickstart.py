@@ -1,8 +1,6 @@
 from __future__ import print_function
-import datetime
 import pickle
 import os.path
-import json
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
@@ -11,14 +9,13 @@ from google.auth.transport.requests import Request
 SCOPES = ['https://www.googleapis.com/auth/calendar.events', 'https://www.googleapis.com/auth/calendar']
 #service = None
 
-def create_service():
+def create_service(username):
     """
     Shows basic usage of the Google Calendar API.
     Prints the start and name of the next 10 events on the user's calendar.
     """
 
     creds = None
-    username = input("Enter student username: ")
     
     if os.path.exists('tokens/'+username+'.pickle'):
         with open('tokens/'+username+'.pickle', 'rb') as token:
@@ -36,7 +33,7 @@ def create_service():
             pickle.dump(creds, token)
 
     service = build('calendar', 'v3', credentials=creds)
-    return username, service
+    return service
 
 '''TODO Check connection to Google Calendar succesfull (maybe check pickle file)'''
 def check_calendar_connected():
