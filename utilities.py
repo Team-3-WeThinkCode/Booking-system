@@ -102,7 +102,7 @@ def get_events(service, start_datetime, end_datetime):
     return events_result.get('items', [])
 
 
-def create_makeshift_event(summary, location, description, start_date_time, end_date_time):
+def create_makeshift_event(summary, location, description, start_date_time, end_date_time, people):
     new_event = {
             'summary': summary,
             'location': location,
@@ -115,6 +115,7 @@ def create_makeshift_event(summary, location, description, start_date_time, end_
                 'dateTime': end_date_time,
                 'timeZone': 'Africa/Johannesburg',
             },
+            'attendees':people,
             'reminders': {
                 'useDefault': True,
             },
@@ -179,19 +180,11 @@ def convert_date_and_time_to_rfc_format(date, start_time, end_time):
     return start_dateTime, end_dateTime
 
 
-def add_event_to_calendar(event_info, service, silent):
+def add_event_to_calendar(event_info, service, clinic, username):
     people = []
     location = 'WeThinkCode, Victoria & Alfred Waterfront, Cape Town'
-    while not silent:
-        add_atendee = str(input("Add atendee via email? (y/n) "))
-        print(add_atendee)
-        if add_atendee.strip() == 'y':
-            atendee_email = str(input('Please enter email address of atendee: '))
-            people.append({'email': atendee_email.strip()})
-            print(people)
-        else:
-            break
-    event = create_makeshift_event(event_info['summary'], location, '', event_info['start_datetime'], event_info['end_datetime'])
+    if clinic:
+        student_email = str(username) + '@student.wethinkcode.co.za'
+        people.append({'email': student_email})
+    event = create_makeshift_event(event_info['summary'], location, '', event_info['start_datetime'], event_info['end_datetime'], people)
     event = service.events().insert(calendarId='primary', body=event).execute()
-    with open('data_files/data.json', 'a+') as outfile:
-        json.dump(event, outfile, sort_keys=True, indent=4)

@@ -9,9 +9,13 @@ TODO:
 Check data from json and check what slots are open
 :return: list of slots in above format
 '''
-def get_open_slots_of_the_day(date):
-    slot = slots
-    return slot
+def get_open_slots_of_the_day(date, clinic_service):
+    open_slots = []
+    for slot in slots:
+        start_datetime, end_datetime = utils.convert_date_and_time_to_rfc_format(date, slot[0], slot[1])
+        if len(utils.get_events(clinic_service, start_datetime, end_datetime)) == 0:
+            open_slots.append(slot)
+    return open_slots
 
 
 def get_slot_time(slots):
@@ -39,13 +43,16 @@ def create_volunteer_slot(username, volunteer_service, codeclinic_service):
     '''
 
     date = utils.get_date()
-    slots = get_open_slots_of_the_day(date)
-    time = get_slot_time(slots)
+    open_slots = get_open_slots_of_the_day(date, codeclinic_service)
+    if len(open_slots) == 0:
+        print('There are no open slots on this day.')
+        return False
+    time = get_slot_time(open_slots)
     start_datetime, end_datetime = utils.convert_date_and_time_to_rfc_format(date, time[0], time[1])
     if slot_is_available(volunteer_service, start_datetime, end_datetime):
-        event_info_volunteer = {'summary': 'VOLUNTEER: ' + str(username), 'start_datetime': start_datetime, 'end_datetime': end_datetime}
-        event_info_clinic = {'summary': 'VOLUNTEER: ' + str(username), 'start_datetime': start_datetime, 'end_datetime': end_datetime}
-        utils.add_event_to_calendar(event_info_volunteer, volunteer_service, False)
-        utils.add_event_to_calendar(event_info_clinic, codeclinic_service, True)
+        event_info_clinic = {'summary': 'VOLUNTEER: ' + str(username), 'start_datetime': start_datetime, 'end_datetime': end_datetime, 'attendees': []}
+        utils.add_event_to_calendar(event_info_clinic, codeclinic_service, True, username)
+        print('Volunteer slot created!')
         return True
+    print('You do not have an open slot at the selected time.')
     return False

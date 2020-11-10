@@ -28,10 +28,7 @@ class CodeClinic:
 if __name__ == "__main__":
     student = Student()
     codeclinic = CodeClinic()
-    if volunteer.create_volunteer_slot(student.username, student.service, codeclinic.service):
-        print('Succesful!')
-    else:
-        print('Oops, slot is not open on your calendar..')
+    created = volunteer.create_volunteer_slot(student.username, student.service, codeclinic.service)
     '''check_calendar_connected()
     command = get_user_input()
     if command == 1:
