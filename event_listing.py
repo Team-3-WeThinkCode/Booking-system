@@ -3,6 +3,9 @@ import datetime
 
 
 def list_slots(service):
+    table = [
+        ['Volunteer name.', 'date.', 'time.', 'Unique ID.' ]
+    ]
     # Get the UCT time that is current and formats it to allow for google API parameter 
     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
     # Get the UCT time that is current + 7 days added and formats it to allow for google API parameter 
@@ -15,15 +18,11 @@ def list_slots(service):
     if not events:
         print('No open slots available.')
     for event in events:
+        print(event)
         start = event['start'].get('dateTime', event['start'].get('date'))
-        print(event['summary'], start, event['id'])
-
-
-
-
-def display_data():
-    colums = 1
-
-    tabel = [
-        ['Event name.', 'Start Time.', 'Unique ID.' ],
-    ]
+        start_date = (start[0:10])
+        start_time = (start[11:16])
+        table.append([event['summary'], start_date, start_time, event['id']])
+        table.append(['------------------------', '------------------------', '-------------------------', '-----------------------'])
+    tableIt.printTable(table, useFieldNames=True)
+            
