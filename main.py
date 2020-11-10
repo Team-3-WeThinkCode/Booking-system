@@ -28,13 +28,13 @@ class CodeClinic:
 if __name__ == "__main__":
     student = Student()
     codeclinic = CodeClinic()
-    '''check_calendar_connected()
+    check_calendar_connected()
     command = get_user_input()
     if command == 1:
         utils.create_booking(student.username, student.service)
     elif command == 2:
         utils.delete_event(student.service)
     else:
-        utils.list_calendars()'''
+        utils.list_slots(codeclinic.service)
     volunteer.create_volunteer_slot(student.username, student.service, codeclinic.service)
 
