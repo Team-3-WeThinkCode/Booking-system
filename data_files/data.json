@@ -1,0 +1,1813 @@
+{
+    "created": "2020-11-05T13:10:06.000Z",
+    "creator": {
+        "email": "student.team003@gmail.com",
+        "self": true
+    },
+    "description": "Yummy",
+    "end": {
+        "dateTime": "2020-11-06T07:00:00Z",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3209163612594000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=aTFycW1yNTVpMDJsamYxYWJiMXNmbXI3a28gc3R1ZGVudC50ZWFtMDAzQG0",
+    "iCalUID": "i1rqmr55i02ljf1abb1sfmr7ko@google.com",
+    "id": "i1rqmr55i02ljf1abb1sfmr7ko",
+    "kind": "calendar#event",
+    "location": "Gardens, Cape Town",
+    "organizer": {
+        "email": "student.team003@gmail.com",
+        "self": true
+    },
+    "reminders": {
+        "overrides": [
+            {
+                "method": "popup",
+                "minutes": 10
+            },
+            {
+                "method": "email",
+                "minutes": 1440
+            }
+        ],
+        "useDefault": false
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-06T07:00:00Z",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "Eat cake",
+    "updated": "2020-11-05T13:10:06.323Z"
+}{
+    "created": "2020-11-05T14:11:00.000Z",
+    "creator": {
+        "email": "student.team003@gmail.com",
+        "self": true
+    },
+    "description": "nothing",
+    "end": {
+        "dateTime": "2020-11-06T09:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3209170921409000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=ZDNmZXRkdjBzc2kyMWxibGJwZXFvNG5zMm8gc3R1ZGVudC50ZWFtMDAzQG0",
+    "iCalUID": "d3fetdv0ssi21lblbpeqo4ns2o@google.com",
+    "id": "d3fetdv0ssi21lblbpeqo4ns2o",
+    "kind": "calendar#event",
+    "location": "Gardens, Cape Town",
+    "organizer": {
+        "email": "student.team003@gmail.com",
+        "self": true
+    },
+    "reminders": {
+        "overrides": [
+            {
+                "method": "email",
+                "minutes": 1440
+            },
+            {
+                "method": "popup",
+                "minutes": 10
+            }
+        ],
+        "useDefault": false
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-06T09:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "Eat cake",
+    "updated": "2020-11-05T14:11:00.782Z"
+}{
+    "created": "2020-11-05T14:12:12.000Z",
+    "creator": {
+        "email": "code.clinic.test@gmail.com",
+        "self": true
+    },
+    "description": "nothing",
+    "end": {
+        "dateTime": "2020-11-06T09:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3209171065808000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=cHRyazBvNzU2ajIwbXMwdTd0MjZzNjNlMWMgY29kZS5jbGluaWMudGVzdEBt",
+    "iCalUID": "ptrk0o756j20ms0u7t26s63e1c@google.com",
+    "id": "ptrk0o756j20ms0u7t26s63e1c",
+    "kind": "calendar#event",
+    "location": "Gardens, Cape Town",
+    "organizer": {
+        "email": "code.clinic.test@gmail.com",
+        "self": true
+    },
+    "reminders": {
+        "overrides": [
+            {
+                "method": "popup",
+                "minutes": 10
+            },
+            {
+                "method": "email",
+                "minutes": 1440
+            }
+        ],
+        "useDefault": false
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-06T09:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "eat cake",
+    "updated": "2020-11-05T14:12:12.940Z"
+}{
+    "created": "2020-11-05T20:12:13.000Z",
+    "creator": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "description": "yummy",
+    "end": {
+        "dateTime": "2020-11-06T01:01:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3209214267720000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=bGMzN2E5ZHNwbmYyNTkwcW5obGFxbWRoOW8gY3ByaW5zbG9vQHN0dWRlbnQud2V0aGlua2NvZGUuY28uemE",
+    "iCalUID": "lc37a9dspnf2590qnhlaqmdh9o@google.com",
+    "id": "lc37a9dspnf2590qnhlaqmdh9o",
+    "kind": "calendar#event",
+    "location": "Gardens, Cape Town",
+    "organizer": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "reminders": {
+        "overrides": [
+            {
+                "method": "email",
+                "minutes": 1440
+            },
+            {
+                "method": "popup",
+                "minutes": 10
+            }
+        ],
+        "useDefault": false
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-06T00:01:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "Eat cake",
+    "updated": "2020-11-05T20:12:13.900Z"
+}{
+    "created": "2020-11-05T20:21:02.000Z",
+    "creator": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "description": "yum",
+    "end": {
+        "dateTime": "2020-11-05T23:01:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3209215324261000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=bzBudTZidHNyY2o2ZmhldWlzbGNzcmQxamsgY3ByaW5zbG9vQHN0dWRlbnQud2V0aGlua2NvZGUuY28uemE",
+    "iCalUID": "o0nu6btsrcj6fheuislcsrd1jk@google.com",
+    "id": "o0nu6btsrcj6fheuislcsrd1jk",
+    "kind": "calendar#event",
+    "location": "Gardens, Cape Town",
+    "organizer": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "reminders": {
+        "overrides": [
+            {
+                "method": "popup",
+                "minutes": 10
+            },
+            {
+                "method": "email",
+                "minutes": 1440
+            }
+        ],
+        "useDefault": false
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-05T22:01:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "cake 2",
+    "updated": "2020-11-05T20:21:02.169Z"
+}{
+    "created": "2020-11-05T20:29:21.000Z",
+    "creator": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "description": "yummy",
+    "end": {
+        "dateTime": "2020-11-05T23:01:00+02:00",
+        "timeZone": "America/Chicago"
+    },
+    "etag": "\"3209216323442000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=aTczMTl1aTdmYTBsNGI5ZjE0bWpjMjIxYWcgY3ByaW5zbG9vQHN0dWRlbnQud2V0aGlua2NvZGUuY28uemE",
+    "iCalUID": "i7319ui7fa0l4b9f14mjc221ag@google.com",
+    "id": "i7319ui7fa0l4b9f14mjc221ag",
+    "kind": "calendar#event",
+    "location": "Gardens, Cape Town",
+    "organizer": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-05T22:01:00+02:00",
+        "timeZone": "America/Chicago"
+    },
+    "status": "confirmed",
+    "summary": "eat cake yay",
+    "updated": "2020-11-05T20:29:21.721Z"
+}{
+    "created": "2020-11-05T20:32:39.000Z",
+    "creator": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "description": "yay",
+    "end": {
+        "dateTime": "2020-11-05T23:01:00+02:00",
+        "timeZone": "America/Chicago"
+    },
+    "etag": "\"3209216718892000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=cmRjOWVjbzN1c2RjaGQwNGxhbTE0cDJzczQgY3ByaW5zbG9vQHN0dWRlbnQud2V0aGlua2NvZGUuY28uemE",
+    "iCalUID": "rdc9eco3usdchd04lam14p2ss4@google.com",
+    "id": "rdc9eco3usdchd04lam14p2ss4",
+    "kind": "calendar#event",
+    "location": "Gardens, Cape Town",
+    "organizer": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-05T22:01:00+02:00",
+        "timeZone": "America/Chicago"
+    },
+    "status": "confirmed",
+    "summary": "Code Clinic - cprinsloo",
+    "updated": "2020-11-05T20:32:39.446Z"
+}{
+    "created": "2020-11-05T20:35:47.000Z",
+    "creator": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "description": "yay",
+    "end": {
+        "dateTime": "2020-11-05T23:01:00+02:00",
+        "timeZone": "America/Chicago"
+    },
+    "etag": "\"3209217095518000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=MWhoNmxmcDFkdmx0dGt1MzZrOHNncGJjdmsgY3ByaW5zbG9vQHN0dWRlbnQud2V0aGlua2NvZGUuY28uemE",
+    "iCalUID": "1hh6lfp1dvlttku36k8sgpbcvk@google.com",
+    "id": "1hh6lfp1dvlttku36k8sgpbcvk",
+    "kind": "calendar#event",
+    "location": "Gardens, Cape Town",
+    "organizer": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-05T22:01:00+02:00",
+        "timeZone": "America/Chicago"
+    },
+    "status": "confirmed",
+    "summary": "Code Clinic - cprinsloo",
+    "updated": "2020-11-05T20:35:47.759Z"
+}{
+    "created": "2020-11-05T20:36:21.000Z",
+    "creator": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "description": "yay",
+    "end": {
+        "dateTime": "2020-11-05T23:01:00+02:00",
+        "timeZone": "America/Chicago"
+    },
+    "etag": "\"3209217163962000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=NmN1cG1hMTM1ZW85M2s1NnRrazBmaXVxZzAgY3ByaW5zbG9vQHN0dWRlbnQud2V0aGlua2NvZGUuY28uemE",
+    "iCalUID": "6cupma135eo93k56tkk0fiuqg0@google.com",
+    "id": "6cupma135eo93k56tkk0fiuqg0",
+    "kind": "calendar#event",
+    "location": "Gardens, Cape Town",
+    "organizer": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-05T22:01:00+02:00",
+        "timeZone": "America/Chicago"
+    },
+    "status": "confirmed",
+    "summary": "Code Clinic - cprinsloo",
+    "updated": "2020-11-05T20:36:21.981Z"
+}{
+    "created": "2020-11-06T07:23:09.000Z",
+    "creator": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "description": "Recursion",
+    "end": {
+        "dateTime": "2020-11-05T23:01:00+02:00",
+        "timeZone": "America/Chicago"
+    },
+    "etag": "\"3209294779802000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=cnMxMDBmbzMwMTM0ODhtaG04ZmNhamE1dWcgY3ByaW5zbG9vQHN0dWRlbnQud2V0aGlua2NvZGUuY28uemE",
+    "iCalUID": "rs100fo3013488mhm8fcaja5ug@google.com",
+    "id": "rs100fo3013488mhm8fcaja5ug",
+    "kind": "calendar#event",
+    "location": "Gardens, Cape Town",
+    "organizer": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-05T22:01:00+02:00",
+        "timeZone": "America/Chicago"
+    },
+    "status": "confirmed",
+    "summary": "Code Clinic - cprinsloo",
+    "updated": "2020-11-06T07:23:09.901Z"
+}{
+    "created": "2020-11-06T07:27:05.000Z",
+    "creator": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "description": "Recursion",
+    "end": {
+        "dateTime": "2020-11-05T23:01:00+02:00",
+        "timeZone": "America/Chicago"
+    },
+    "etag": "\"3209295251886000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=aGVscDJuaDk2MzJudmYwZDVmZTRrM2w1bHMgY3ByaW5zbG9vQHN0dWRlbnQud2V0aGlua2NvZGUuY28uemE",
+    "iCalUID": "help2nh9632nvf0d5fe4k3l5ls@google.com",
+    "id": "help2nh9632nvf0d5fe4k3l5ls",
+    "kind": "calendar#event",
+    "location": "Gardens, Cape Town",
+    "organizer": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-05T22:01:00+02:00",
+        "timeZone": "America/Chicago"
+    },
+    "status": "confirmed",
+    "summary": "Code Clinic - cprinsloo",
+    "updated": "2020-11-06T07:27:05.943Z"
+}{
+    "created": "2020-11-06T07:35:05.000Z",
+    "creator": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "description": "Recursion",
+    "end": {
+        "dateTime": "2020-11-06T23:01:00+02:00",
+        "timeZone": "America/Chicago"
+    },
+    "etag": "\"3209296210586000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=anJuZHIwcHZoNm4wZTI4dmtpa2FoNG42YmcgY3ByaW5zbG9vQHN0dWRlbnQud2V0aGlua2NvZGUuY28uemE",
+    "iCalUID": "jrndr0pvh6n0e28vkikah4n6bg@google.com",
+    "id": "jrndr0pvh6n0e28vkikah4n6bg",
+    "kind": "calendar#event",
+    "location": "Gardens, Cape Town",
+    "organizer": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-06T22:01:00+02:00",
+        "timeZone": "America/Chicago"
+    },
+    "status": "confirmed",
+    "summary": "Code Clinic - cprinsloo",
+    "updated": "2020-11-06T07:35:05.293Z"
+}{
+    "created": "2020-11-06T11:35:16.000Z",
+    "creator": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "description": "Recursion",
+    "end": {
+        "dateTime": "2020-11-07T10:30:00+02:00",
+        "timeZone": "America/Chicago"
+    },
+    "etag": "\"3209325033216000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=NG5hczNudnU0ZjViNDRiazBqcTB0cnMxZGcgY3ByaW5zbG9vQHN0dWRlbnQud2V0aGlua2NvZGUuY28uemE",
+    "iCalUID": "4nas3nvu4f5b44bk0jq0trs1dg@google.com",
+    "id": "4nas3nvu4f5b44bk0jq0trs1dg",
+    "kind": "calendar#event",
+    "location": "Gardens, Cape Town",
+    "organizer": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-07T10:00:00+02:00",
+        "timeZone": "America/Chicago"
+    },
+    "status": "confirmed",
+    "summary": "Code Clinic - cprinsloo",
+    "updated": "2020-11-06T11:35:16.608Z"
+}{
+    "created": "2020-11-06T11:46:05.000Z",
+    "creator": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "description": "Recursion",
+    "end": {
+        "dateTime": "2020-11-06T10:30:00+02:00",
+        "timeZone": "America/Chicago"
+    },
+    "etag": "\"3209326330136000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=MHF0MXFucWloOHI1a3JkbTh0ZHZqZ3I2Z2cgY3ByaW5zbG9vQHN0dWRlbnQud2V0aGlua2NvZGUuY28uemE",
+    "iCalUID": "0qt1qnqih8r5krdm8tdvjgr6gg@google.com",
+    "id": "0qt1qnqih8r5krdm8tdvjgr6gg",
+    "kind": "calendar#event",
+    "location": "Gardens, Cape Town",
+    "organizer": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-06T10:00:00+02:00",
+        "timeZone": "America/Chicago"
+    },
+    "status": "confirmed",
+    "summary": "Code Clinic - cprinsloo",
+    "updated": "2020-11-06T11:46:05.068Z"
+}{
+    "created": "2020-11-06T11:48:20.000Z",
+    "creator": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "description": "Recursion",
+    "end": {
+        "dateTime": "2020-11-07T10:30:00+02:00",
+        "timeZone": "America/Chicago"
+    },
+    "etag": "\"3209326601576000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=cGlwc21hMnU0ZHVwYjk0a201cTNwNjg4ZnMgY3ByaW5zbG9vQHN0dWRlbnQud2V0aGlua2NvZGUuY28uemE",
+    "iCalUID": "pipsma2u4dupb94km5q3p688fs@google.com",
+    "id": "pipsma2u4dupb94km5q3p688fs",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-07T10:00:00+02:00",
+        "timeZone": "America/Chicago"
+    },
+    "status": "confirmed",
+    "summary": "Code Clinic - cprinsloo",
+    "updated": "2020-11-06T11:48:20.788Z"
+}{
+    "created": "2020-11-06T11:49:43.000Z",
+    "creator": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "description": "Recursion",
+    "end": {
+        "dateTime": "2020-11-06T13:30:00+02:00",
+        "timeZone": "America/Chicago"
+    },
+    "etag": "\"3209326767542000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=Nm5vMGcwZzVjdTFoN25sMDltMXUzcnZmcTQgY3ByaW5zbG9vQHN0dWRlbnQud2V0aGlua2NvZGUuY28uemE",
+    "iCalUID": "6no0g0g5cu1h7nl09m1u3rvfq4@google.com",
+    "id": "6no0g0g5cu1h7nl09m1u3rvfq4",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-06T13:00:00+02:00",
+        "timeZone": "America/Chicago"
+    },
+    "status": "confirmed",
+    "summary": "Code Clinic - cprinsloo",
+    "updated": "2020-11-06T11:49:43.771Z"
+}{
+    "created": "2020-11-06T11:50:21.000Z",
+    "creator": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "description": "Recursion",
+    "end": {
+        "dateTime": "2020-11-06T13:30:00+02:00",
+        "timeZone": "America/Chicago"
+    },
+    "etag": "\"3209326842096000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=dXByZWp0bm1qOTg2Z2R1OWtncjNkcWpyNmMgY3ByaW5zbG9vQHN0dWRlbnQud2V0aGlua2NvZGUuY28uemE",
+    "iCalUID": "uprejtnmj986gdu9kgr3dqjr6c@google.com",
+    "id": "uprejtnmj986gdu9kgr3dqjr6c",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-06T13:00:00+02:00",
+        "timeZone": "America/Chicago"
+    },
+    "status": "confirmed",
+    "summary": "Code Clinic - cprinsloo",
+    "updated": "2020-11-06T11:50:21.048Z"
+}{
+    "created": "2020-11-06T11:52:19.000Z",
+    "creator": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "description": "Recursion",
+    "end": {
+        "dateTime": "2020-11-06T13:30:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3209327079114000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=OHM2Y3E5dDRnMHRxMzY5cGtiZWMxNWpkMmMgY3ByaW5zbG9vQHN0dWRlbnQud2V0aGlua2NvZGUuY28uemE",
+    "iCalUID": "8s6cq9t4g0tq369pkbec15jd2c@google.com",
+    "id": "8s6cq9t4g0tq369pkbec15jd2c",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-06T13:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "Code Clinic - cprinsloo",
+    "updated": "2020-11-06T11:52:19.557Z"
+}{
+    "created": "2020-11-06T11:53:56.000Z",
+    "creator": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "description": "Recursion",
+    "end": {
+        "dateTime": "2020-11-06T13:30:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3209327272300000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=OXZvbDhhdGN1MjdqNGxlbGdsMGhqODBqY3MgY3ByaW5zbG9vQHN0dWRlbnQud2V0aGlua2NvZGUuY28uemE",
+    "iCalUID": "9vol8atcu27j4lelgl0hj80jcs@google.com",
+    "id": "9vol8atcu27j4lelgl0hj80jcs",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-06T13:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "Code Clinic - cprinsloo",
+    "updated": "2020-11-06T11:53:56.150Z"
+}{
+    "created": "2020-11-09T08:24:46.000Z",
+    "creator": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "description": "Recursion",
+    "end": {
+        "dateTime": "2020-11-10T10:30:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3209820572394000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=dmkyNmVyNTVmazY1Z25jdGkybW9xN281ZW8gY3ByaW5zbG9vQHN0dWRlbnQud2V0aGlua2NvZGUuY28uemE",
+    "iCalUID": "vi26er55fk65gncti2moq7o5eo@google.com",
+    "id": "vi26er55fk65gncti2moq7o5eo",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-10T10:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "Code Clinic - cprinsloo",
+    "updated": "2020-11-09T08:24:46.197Z"
+}{
+    "created": "2020-11-09T08:29:25.000Z",
+    "creator": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "description": "Recursion",
+    "end": {
+        "dateTime": "2020-11-10T10:30:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3209821131438000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=bnJib2hjYzVvMG9zZXFjY2xicWFja281aDAgY3ByaW5zbG9vQHN0dWRlbnQud2V0aGlua2NvZGUuY28uemE",
+    "iCalUID": "nrbohcc5o0oseqcclbqacko5h0@google.com",
+    "id": "nrbohcc5o0oseqcclbqacko5h0",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-10T10:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "Code Clinic - cprinsloo",
+    "updated": "2020-11-09T08:29:25.719Z"
+}{
+    "created": "2020-11-09T08:29:40.000Z",
+    "creator": {
+        "email": "code.clinic.test@gmail.com",
+        "self": true
+    },
+    "description": "Recursion",
+    "end": {
+        "dateTime": "2020-11-10T10:30:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3209821161134000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=ZnViM2x1b2N2YWVjcGV1MXZrZGtpNGpxOGsgY29kZS5jbGluaWMudGVzdEBt",
+    "iCalUID": "fub3luocvaecpeu1vkdki4jq8k@google.com",
+    "id": "fub3luocvaecpeu1vkdki4jq8k",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "code.clinic.test@gmail.com",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-10T10:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "Code Clinic - codeclinic",
+    "updated": "2020-11-09T08:29:40.567Z"
+}{
+    "created": "2020-11-09T12:32:56.000Z",
+    "creator": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "description": "Recursion",
+    "end": {
+        "dateTime": "2020-11-09T10:30:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3209850352666000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=dmE5YWJmZG4zcXM5MzN1ZGNpa2JiYjU1N28gY3ByaW5zbG9vQHN0dWRlbnQud2V0aGlua2NvZGUuY28uemE",
+    "iCalUID": "va9abfdn3qs933udcikbbb557o@google.com",
+    "id": "va9abfdn3qs933udcikbbb557o",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-09T10:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "Code Clinic - cprinsloo",
+    "updated": "2020-11-09T12:32:56.333Z"
+}{
+    "created": "2020-11-09T18:14:53.000Z",
+    "creator": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "description": "Recursion",
+    "end": {
+        "dateTime": "2020-11-09T10:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3209891386640000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=bzFwaGRpczZxNW1qZnJyb2w2MjRzbzU4NHMgY3ByaW5zbG9vQHN0dWRlbnQud2V0aGlua2NvZGUuY28uemE",
+    "iCalUID": "o1phdis6q5mjfrrol624so584s@google.com",
+    "id": "o1phdis6q5mjfrrol624so584s",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-09T08:30:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "Code Clinic - cprinsloo",
+    "updated": "2020-11-09T18:14:53.320Z"
+}{
+    "created": "2020-11-09T18:16:51.000Z",
+    "creator": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "description": "Recursion",
+    "end": {
+        "dateTime": "2020-11-09T11:30:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3209891623290000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=Ym11OGx2MzRic3BpMGhjcjl0aG1oN2Y0czQgY3ByaW5zbG9vQHN0dWRlbnQud2V0aGlua2NvZGUuY28uemE",
+    "iCalUID": "bmu8lv34bspi0hcr9thmh7f4s4@google.com",
+    "id": "bmu8lv34bspi0hcr9thmh7f4s4",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-09T10:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "Code Clinic - cprinsloo",
+    "updated": "2020-11-09T18:16:51.645Z"
+}{
+    "created": "2020-11-09T18:20:01.000Z",
+    "creator": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "description": "clear",
+    "end": {
+        "dateTime": "2020-11-09T10:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3209892002878000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=dGZiODZwM3RzcjA3cXZva2ViN2luN3VqZmcgY3ByaW5zbG9vQHN0dWRlbnQud2V0aGlua2NvZGUuY28uemE",
+    "iCalUID": "tfb86p3tsr07qvokeb7in7ujfg@google.com",
+    "id": "tfb86p3tsr07qvokeb7in7ujfg",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-09T08:30:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "Code Clinic - cprinsloo",
+    "updated": "2020-11-09T18:20:01.439Z"
+}{
+    "created": "2020-11-09T19:50:12.000Z",
+    "creator": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "end": {
+        "dateTime": "2020-11-09T11:30:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3209902824248000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=ZTVmY3ZkMXZzZzd1ZnFvdmZzYzBjOWJqbTAgY3ByaW5zbG9vQHN0dWRlbnQud2V0aGlua2NvZGUuY28uemE",
+    "iCalUID": "e5fcvd1vsg7ufqovfsc0c9bjm0@google.com",
+    "id": "e5fcvd1vsg7ufqovfsc0c9bjm0",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-09T10:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "VOLUNTEER: cprinsloo",
+    "updated": "2020-11-09T19:50:12.124Z"
+}{
+    "created": "2020-11-09T19:50:42.000Z",
+    "creator": {
+        "email": "code.clinic.test@gmail.com",
+        "self": true
+    },
+    "end": {
+        "dateTime": "2020-11-09T11:30:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3209902885452000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=NnRzYm9lbTVsMzN0OHNiNHJxdWZzdmtzODggY29kZS5jbGluaWMudGVzdEBt",
+    "iCalUID": "6tsboem5l33t8sb4rqufsvks88@google.com",
+    "id": "6tsboem5l33t8sb4rqufsvks88",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "code.clinic.test@gmail.com",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-09T10:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "VOLUNTEER: cprinsloo",
+    "updated": "2020-11-09T19:50:42.726Z"
+}{
+    "created": "2020-11-10T08:36:05.000Z",
+    "creator": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "end": {
+        "dateTime": "2020-11-09T13:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3209994731028000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=YzNtbjkwMDRjbzg3MzVvM2ZwdTR0Y29iZzggY3ByaW5zbG9vQHN0dWRlbnQud2V0aGlua2NvZGUuY28uemE",
+    "iCalUID": "c3mn9004co8735o3fpu4tcobg8@google.com",
+    "id": "c3mn9004co8735o3fpu4tcobg8",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-09T11:30:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "VOLUNTEER: cprinsloo",
+    "updated": "2020-11-10T08:36:05.514Z"
+}{
+    "created": "2020-11-10T08:36:07.000Z",
+    "creator": {
+        "email": "code.clinic.test@gmail.com",
+        "self": true
+    },
+    "end": {
+        "dateTime": "2020-11-09T13:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3209994735962000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=bGRtMms1M2dlb2hpaG1zbTJoOXM1b3Y0cjggY29kZS5jbGluaWMudGVzdEBt",
+    "iCalUID": "ldm2k53geohihmsm2h9s5ov4r8@google.com",
+    "id": "ldm2k53geohihmsm2h9s5ov4r8",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "code.clinic.test@gmail.com",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-09T11:30:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "VOLUNTEER: cprinsloo",
+    "updated": "2020-11-10T08:36:07.981Z"
+}{
+    "created": "2020-11-10T08:42:04.000Z",
+    "creator": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "end": {
+        "dateTime": "2020-11-09T13:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3209995449120000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=OThvcjJnNG5mYWhwZXZ2YTcxMW42Mmg1ajQgY3ByaW5zbG9vQHN0dWRlbnQud2V0aGlua2NvZGUuY28uemE",
+    "iCalUID": "98or2g4nfahpevva711n62h5j4@google.com",
+    "id": "98or2g4nfahpevva711n62h5j4",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-09T11:30:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "VOLUNTEER: cprinsloo",
+    "updated": "2020-11-10T08:42:04.560Z"
+}{
+    "created": "2020-11-10T08:42:05.000Z",
+    "creator": {
+        "email": "code.clinic.test@gmail.com",
+        "self": true
+    },
+    "end": {
+        "dateTime": "2020-11-09T13:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3209995450362000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=dmZjZnI0bTdyZGdhYzNnZzlwcGJtZnRyZXMgY29kZS5jbGluaWMudGVzdEBt",
+    "iCalUID": "vfcfr4m7rdgac3gg9ppbmftres@google.com",
+    "id": "vfcfr4m7rdgac3gg9ppbmftres",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "code.clinic.test@gmail.com",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-09T11:30:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "VOLUNTEER: cprinsloo",
+    "updated": "2020-11-10T08:42:05.181Z"
+}{
+    "created": "2020-11-10T08:47:00.000Z",
+    "creator": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "end": {
+        "dateTime": "2020-11-09T10:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3209996040698000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=ZHByMWJjaWRnZzViZzF1a2NpbWJqcW81NDAgY3ByaW5zbG9vQHN0dWRlbnQud2V0aGlua2NvZGUuY28uemE",
+    "iCalUID": "dpr1bcidgg5bg1ukcimbjqo540@google.com",
+    "id": "dpr1bcidgg5bg1ukcimbjqo540",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-09T08:30:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "VOLUNTEER: cprinsloo",
+    "updated": "2020-11-10T08:47:00.349Z"
+}{
+    "created": "2020-11-10T08:47:00.000Z",
+    "creator": {
+        "email": "code.clinic.test@gmail.com",
+        "self": true
+    },
+    "end": {
+        "dateTime": "2020-11-09T10:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3209996042028000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=Y2lzcG5lbzVwcTB0aDQ0czFtZ2U5NmdsOTggY29kZS5jbGluaWMudGVzdEBt",
+    "iCalUID": "cispneo5pq0th44s1mge96gl98@google.com",
+    "id": "cispneo5pq0th44s1mge96gl98",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "code.clinic.test@gmail.com",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-09T08:30:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "VOLUNTEER: cprinsloo",
+    "updated": "2020-11-10T08:47:01.014Z"
+}{
+    "created": "2020-11-10T08:48:40.000Z",
+    "creator": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "end": {
+        "dateTime": "2020-11-09T10:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3209996240740000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=cjE3OGM2MGFkaTlidGQzazZidDl1aDg4NDQgY3ByaW5zbG9vQHN0dWRlbnQud2V0aGlua2NvZGUuY28uemE",
+    "iCalUID": "r178c60adi9btd3k6bt9uh8844@google.com",
+    "id": "r178c60adi9btd3k6bt9uh8844",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-09T08:30:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "VOLUNTEER: cprinsloo",
+    "updated": "2020-11-10T08:48:40.370Z"
+}{
+    "created": "2020-11-10T08:48:41.000Z",
+    "creator": {
+        "email": "code.clinic.test@gmail.com",
+        "self": true
+    },
+    "end": {
+        "dateTime": "2020-11-09T10:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3209996242220000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=ZTMzdXYyN3MyOGpsZzFuY2UzOGE1NWRmZWcgY29kZS5jbGluaWMudGVzdEBt",
+    "iCalUID": "e33uv27s28jlg1nce38a55dfeg@google.com",
+    "id": "e33uv27s28jlg1nce38a55dfeg",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "code.clinic.test@gmail.com",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-09T08:30:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "VOLUNTEER: cprinsloo",
+    "updated": "2020-11-10T08:48:41.110Z"
+}{
+    "created": "2020-11-10T08:49:18.000Z",
+    "creator": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "end": {
+        "dateTime": "2020-11-10T10:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3209996317742000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=NXQ1a2w0dXJpb2c5anJhZTliN2Y2cGQ4ZzAgY3ByaW5zbG9vQHN0dWRlbnQud2V0aGlua2NvZGUuY28uemE",
+    "iCalUID": "5t5kl4uriog9jrae9b7f6pd8g0@google.com",
+    "id": "5t5kl4uriog9jrae9b7f6pd8g0",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-10T08:30:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "VOLUNTEER: cprinsloo",
+    "updated": "2020-11-10T08:49:18.871Z"
+}{
+    "created": "2020-11-10T08:49:19.000Z",
+    "creator": {
+        "email": "code.clinic.test@gmail.com",
+        "self": true
+    },
+    "end": {
+        "dateTime": "2020-11-10T10:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3209996319020000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=ZTE2ajc5ZGU2dG9ycTIyaDZsZWoyY3JrMmMgY29kZS5jbGluaWMudGVzdEBt",
+    "iCalUID": "e16j79de6torq22h6lej2crk2c@google.com",
+    "id": "e16j79de6torq22h6lej2crk2c",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "code.clinic.test@gmail.com",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-10T08:30:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "VOLUNTEER: cprinsloo",
+    "updated": "2020-11-10T08:49:19.510Z"
+}{
+    "created": "2020-11-10T09:58:25.000Z",
+    "creator": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "end": {
+        "dateTime": "2020-11-10T10:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3210004611992000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=ajRzNzFmYzBvMzBxdXVoamJyc3YzdjU3bjQgY3ByaW5zbG9vQHN0dWRlbnQud2V0aGlua2NvZGUuY28uemE",
+    "iCalUID": "j4s71fc0o30quuhjbrsv3v57n4@google.com",
+    "id": "j4s71fc0o30quuhjbrsv3v57n4",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-10T08:30:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "VOLUNTEER: cprinsloo",
+    "updated": "2020-11-10T09:58:25.996Z"
+}{
+    "created": "2020-11-10T09:58:26.000Z",
+    "creator": {
+        "email": "code.clinic.test@gmail.com",
+        "self": true
+    },
+    "end": {
+        "dateTime": "2020-11-10T10:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3210004613406000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=amlibWh2ODE5NmpvYWlnZXFxMGRlNjJzcDggY29kZS5jbGluaWMudGVzdEBt",
+    "iCalUID": "jibmhv8196joaigeqq0de62sp8@google.com",
+    "id": "jibmhv8196joaigeqq0de62sp8",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "code.clinic.test@gmail.com",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-10T08:30:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "VOLUNTEER: cprinsloo",
+    "updated": "2020-11-10T09:58:26.703Z"
+}{
+    "created": "2020-11-10T10:02:23.000Z",
+    "creator": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "end": {
+        "dateTime": "2020-11-10T10:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3210005086498000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=cHJyaWkyN3BoaHBiY2g3cmFhMG1ncW4zNjAgY3ByaW5zbG9vQHN0dWRlbnQud2V0aGlua2NvZGUuY28uemE",
+    "iCalUID": "prrii27phhpbch7raa0mgqn360@google.com",
+    "id": "prrii27phhpbch7raa0mgqn360",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-10T08:30:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "VOLUNTEER: cprinsloo",
+    "updated": "2020-11-10T10:02:23.249Z"
+}{
+    "created": "2020-11-10T10:02:24.000Z",
+    "creator": {
+        "email": "code.clinic.test@gmail.com",
+        "self": true
+    },
+    "end": {
+        "dateTime": "2020-11-10T10:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3210005088028000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=aGtrdTc1YzFzcjdxNmM4YmYzajNpOTYwYjQgY29kZS5jbGluaWMudGVzdEBt",
+    "iCalUID": "hkku75c1sr7q6c8bf3j3i960b4@google.com",
+    "id": "hkku75c1sr7q6c8bf3j3i960b4",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "code.clinic.test@gmail.com",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-10T08:30:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "VOLUNTEER: cprinsloo",
+    "updated": "2020-11-10T10:02:24.014Z"
+}{
+    "created": "2020-11-10T10:03:54.000Z",
+    "creator": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "end": {
+        "dateTime": "2020-11-10T10:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3210005268192000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=dTZiZnM4aXA5cGhwN2UxdHAzMGg1ZnF0ZnMgY3ByaW5zbG9vQHN0dWRlbnQud2V0aGlua2NvZGUuY28uemE",
+    "iCalUID": "u6bfs8ip9php7e1tp30h5fqtfs@google.com",
+    "id": "u6bfs8ip9php7e1tp30h5fqtfs",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-10T08:30:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "VOLUNTEER: cprinsloo",
+    "updated": "2020-11-10T10:03:54.096Z"
+}{
+    "created": "2020-11-10T10:03:54.000Z",
+    "creator": {
+        "email": "code.clinic.test@gmail.com",
+        "self": true
+    },
+    "end": {
+        "dateTime": "2020-11-10T10:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3210005269414000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=a2RnYmRiaHUxdXFuNXBvaXRsbm1qNTYxaGcgY29kZS5jbGluaWMudGVzdEBt",
+    "iCalUID": "kdgbdbhu1uqn5poitlnmj561hg@google.com",
+    "id": "kdgbdbhu1uqn5poitlnmj561hg",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "code.clinic.test@gmail.com",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-10T08:30:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "VOLUNTEER: cprinsloo",
+    "updated": "2020-11-10T10:03:54.707Z"
+}{
+    "created": "2020-11-10T10:04:31.000Z",
+    "creator": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "end": {
+        "dateTime": "2020-11-10T10:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3210005343822000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=YzRpcWNuMXJmc2xrdjlrOWZrYjhrY3V1ajQgY3ByaW5zbG9vQHN0dWRlbnQud2V0aGlua2NvZGUuY28uemE",
+    "iCalUID": "c4iqcn1rfslkv9k9fkb8kcuuj4@google.com",
+    "id": "c4iqcn1rfslkv9k9fkb8kcuuj4",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-10T08:30:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "VOLUNTEER: cprinsloo",
+    "updated": "2020-11-10T10:04:31.911Z"
+}{
+    "created": "2020-11-10T10:04:32.000Z",
+    "creator": {
+        "email": "code.clinic.test@gmail.com",
+        "self": true
+    },
+    "end": {
+        "dateTime": "2020-11-10T10:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3210005345164000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=N3QydGFrczUzMzdubTc0YWhvdjdyaThnamMgY29kZS5jbGluaWMudGVzdEBt",
+    "iCalUID": "7t2taks5337nm74ahov7ri8gjc@google.com",
+    "id": "7t2taks5337nm74ahov7ri8gjc",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "code.clinic.test@gmail.com",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-10T08:30:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "VOLUNTEER: cprinsloo",
+    "updated": "2020-11-10T10:04:32.582Z"
+}{
+    "created": "2020-11-10T10:06:37.000Z",
+    "creator": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "end": {
+        "dateTime": "2020-11-10T10:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3210005594552000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=cGdlYTFzczBzazM2cjFiMDZpbWtlZWY3a3MgY3ByaW5zbG9vQHN0dWRlbnQud2V0aGlua2NvZGUuY28uemE",
+    "iCalUID": "pgea1ss0sk36r1b06imkeef7ks@google.com",
+    "id": "pgea1ss0sk36r1b06imkeef7ks",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-10T08:30:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "VOLUNTEER: cprinsloo",
+    "updated": "2020-11-10T10:06:37.276Z"
+}{
+    "created": "2020-11-10T10:06:37.000Z",
+    "creator": {
+        "email": "code.clinic.test@gmail.com",
+        "self": true
+    },
+    "end": {
+        "dateTime": "2020-11-10T10:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3210005595968000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=cnI4ZTc3OGg2YmZtdnAxcjBzazJmZTFoMjQgY29kZS5jbGluaWMudGVzdEBt",
+    "iCalUID": "rr8e778h6bfmvp1r0sk2fe1h24@google.com",
+    "id": "rr8e778h6bfmvp1r0sk2fe1h24",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "code.clinic.test@gmail.com",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-10T08:30:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "VOLUNTEER: cprinsloo",
+    "updated": "2020-11-10T10:06:37.984Z"
+}{
+    "created": "2020-11-10T10:07:40.000Z",
+    "creator": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "end": {
+        "dateTime": "2020-11-10T10:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3210005721262000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=cWRvdHBsaWtpaDlsYzlldm9qN2lxaTNtbzAgY3ByaW5zbG9vQHN0dWRlbnQud2V0aGlua2NvZGUuY28uemE",
+    "iCalUID": "qdotplikih9lc9evoj7iqi3mo0@google.com",
+    "id": "qdotplikih9lc9evoj7iqi3mo0",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-10T08:30:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "VOLUNTEER: cprinsloo",
+    "updated": "2020-11-10T10:07:40.631Z"
+}{
+    "created": "2020-11-10T10:07:41.000Z",
+    "creator": {
+        "email": "code.clinic.test@gmail.com",
+        "self": true
+    },
+    "end": {
+        "dateTime": "2020-11-10T10:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3210005722650000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=azdzOXFsZTI2OWhxa2o1N2gzNHVoOHE4YmMgY29kZS5jbGluaWMudGVzdEBt",
+    "iCalUID": "k7s9qle269hqkj57h34uh8q8bc@google.com",
+    "id": "k7s9qle269hqkj57h34uh8q8bc",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "code.clinic.test@gmail.com",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-10T08:30:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "VOLUNTEER: cprinsloo",
+    "updated": "2020-11-10T10:07:41.325Z"
+}{
+    "created": "2020-11-10T10:08:28.000Z",
+    "creator": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "end": {
+        "dateTime": "2020-11-10T10:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3210005817724000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=dTdpODExMXFjanVtc2NmdjBnbWhiM2M4YmMgY3ByaW5zbG9vQHN0dWRlbnQud2V0aGlua2NvZGUuY28uemE",
+    "iCalUID": "u7i8111qcjumscfv0gmhb3c8bc@google.com",
+    "id": "u7i8111qcjumscfv0gmhb3c8bc",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-10T08:30:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "VOLUNTEER: cprinsloo",
+    "updated": "2020-11-10T10:08:28.862Z"
+}{
+    "created": "2020-11-10T10:08:29.000Z",
+    "creator": {
+        "email": "code.clinic.test@gmail.com",
+        "self": true
+    },
+    "end": {
+        "dateTime": "2020-11-10T10:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3210005819112000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=amdsbHI5ZmthN3ZxZXBnMzMxa3U0dDJpa2sgY29kZS5jbGluaWMudGVzdEBt",
+    "iCalUID": "jgllr9fka7vqepg331ku4t2ikk@google.com",
+    "id": "jgllr9fka7vqepg331ku4t2ikk",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "code.clinic.test@gmail.com",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-10T08:30:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "VOLUNTEER: cprinsloo",
+    "updated": "2020-11-10T10:08:29.556Z"
+}{
+    "created": "2020-11-10T10:09:58.000Z",
+    "creator": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "end": {
+        "dateTime": "2020-11-09T11:30:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3210005996036000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=YmRwNjJpdDRhbGd0ZDJjYmMxb3RxOW1hMmsgY3ByaW5zbG9vQHN0dWRlbnQud2V0aGlua2NvZGUuY28uemE",
+    "iCalUID": "bdp62it4algtd2cbc1otq9ma2k@google.com",
+    "id": "bdp62it4algtd2cbc1otq9ma2k",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-09T10:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "VOLUNTEER: cprinsloo",
+    "updated": "2020-11-10T10:09:58.018Z"
+}{
+    "created": "2020-11-10T10:09:58.000Z",
+    "creator": {
+        "email": "code.clinic.test@gmail.com",
+        "self": true
+    },
+    "end": {
+        "dateTime": "2020-11-09T11:30:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3210005997436000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=ZzJ0cW5lYnVhbW1zMG4xaDk5cjRsb3R0ZDggY29kZS5jbGluaWMudGVzdEBt",
+    "iCalUID": "g2tqnebuamms0n1h99r4lottd8@google.com",
+    "id": "g2tqnebuamms0n1h99r4lottd8",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "code.clinic.test@gmail.com",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-09T10:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "VOLUNTEER: cprinsloo",
+    "updated": "2020-11-10T10:09:58.718Z"
+}{
+    "created": "2020-11-10T10:26:28.000Z",
+    "creator": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "end": {
+        "dateTime": "2020-11-10T11:30:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3210007976686000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=NzdqbWFtMWhpNjIxZW9najkzdTE0bDlsZzQgY3ByaW5zbG9vQHN0dWRlbnQud2V0aGlua2NvZGUuY28uemE",
+    "iCalUID": "77jmam1hi621eogj93u14l9lg4@google.com",
+    "id": "77jmam1hi621eogj93u14l9lg4",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "cprinsloo@student.wethinkcode.co.za",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-10T10:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "VOLUNTEER: cprinsloo",
+    "updated": "2020-11-10T10:26:28.343Z"
+}{
+    "created": "2020-11-10T10:26:28.000Z",
+    "creator": {
+        "email": "code.clinic.test@gmail.com",
+        "self": true
+    },
+    "end": {
+        "dateTime": "2020-11-10T11:30:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "etag": "\"3210007977938000\"",
+    "htmlLink": "https://www.google.com/calendar/event?eid=MjF0amQ1dmkybm5nbDlrMzhvOWY5ODEwcTAgY29kZS5jbGluaWMudGVzdEBt",
+    "iCalUID": "21tjd5vi2nngl9k38o9f9810q0@google.com",
+    "id": "21tjd5vi2nngl9k38o9f9810q0",
+    "kind": "calendar#event",
+    "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+    "organizer": {
+        "email": "code.clinic.test@gmail.com",
+        "self": true
+    },
+    "reminders": {
+        "useDefault": true
+    },
+    "sequence": 0,
+    "start": {
+        "dateTime": "2020-11-10T10:00:00+02:00",
+        "timeZone": "Africa/Johannesburg"
+    },
+    "status": "confirmed",
+    "summary": "VOLUNTEER: cprinsloo",
+    "updated": "2020-11-10T10:26:28.969Z"
+}

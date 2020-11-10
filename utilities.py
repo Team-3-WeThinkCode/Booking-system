@@ -95,23 +95,11 @@ def list_slots(service):
         print('<' +'-'*80+'>\n')
 
 
-def get_events(service):
-    now = datetime.datetime.utcnow().isoformat() + 'Z'
-    events_result = service.events().list(calendarId='primary', timeMin=now,
+def get_events(service, start_datetime, end_datetime):
+    events_result = service.events().list(calendarId='primary',  timeMin=start_datetime, timeMax=end_datetime,
                                                maxResults=500, singleEvents=True,
                                                orderBy='startTime').execute()
     return events_result.get('items', [])
-
-
-def get_date_events(date, events):
-    lst = []
-    date = date
-    for event in events:
-        if event.get('start').get('dateTime'):
-            d1 = event['start']['dateTime']
-            if d1 == date:
-                lst.append(event)
-    return lst
 
 
 def create_makeshift_event(summary, location, description, start_date_time, end_date_time):
@@ -134,10 +122,76 @@ def create_makeshift_event(summary, location, description, start_date_time, end_
     return new_event
 
 
-def already_exists(new_event, service):
-    events = get_date_events(new_event['start']['dateTime'],get_events(service))
-    event_list = [new_event['start']['dateTime'] for new_event in events]
-    if new_event['start']['dateTime'] not in event_list:
+def is_leap_year(year):
+    if (year % 4) == 0:  
+        if (year % 100) == 0:  
+            if (year % 400) == 0:  
+                return True  
+            else:  
+                return False 
+        else:  
+            return True 
+    else:  
+        return False 
+
+
+def date_fomat_correct(date):
+    try:
+        year, month, day = int(date[:4]), int(date[5:7]), int(date[8:])
+    except:
         return False
+    if year > 2021:
+        return False
+    elif day < 1:
+        return False
+    elif month == 4 or month == 6 or month == 9:
+        if day > 31:
+            return False
+    elif is_leap_year(year) and month == 2:
+        if day > 29:
+            return False
     else:
-        return True
+        if day > 30:
+            return False
+    return True
+
+
+def get_date():
+    date = str(input('Insert date in format (yyyy-mm-dd): '))
+    while not date_fomat_correct(date):
+        print('Please enter a valid date!')
+        date = str(input('Insert date in format (yyyy-mm-dd): '))
+    return date
+
+
+def convert_date_and_time_to_rfc_format(date, start_time, end_time):
+    '''
+    date in format (yyyy-mm-dd)
+    time in format (hh:mm)
+    :return: start dateTime and end dateTime (30min events) in rfc format
+    '''
+
+    year, month, day = date[:4], date[5:7], date[8:]
+    start_hour, start_minute = start_time[:2], start_time[3:]
+    end_hour, end_minute = end_time[:2], end_time[3:]
+    start_dateTime = year+'-'+month+'-'+day+'T'+start_hour+':'+start_minute+':00'+'+02:00'
+    end_dateTime = year+'-'+month+'-'+day+'T'+end_hour+':'+end_minute+':00'+'+02:00'
+    return start_dateTime, end_dateTime
+
+
+def add_event_to_calendar(event_info, service, silent):
+    people = []
+    location = 'WeThinkCode, Victoria & Alfred Waterfront, Cape Town'
+    while not silent:
+        add_atendee = str(input("Add atendee via email? (y/n) "))
+        print(add_atendee)
+        if add_atendee.strip() == 'y':
+            atendee_email = str(input('Please enter email address of atendee: '))
+            people.append({'email': atendee_email.strip()})
+            print(people)
+        else:
+            break
+    event = create_makeshift_event(event_info['summary'], location, '', event_info['start_datetime'], event_info['end_datetime'])
+    event = service.events().insert(calendarId='primary', body=event).execute()
+    with open('data_files/data.json', 'a+') as outfile:
+        json.dump(event, outfile, sort_keys=True, indent=4)
