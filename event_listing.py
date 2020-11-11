@@ -14,16 +14,24 @@ def list_slots(service, fetch):
     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
     # Get the UCT time that is current + 7 days added and formats it to allow for google API parameter 
     end_date = ((datetime.datetime.utcnow()) + datetime.timedelta(days=7)).isoformat() + 'Z'
-    print('Displaying all open slots for the next 7 days.')
     events_result = service.events().list(calendarId='primary', timeMin=now,
                                         timeMax=end_date, singleEvents=True,
                                         orderBy='startTime').execute()
     events = events_result.get('items', [])
+    events = sort_open_slots(events)
     if fetch == False:
         print_slots_table(events)
     store_slot_data(events)
     return events
-    
+
+
+def sort_open_slots(events):
+    new_events = []
+    for event in events:
+        if not len(event['attendees']) > 1:
+            new_events.append(event)
+    return new_events
+
 
 def store_slot_data(events):
     """
@@ -48,6 +56,9 @@ def print_slots_table(events):
     nums = 1
     if not events:
         print('No open slots available.')
+    elif events:
+        print('Displaying all open slots for the next 7 days.')
+
     for event in events:
         start = event['start'].get('dateTime', event['start'].get('date'))
         start_date = (start[0:10])
@@ -56,6 +67,7 @@ def print_slots_table(events):
         table.append([nums, event['summary'], start_date, start_time, event['id']])
         nums += 1
         tabulate.printTable(table, useFieldNames=True, color=(255, 0, 255))
+
 
 def create_event_body(event):
     blueprint = {
