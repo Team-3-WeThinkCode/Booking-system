@@ -21,12 +21,18 @@ def get_user_input():
         
 class Student:
     username = get_username()
-    service = create_service(username)
+    try:
+        service = create_service(username)
+        print("Great Success!!")
+    except:
+        print("Error!")
 
 class CodeClinic:
     username = "codeclinic"
-    service = create_service(username)
-
+    try:
+        service = create_service(username)
+    except:
+        print("Error!")
 
 if __name__ == "__main__":
     student = Student()
