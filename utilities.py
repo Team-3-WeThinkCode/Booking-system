@@ -1,5 +1,6 @@
 import datetime
 import json
+import event_listing as listings
 
 def create_delete_calendar(service):
     """
@@ -194,3 +195,7 @@ def slot_is_available(service, start_datetime, end_datetime):
     if len(get_events(service, start_datetime, end_datetime)) > 0:
             return False
     return True
+
+def update_files(service1, service2):
+    listings.list_slots(service1, True, True)
+    listings.list_slots(service2, True, False)
