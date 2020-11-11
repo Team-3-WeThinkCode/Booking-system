@@ -188,3 +188,9 @@ def add_event_to_calendar(event_info, service, clinic, username):
         people.append({'email': student_email})
     event = create_makeshift_event(event_info['summary'], location, '', event_info['start_datetime'], event_info['end_datetime'], people)
     event = service.events().insert(calendarId='primary', body=event).execute()
+
+
+def slot_is_available(service, start_datetime, end_datetime):
+    if len(get_events(service, start_datetime, end_datetime)) > 0:
+            return False
+    return True
