@@ -1,5 +1,7 @@
 import utilities as utils
 from utils.TableIt import TableIt as tabulate
+import datetime
+import quickstart
 
 
 def get_open_slots_of_the_day(date, clinic_service):
@@ -91,5 +93,84 @@ def create_volunteer_slot(username, volunteer_service, codeclinic_service):
     return False
 
 
-def delete_volunteer_slot():
-    pass
+def get_event_date_and_times(events):
+    slot_times = [('08:30', '10:00'), ('10:00', '11:30'), ('11:30', '13:00'), ('13:00', '14:30'), ('14:30', '16:00'), ('16:00', '17:30')]
+    volunteered_slot_datetime = []
+    slots = []
+    for event in events:
+        start = event['start'].get('dateTime', event['start'].get('date'))
+        end = event['end'].get('dateTime', event['end'].get('date'))
+        volunteered_slot_datetime.append((start[0:10], start[11:16], end[11:16]))
+    for slot_time in slot_times:
+        for slot in volunteered_slot_datetime:
+            if slot[1] == slot_time[0]:
+                slots.append((slot[0], slot_time[0], slot_time[1]))
+    return slots  
+
+
+def get_volunteered_slots(clinic_service, username):
+    volunteered_slots = []
+    now = datetime.datetime.utcnow().isoformat() + 'Z'
+    events_result = clinic_service.events().list(calendarId='primary', timeMin=now, singleEvents=True,
+                                        orderBy='startTime').execute()
+    events = events_result.get('items', [])
+    for event in events:
+        summary = event['summary']
+        if summary[11:] == username:
+            volunteered_slots.append(event)
+    volunteered_slots = get_event_date_and_times(volunteered_slots)
+    return volunteered_slots
+
+
+def print_volunteered_slots_table(title, slots):
+    """
+    Uses the TableIt module to display data of open slots to the user in tabular form.
+    Event name, time, date, id will be sliced from the events objects given and used to display in the table.
+    """
+    table = [
+        ['#.', 'date.', 'start time.', 'end time.']
+    ]
+    nums = 1
+    print()
+    print(title)
+    for slot in slots:
+        table.append(['', '-------------------------', '-------------------------', '-------------------------', '-------------------------'])
+        table.append([nums, slot[0], slot[1], slot[2]])
+        nums += 1
+    tabulate.printTable(table, useFieldNames=True, color=(255, 0, 255))
+
+
+def get_event_id(start_datetime, username, clinic_service):
+    now = datetime.datetime.utcnow().isoformat() + 'Z'
+    events_result = clinic_service.events().list(calendarId='primary', timeMin=now, singleEvents=True,
+                                        orderBy='startTime').execute()
+    events = events_result.get('items', [])
+    for event in events:
+        summary = event['summary']
+        if summary[11:] == username and event['start']['dateTime'] == start_datetime:
+            return event['id']
+    return ''
+
+
+def delete_volunteer_slot(username, volunteer_service, clinic_service):
+    volunteered_slots = get_volunteered_slots(clinic_service, username)
+    if len(volunteered_slots) > 0:
+        print_volunteered_slots_table('Displaying volunteered events:',volunteered_slots)
+    else:
+        print('You have no volunteer slots to delete.')
+        return False
+    selected = int(input('Choose the volunteered slot you want to delete: '))
+    chosen_slot = volunteered_slots[selected-1]
+    date, time_slot = chosen_slot[0], (chosen_slot[1], chosen_slot[2])
+    thirty_minute_slots = convert_slot_into_30_min_slots(time_slot)
+    for slot in thirty_minute_slots:
+        start_datetime, end_datetime = utils.convert_date_and_time_to_rfc_format(date, slot[0], slot[1])
+        event_id = get_event_id(start_datetime, 'cprinsloo', clinic_service)
+        volunteer_service.events().delete(calendarId='primary', eventId=event_id, sendUpdates='all').execute()
+        clinic_service.events().delete(calendarId='primary', eventId=event_id, sendUpdates='all').execute()
+    return True
+    
+
+if __name__ == "__main__":
+    service = quickstart.create_service('codeclinic')
+    delete_volunteer_slot('cprinsloo', '', service)
