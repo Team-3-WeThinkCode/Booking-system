@@ -12,6 +12,34 @@ def get_open_slots_of_the_day(date, clinic_service):
     return open_slots
 
 
+def convert_hour_and_minute_to_time_format(hour, minute):
+    str_hour = str(hour)
+    str_minute = str(minute)
+    if len(str_hour) > 2 or len(str_minute) > 2:
+        return '', ''
+    if len(str_hour) == 1:
+        str_hour = '0' + str_hour
+    if len(str_minute) == 1:
+        str_minute = '0' + str_minute
+    return str_hour, str_minute
+
+
+def convert_slot_into_30_min_slots(slot):
+    start_hour, start_minute = int(slot[0][:2]), int(slot[0][3:])
+    times = []
+    while True:
+        str_hour, str_minute = convert_hour_and_minute_to_time_format(start_hour, start_minute)
+        times.append(str_hour +':'+str_minute)
+        if len(times) == 4:
+            length = len(times)
+            return [(times[length-4], times[length-3]), (times[length-3], times[length-2]), (times[length-2], times[length-1])]
+        if start_minute == 0:
+            start_minute = 30
+        elif start_minute == 30:
+            start_minute = 0
+            start_hour += 1
+
+
 def print_slots_table(slots, date):
     """
     Uses the TableIt module to display data of open slots to the user in tabular form.
@@ -51,9 +79,12 @@ def create_volunteer_slot(username, volunteer_service, codeclinic_service):
     time = get_slot_time(open_slots, date)
     start_datetime, end_datetime = utils.convert_date_and_time_to_rfc_format(date, time[0], time[1])
     if utils.slot_is_available(volunteer_service, start_datetime, end_datetime):
-        event_info_clinic = {'summary': 'VOLUNTEER: ' + str(username), 'start_datetime': start_datetime, 'end_datetime': end_datetime, 'attendees': []}
-        utils.add_event_to_calendar(event_info_clinic, codeclinic_service, True, username)
-        print('Volunteer slot created!')
+        thirty_minute_slots = convert_slot_into_30_min_slots(time)
+        for slot in thirty_minute_slots:
+            start_datetime, end_datetime = utils.convert_date_and_time_to_rfc_format(date, slot[0], slot[1])
+            event_info_clinic = {'summary': 'VOLUNTEER: ' + str(username), 'start_datetime': start_datetime, 'end_datetime': end_datetime, 'attendees': []}
+            utils.add_event_to_calendar(event_info_clinic, codeclinic_service, True, username)
+        print('Volunteer slots created! Please confirm slots on your Google Calendar account.')
         return True
     print('You do not have an open slot at the selected time.')
     return False
