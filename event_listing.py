@@ -22,6 +22,7 @@ def list_slots(service, fetch):
     if fetch == False:
         print_slots_table(events)
     store_slot_data(events)
+    print(events)
     return events
 
 
@@ -42,7 +43,7 @@ def store_slot_data(events):
     for event in events:
         new_data['open_slots'].append({event['id'] : event})
     with open('data_files/.open_slots.json', 'w') as f:
-        open_slots = json.dump(new_data, f, sort_keys=True, indent=4)
+        json.dump(new_data, f, sort_keys=True, indent=4)
 
 
 def print_slots_table(events):
