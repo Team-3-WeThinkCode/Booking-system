@@ -22,7 +22,6 @@ def list_slots(service, fetch):
     if fetch == False:
         print_slots_table(events)
     store_slot_data(events)
-    print(events)
     return events
 
 

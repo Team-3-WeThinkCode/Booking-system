@@ -36,6 +36,8 @@ if __name__ == "__main__":
              if not volunteer.create_volunteer_slot(student.username, student.service, codeclinic.service):
                  continue
         elif command == 2:
+            listings.list_slots(codeclinic.service, False)
+        elif command == 3:
             break
         command = get_user_input()
     print('Exiting program..')
