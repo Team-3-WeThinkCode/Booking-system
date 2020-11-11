@@ -30,17 +30,18 @@ class CodeClinic:
 if __name__ == "__main__":
     student = Student()
     codeclinic = CodeClinic()
+    utils.update_files(student.service, codeclinic.service)
     command = get_user_input()
     while True:
         if command == 1:
              if not volunteer.create_volunteer_slot(student.username, student.service, codeclinic.service):
                  continue
         elif command == 2:
-            user_choice = input("Which calendar would you like to view?\n1)Student calendar?\n2)Code clinic calendar\nplease insert choice: ")
+            user_choice = int(input("Which calendar would you like to view?\n1)Student calendar?\n2)Code clinic calendar\nplease insert choice: "))
             if user_choice == 1:
-                pass
+                listings.list_slots(student.service, False, True)
             elif command == 2:
-                listings.list_slots(codeclinic.service, False)
+                listings.list_slots(codeclinic.service, False, False)
         elif command == 3:
             break
         command = get_user_input()
