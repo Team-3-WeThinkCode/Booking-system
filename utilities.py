@@ -189,6 +189,7 @@ def add_event_to_calendar(event_info, service, clinic, username):
         people.append({'email': student_email})
     event = create_makeshift_event(event_info['summary'], location, '', event_info['start_datetime'], event_info['end_datetime'], people)
     event = service.events().insert(calendarId='primary', body=event).execute()
+    return event
 
 
 def slot_is_available(service, start_datetime, end_datetime):
@@ -199,3 +200,8 @@ def slot_is_available(service, start_datetime, end_datetime):
 def update_files(service1, service2):
     listings.list_slots(service1, True, True)
     listings.list_slots(service2, True, False)
+
+
+def volunteer_accept_invite(service_clinic, unique_id, username, event):
+    event['attendees'][0]['responseStatus'] = 'accepted'
+    service_clinic.events().update(calendarId='primary', eventId=unique_id, body=event).execute()

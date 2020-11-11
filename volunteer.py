@@ -83,7 +83,8 @@ def create_volunteer_slot(username, volunteer_service, codeclinic_service):
         for slot in thirty_minute_slots:
             start_datetime, end_datetime = utils.convert_date_and_time_to_rfc_format(date, slot[0], slot[1])
             event_info_clinic = {'summary': 'VOLUNTEER: ' + str(username), 'start_datetime': start_datetime, 'end_datetime': end_datetime, 'attendees': []}
-            utils.add_event_to_calendar(event_info_clinic, codeclinic_service, True, username)
+            response = utils.add_event_to_calendar(event_info_clinic, codeclinic_service, True, username)
+            utils.volunteer_accept_invite(codeclinic_service, response['id'], username, response)
         print('Volunteer slots created! Please confirm slots on your Google Calendar account.')
         return True
     print('You do not have an open slot at the selected time.')

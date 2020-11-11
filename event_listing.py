@@ -66,28 +66,16 @@ def print_slots_table(events):
         print('No open slots available.')
     elif events:
         print('Displaying all open slots for the next 7 days.')
+        for event in events:
+            start = event['start'].get('dateTime', event['start'].get('date'))
+            end = event['end'].get('dateTime', event['end'].get('date'))
+            start_date = (start[0:10])
+            start_time = (start[11:16]+' - '+end[11:16])
+            table.append(['', '-------------------------', '-------------------------', '-------------------------', '-------------------------'])
+            table.append([nums, event['summary'], start_date, start_time, event['id']])
+            nums += 1
+        tabulate.printTable(table, useFieldNames=True, color=(255, 0, 255))
 
-    for event in events:
-        start = event['start'].get('dateTime', event['start'].get('date'))
-        end = event['end'].get('dateTime', event['end'].get('date'))
-        start_date = (start[0:10])
-        start_time = (start[11:16]+' - '+end[11:16])
-        table.append(['', '-------------------------', '-------------------------', '-------------------------', '-------------------------'])
-        table.append([nums, event['summary'], start_date, start_time, event['id']])
-        nums += 1
-    tabulate.printTable(table, useFieldNames=True, color=(255, 0, 255))
 
 
-def create_event_body(event):
-    blueprint = {
-            'summary': event['summary'],
-            'location': event['location'],
-            'start': event['start'],
-            'end': event['end'],
-            'attendees':event['attendees'],
-            'reminders': {
-                'useDefault': True,
-            },
-     }
-    print(blueprint)
             
