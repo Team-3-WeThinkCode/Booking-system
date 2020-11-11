@@ -1,4 +1,5 @@
 import utilities as utils
+from utils.TableIt import TableIt as tabulate
 
 
 def get_open_slots_of_the_day(date, clinic_service):
@@ -11,14 +12,27 @@ def get_open_slots_of_the_day(date, clinic_service):
     return open_slots
 
 
-def get_slot_time(slots):
-    print('Choose a slot from the list:')
-    i = 1
-    chosen_slot = 0
+def print_slots_table(slots, date):
+    """
+    Uses the TableIt module to display data of open slots to the user in tabular form.
+    Event name, time, date, id will be sliced from the events objects given and used to display in the table.
+    """
+    table = [
+        ['#.', 'date.', 'start time.', 'end time.']
+    ]
+    nums = 1
+    print()
+    print('Displaying all open slots for the selected date:')
     for slot in slots:
-        print(str(i)+'. ' + str(slot[0]) + ' - ' + str(slot[1]))
-        i += 1
-    chosen_slot = int(input())
+        table.append(['', '-------------------------', '-------------------------', '-------------------------', '-------------------------'])
+        table.append([nums, date, slot[0], slot[1]])
+        nums += 1
+    tabulate.printTable(table, useFieldNames=True, color=(255, 0, 255))
+
+
+def get_slot_time(slots, date):
+    print_slots_table(slots, date)
+    chosen_slot = int(input('Choose a slot: '))
     while chosen_slot > len(slots):
         chosen_slot = int(input('Please choose valid slot: '))
     return slots[chosen_slot-1]
@@ -34,7 +48,7 @@ def create_volunteer_slot(username, volunteer_service, codeclinic_service):
     if len(open_slots) == 0:
         print('There are no open slots on this day.')
         return False
-    time = get_slot_time(open_slots)
+    time = get_slot_time(open_slots, date)
     start_datetime, end_datetime = utils.convert_date_and_time_to_rfc_format(date, time[0], time[1])
     if utils.slot_is_available(volunteer_service, start_datetime, end_datetime):
         event_info_clinic = {'summary': 'VOLUNTEER: ' + str(username), 'start_datetime': start_datetime, 'end_datetime': end_datetime, 'attendees': []}
@@ -43,3 +57,7 @@ def create_volunteer_slot(username, volunteer_service, codeclinic_service):
         return True
     print('You do not have an open slot at the selected time.')
     return False
+
+
+def delete_volunteer_slot():
+    pass
