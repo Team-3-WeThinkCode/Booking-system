@@ -66,7 +66,7 @@ def print_slots_table(events):
         table.append(['', '-------------------------', '-------------------------', '-------------------------', '-------------------------'])
         table.append([nums, event['summary'], start_date, start_time, event['id']])
         nums += 1
-        tabulate.printTable(table, useFieldNames=True, color=(255, 0, 255))
+    tabulate.printTable(table, useFieldNames=True, color=(255, 0, 255))
 
 
 def create_event_body(event):

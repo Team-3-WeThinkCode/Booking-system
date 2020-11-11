@@ -11,7 +11,7 @@ def get_username():
 
 def get_user_input():
     while True:
-        command = input('Please choose an option from the list:\n1) Open a volunteer slot\n2) List open slots\n3) Exit')
+        command = input('Please choose an option from the list:\n1) Open a volunteer slot\n2) List open slots\n3) Exit\nEnter choice: ')
         if command.isdigit():
             if int(command) >= 1 and int(command) <= 3:
                 return int(command)
@@ -36,7 +36,11 @@ if __name__ == "__main__":
              if not volunteer.create_volunteer_slot(student.username, student.service, codeclinic.service):
                  continue
         elif command == 2:
-            listings.list_slots(codeclinic.service, False)
+            user_choice = input("Which calendar would you like to view?\n1)Student calendar?\n2)Code clinic calendar\nplease insert choice: ")
+            if user_choice == 1:
+                pass
+            elif command == 2:
+                listings.list_slots(codeclinic.service, False)
         elif command == 3:
             break
         command = get_user_input()
