@@ -89,6 +89,8 @@
                     }
                 ],
                 "created": "2020-11-12T08:37:39.000Z",
+<<<<<<< HEAD
+=======
                 "creator": {
                     "email": "code.clinic.test@gmail.com",
                     "self": true
@@ -129,11 +131,55 @@
                     }
                 ],
                 "created": "2020-11-12T09:25:24.000Z",
+>>>>>>> f5379c4aa7557538738f1b1b4bc151896523a005
                 "creator": {
                     "email": "code.clinic.test@gmail.com",
                     "self": true
                 },
                 "end": {
+<<<<<<< HEAD
+                    "dateTime": "2020-11-12T16:30:00+02:00",
+                    "timeZone": "Africa/Johannesburg"
+                },
+                "etag": "\"3210340518688000\"",
+                "htmlLink": "https://www.google.com/calendar/event?eid=aHBpMmlyYjV2NDA0Ymxsc2Fzczh2aTJtNzQgY29kZS5jbGluaWMudGVzdEBt",
+                "iCalUID": "hpi2irb5v404bllsass8vi2m74@google.com",
+                "id": "hpi2irb5v404bllsass8vi2m74",
+                "kind": "calendar#event",
+                "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+                "organizer": {
+                    "email": "code.clinic.test@gmail.com",
+                    "self": true
+                },
+                "reminders": {
+                    "useDefault": true
+                },
+                "sequence": 0,
+                "start": {
+                    "dateTime": "2020-11-12T16:00:00+02:00",
+                    "timeZone": "Africa/Johannesburg"
+                },
+                "status": "confirmed",
+                "summary": "VOLUNTEER: RHys",
+                "updated": "2020-11-12T08:37:39.344Z"
+            }
+        },
+        {
+            "rpdr6otl10s2s59j1ittcanpb8": {
+                "attendees": [
+                    {
+                        "email": "jroy@student.wethinkcode.co.za",
+                        "responseStatus": "accepted"
+                    }
+                ],
+                "created": "2020-11-12T09:25:24.000Z",
+                "creator": {
+                    "email": "code.clinic.test@gmail.com",
+                    "self": true
+                },
+                "end": {
+=======
+>>>>>>> f5379c4aa7557538738f1b1b4bc151896523a005
                     "dateTime": "2020-11-13T12:00:00+02:00",
                     "timeZone": "Africa/Johannesburg"
                 },
@@ -221,6 +267,7 @@
                 "htmlLink": "https://www.google.com/calendar/event?eid=YzJtc2dsZ2ZqdDJ0Z3NtaTBvajByOGowM2MgY29kZS5jbGluaWMudGVzdEBt",
                 "iCalUID": "c2msglgfjt2tgsmi0oj0r8j03c@google.com",
                 "id": "c2msglgfjt2tgsmi0oj0r8j03c",
+<<<<<<< HEAD
                 "kind": "calendar#event",
                 "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
                 "organizer": {
@@ -341,6 +388,8 @@
                 "htmlLink": "https://www.google.com/calendar/event?eid=bGRhbDhvbzJiNjczcmZiczc5a2sza2lsZDAgY29kZS5jbGluaWMudGVzdEBt",
                 "iCalUID": "ldal8oo2b673rfbs79kk3kild0@google.com",
                 "id": "ldal8oo2b673rfbs79kk3kild0",
+=======
+>>>>>>> f5379c4aa7557538738f1b1b4bc151896523a005
                 "kind": "calendar#event",
                 "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
                 "organizer": {
@@ -352,12 +401,21 @@
                 },
                 "sequence": 0,
                 "start": {
+<<<<<<< HEAD
                     "dateTime": "2020-11-13T14:00:00+02:00",
                     "timeZone": "Africa/Johannesburg"
                 },
                 "status": "confirmed",
                 "summary": "VOLUNTEER: cprinsloo",
                 "updated": "2020-11-12T09:36:25.323Z"
+=======
+                    "dateTime": "2020-11-13T12:30:00+02:00",
+                    "timeZone": "Africa/Johannesburg"
+                },
+                "status": "confirmed",
+                "summary": "VOLUNTEER: jroy",
+                "updated": "2020-11-12T09:25:50.752Z"
+>>>>>>> f5379c4aa7557538738f1b1b4bc151896523a005
             }
         }
     ]

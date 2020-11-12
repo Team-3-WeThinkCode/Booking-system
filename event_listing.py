@@ -21,7 +21,7 @@ def list_slots(service, fetch, user):
     if user == False:
         events = sort_open_slots(events)
     if fetch == False:
-        print_slots_table(events)
+        print_slots_table(events, user)
     store_slot_data(events, user)
     return events
 
@@ -53,7 +53,7 @@ def store_slot_data(events, user):
             json.dump(new_data, f, sort_keys=True, indent=4)
 
 
-def print_slots_table(events):
+def print_slots_table(events, user=False):
     """
     Uses the TableIt module to display data of open slots to the user in tabular form.
     Event name, time, date, id will be sliced from the events objects given and used to display in the table.
@@ -63,7 +63,10 @@ def print_slots_table(events):
     ]
     nums = 1
     if not events:
-        print('No open slots available.')
+        if user == False:
+            print('No open slots available.')
+        else:
+            print("You have no events on you're personal calendar.")
     elif events:
         print('Displaying all open slots for the next 7 days.')
         for event in events:
