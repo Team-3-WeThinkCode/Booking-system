@@ -40,18 +40,34 @@ def get_event_date_and_time_input():
     return start_dateTime, end_dateTime
 
 
-def delete_event(service):  
-    with open('data_files/data.json', 'r+') as json_file:
-        data = json.load(json_file)
-    print(data)
-    for item in data:
-        service.events().delete(calendarId='primary', eventId=item['id'], sendUpdates='all').execute()
-    print(data['id'] + ' deleted succesfully')
-    update = None
-    with open('data_files/data.json', 'w') as outfile:
-        json.dump(update, outfile, sort_keys=True, indent=4)
-    json_file.close()
-    outfile.close()
+def create_booking(username, service):
+    start_dateTime, end_dateTime = get_event_date_and_time_input()
+    if not already_exists(create_makeshift_event('', '', '', start_dateTime, end_dateTime), service):
+        summary = 'Code Clinic - ' + str(username)
+        location = 'WeThinkCode, Victoria & Alfred Waterfront, Cape Town'
+        description = str(input("Session topic?: "))
+        add_people = True
+        people = []
+        while add_people:
+            user_input = str(input("Add atendee via email? "))
+            if user_input != 'no':
+                people.append({'email': user_input})
+                print(people)
+            else:
+                break
+        event = create_makeshift_event(summary, location, description, start_dateTime, end_dateTime)
+        event = service.events().insert(calendarId='primary', body=event).execute()
+        with open('data_files/data.json', 'a+') as outfile:
+            json.dump(event, outfile, sort_keys=True, indent=4)
+    else:
+        print('Sorry, slot is already booked. Choose another slot.')
+
+def delete_event(service, event_id):  
+    try:
+        service.events().delete(calendarId='primary', eventId=event_id, sendUpdates='all').execute()
+    except:
+        return False, 'Could not cancel slot...'
+    return True, 'Slot has been cancelled.'
     
 
 def list_slots(service):
@@ -170,8 +186,9 @@ def add_event_to_calendar(event_info, service, clinic, username):
 
 
 def slot_is_available(service, start_datetime, end_datetime):
-    if len(get_events(service, start_datetime, end_datetime)) > 0:
-            return False
+    events = get_events(service, start_datetime, end_datetime)
+    if len(events) > 0:
+        return False
     return True
 
 def update_files(service1, service2):
