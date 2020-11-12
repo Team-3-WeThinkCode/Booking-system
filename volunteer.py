@@ -91,9 +91,7 @@ def get_volunteered_slots(clinic_service, username, date):
     slots = [('08:30', '10:00'), ('10:00', '11:30'), ('11:30', '13:00'), ('13:00', '14:30'), ('14:30', '16:00'), ('16:00', '17:30')]
     volunteered_slots = []
     start_datetime, end_datetime = utils.convert_date_and_time_to_rfc_format(date, '08:30', '17:30')
-    events_result = clinic_service.events().list(calendarId='primary', timeMin=start_datetime, timeMax=end_datetime, singleEvents=True,
-                                        orderBy='startTime').execute()
-    events = events_result.get('items', [])
+    events = utils.get_events(clinic_service, start_datetime, end_datetime)
     for event in events:
         if event['summary'][11:] == username:
             start = event['start'].get('dateTime', event['start'].get('date'))
@@ -103,21 +101,18 @@ def get_volunteered_slots(clinic_service, username, date):
     return volunteered_slots
 
 
-def get_event_id(start_datetime, username, clinic_service):
-    now = datetime.datetime.utcnow().isoformat() + 'Z'
-    events_result = clinic_service.events().list(calendarId='primary', timeMin=now, singleEvents=True,
-                                        orderBy='startTime').execute()
-    events = events_result.get('items', [])
+def get_event_id(start_datetime, end_datetime, username, clinic_service):
+    events = utils.get_events(clinic_service, start_datetime, end_datetime)
     for event in events:
         summary = event['summary']
-        if summary[11:] == username and event['start']['dateTime'] == start_datetime:
+        if summary[11:] == username:
             return event['id']
     return ''
 
 
-def delete_slots_on_calendars(list_services, start_datetime, username):
+def delete_slots_on_calendars(list_services, start_datetime, end_datetime, username):
     for service in list_services:
-        event_id = get_event_id(start_datetime, username, service)
+        event_id = get_event_id(start_datetime, end_datetime, username, service)
         utils.delete_event(service, event_id)
 
 
@@ -132,5 +127,5 @@ def delete_volunteer_slot(username, volunteer_service, clinic_service):
     thirty_minute_slots = convert_slot_into_30_min_slots((volunteer_slots[selected-1][0], volunteer_slots[selected-1][1]))
     for slot in thirty_minute_slots:
         start_datetime, end_datetime = utils.convert_date_and_time_to_rfc_format(date, slot[0], slot[1])
-        delete_slots_on_calendars([volunteer_service, clinic_service], start_datetime, username)
+        delete_slots_on_calendars([volunteer_service, clinic_service], start_datetime, end_datetime, username)
     return True, 'Volunteered slots were succesfully deleted.'

@@ -2,75 +2,25 @@ import datetime
 import json
 import event_listing as listings
 
-def create_delete_calendar(service):
-    """
-    Contacts the google api after an instance is created.
-    uses the insert method to create a new calendar.
-    uses the Summary as the name of the calendar.
-    the delete method will delete a calendar of the given ID as a parameter.
-    """
 
-    requests_body = {
-        "summary": "Code Clinics"
-    }
-    user_input = input("To create a calendar event")
-
-    if user_input == "create":
-        response = service.calendars().insert(body=requests_body).execute()
-        print(response)
-
-    elif user_input == "delete":
-        service.calendars().delete(calendarId='c_inb60ai7mdqjrefd2rm3bue4eo@group.calendar.google.com').execute()
-
-
-def get_event_date_and_time_input():
+def delete_event(service, event_id):
     '''
-    :return: start dateTime and end dateTime (30min events) in rfc format
+    Cancels event with specified event id
+    :return: True if event succesfully cancelled
     '''
 
-    date = input('Insert start date of event in format (yyyy-mm-dd): ')
-    time = input('Insert start time of event in format (hh:mm): ')
-    year, month, day = date[:4], date[5:7], date[8:]
-    hour, minute = time[:2], time[3:]
-    end_minute = '00'
-    if minute[0] == '0':
-        end_minute = '30'
-    start_dateTime = year+'-'+month+'-'+day+'T'+hour+':'+minute+':00'+'+02:00'
-    end_dateTime = year+'-'+month+'-'+day+'T'+hour+':'+end_minute+':00'+'+02:00'
-    return start_dateTime, end_dateTime
-
-
-def create_booking(username, service):
-    start_dateTime, end_dateTime = get_event_date_and_time_input()
-    if not already_exists(create_makeshift_event('', '', '', start_dateTime, end_dateTime), service):
-        summary = 'Code Clinic - ' + str(username)
-        location = 'WeThinkCode, Victoria & Alfred Waterfront, Cape Town'
-        description = str(input("Session topic?: "))
-        add_people = True
-        people = []
-        while add_people:
-            user_input = str(input("Add atendee via email? "))
-            if user_input != 'no':
-                people.append({'email': user_input})
-                print(people)
-            else:
-                break
-        event = create_makeshift_event(summary, location, description, start_dateTime, end_dateTime)
-        event = service.events().insert(calendarId='primary', body=event).execute()
-        with open('data_files/data.json', 'a+') as outfile:
-            json.dump(event, outfile, sort_keys=True, indent=4)
-    else:
-        print('Sorry, slot is already booked. Choose another slot.')
-
-def delete_event(service, event_id):  
     try:
         service.events().delete(calendarId='primary', eventId=event_id, sendUpdates='all').execute()
     except:
-        return False, 'Could not cancel slot...'
-    return True, 'Slot has been cancelled.'
+        return False
+    return True
     
 
 def list_slots(service):
+    '''
+    
+    '''
+
     # Get the UCT time that is current and formats it to allow for google API parameter 
     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
     # Get the UCT time that is current + 7 days added and formats it to allow for google API parameter 
@@ -90,13 +40,37 @@ def list_slots(service):
 
 
 def get_events(service, start_datetime, end_datetime):
+    '''
+    Retrieves list of events in specified date/time
+    :return: list of events
+    '''
+
     events_result = service.events().list(calendarId='primary',  timeMin=start_datetime, timeMax=end_datetime,
                                                maxResults=500, singleEvents=True,
                                                orderBy='startTime').execute()
     return events_result.get('items', [])
 
 
+def slot_is_available(service, start_datetime, end_datetime):
+    '''
+    Checks if there are any events in specified date/time
+    :return: True if there are no events
+    '''
+
+    events = get_events(service, start_datetime, end_datetime)
+    if len(events) > 0:
+        for event in events:
+            print(event['summary'])
+        return False
+    return True
+
+
 def create_makeshift_event(summary, location, description, start_date_time, end_date_time, people):
+    '''
+    Creates body of event similiar to ones used in the Google Calendar API
+    :return: event body
+    '''
+
     new_event = {
             'summary': summary,
             'location': location,
@@ -117,7 +91,26 @@ def create_makeshift_event(summary, location, description, start_date_time, end_
     return new_event
 
 
+def add_event_to_calendar(event_info, service, clinic, username):
+    '''
+    Adds event to calendar
+    '''
+    people = []
+    location = 'WeThinkCode, Victoria & Alfred Waterfront, Cape Town'
+    if clinic:
+        student_email = str(username) + '@student.wethinkcode.co.za'
+        people.append({'email': student_email})
+    event = create_makeshift_event(event_info['summary'], location, '', event_info['start_datetime'], event_info['end_datetime'], people)
+    event = service.events().insert(calendarId='primary', body=event).execute()
+    return event
+
+
 def is_leap_year(year):
+    ''' 
+    Checks if specified year is a leap year
+    :return: True if the year is a leap year
+    '''
+
     if (year % 4) == 0:  
         if (year % 100) == 0:  
             if (year % 400) == 0:  
@@ -131,6 +124,11 @@ def is_leap_year(year):
 
 
 def date_fomat_correct(date):
+    '''
+    Checks that date is in format yyyy-mm-dd
+    :return: True if date is in correct format
+    '''
+
     try:
         year, month, day = int(date[:4]), int(date[5:7]), int(date[8:])
     except:
@@ -152,6 +150,11 @@ def date_fomat_correct(date):
 
 
 def get_date():
+    '''
+    Get date from user
+    :return: date (in correct format)
+    '''
+
     date = str(input('Insert date in format (yyyy-mm-dd): '))
     while not date_fomat_correct(date):
         print('Please enter a valid date!')
@@ -161,9 +164,10 @@ def get_date():
 
 def convert_date_and_time_to_rfc_format(date, start_time, end_time):
     '''
-    date in format (yyyy-mm-dd)
-    time in format (hh:mm)
-    :return: start dateTime and end dateTime (30min events) in rfc format
+    Converts date/time into rfc format
+    Date in format (yyyy-mm-dd)
+    Time in format (hh:mm)
+    :return: start, and end, date/time in rfc format
     '''
 
     year, month, day = date[:4], date[5:7], date[8:]
@@ -174,28 +178,19 @@ def convert_date_and_time_to_rfc_format(date, start_time, end_time):
     return start_dateTime, end_dateTime
 
 
-def add_event_to_calendar(event_info, service, clinic, username):
-    people = []
-    location = 'WeThinkCode, Victoria & Alfred Waterfront, Cape Town'
-    if clinic:
-        student_email = str(username) + '@student.wethinkcode.co.za'
-        people.append({'email': student_email})
-    event = create_makeshift_event(event_info['summary'], location, '', event_info['start_datetime'], event_info['end_datetime'], people)
-    event = service.events().insert(calendarId='primary', body=event).execute()
-    return event
-
-
-def slot_is_available(service, start_datetime, end_datetime):
-    events = get_events(service, start_datetime, end_datetime)
-    if len(events) > 0:
-        return False
-    return True
-
 def update_files(service1, service2):
+    '''
+
+    '''
+
     listings.list_slots(service1, True, True)
     listings.list_slots(service2, True, False)
 
 
 def volunteer_accept_invite(service_clinic, unique_id, username, event):
+    '''
+
+    '''
+
     event['attendees'][0]['responseStatus'] = 'accepted'
     service_clinic.events().update(calendarId='primary', eventId=unique_id, body=event).execute()
