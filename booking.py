@@ -15,7 +15,12 @@ def get_user_input():
 
 def make_booking(service_clinic, service_student, username):
     slots = listings.list_slots(service_clinic, fetch=False, user=False)
-    slot_num = get_user_input()
+    while True:
+        slot_num = get_user_input()
+        if "VOLUNTEER: " + str(username) in slots[slot_num - 1]['summary']:
+            print('No!')
+        elif "VOLUNTEER: " + str(username) not in slots[slot_num - 1]['summary']:
+            break
     updated_event, unique_id = create_booking_body(slots[(slot_num - 1)], username)
 
     updated_event_response = service_clinic.events().update(calendarId='primary', eventId=unique_id, body=updated_event).execute()
