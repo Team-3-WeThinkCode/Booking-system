@@ -22,16 +22,22 @@ def create_service(username):
     # If there are no (valid) credentials available, let the user log in.
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
+            try:
+                creds.refresh(Request()) # TODO #1: Add exception handling here (and really the entire block) to capture authentication/authorization issues
+            except:
+                print("Major Error!")
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
                 'credentials/client_secret.json', SCOPES)
-            creds = flow.run_local_server(port=0)
+            creds = flow.run_local_server(port=0, success_message='You now have access to the codeclinic system!')
         # Save the credentials for the next run
         with open('tokens/.'+username+'.pickle', 'wb') as token:
             pickle.dump(creds, token)
 
-    service = build('calendar', 'v3', credentials=creds)
+    try:
+        service = build('calendar', 'v3', credentials=creds) #Add exception handling here to capture client side issues
+    except Exception:
+        print("Error")
     return service
 
 '''TODO Check connection to Google Calendar succesfull (maybe check pickle file)'''
