@@ -23,7 +23,7 @@ class Student:
     username = get_username()
     try:
         service = create_service(username)
-        print("Great Success!!")
+        print("Connected...")
     except:
         print("Error!")
         service = None

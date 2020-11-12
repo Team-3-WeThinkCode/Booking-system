@@ -4,10 +4,11 @@ import os.path
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
-
+from urllib.request import urlopen
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar.events', 'https://www.googleapis.com/auth/calendar']
 #service = None
+
 
 def create_service(username):
     """
@@ -16,6 +17,8 @@ def create_service(username):
     """
     creds = None
     
+    
+    check_calendar_connected()
     if os.path.exists('tokens/.'+username+'.pickle'):
         with open('tokens/.'+username+'.pickle', 'rb') as token:
             creds = pickle.load(token)
@@ -40,6 +43,16 @@ def create_service(username):
         print("Error")
     return service
 
+def internet_on():
+    try:
+        response = urlopen('https://calendar.google.com/', timeout=10)
+        return True
+    except: 
+        return False
+
 '''TODO Check connection to Google Calendar succesfull (maybe check pickle file)'''
 def check_calendar_connected():
-    pass
+    check = internet_on()
+    if check == False:
+        print("No internet connection!")
+        return service
