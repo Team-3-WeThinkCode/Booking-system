@@ -26,6 +26,7 @@ class Student:
         print("Great Success!!")
     except:
         print("Error!")
+        service = None
 
 class CodeClinic:
     username = "codeclinic"
@@ -33,13 +34,19 @@ class CodeClinic:
         service = create_service(username)
     except:
         print("Error!")
+        service = None
 
 if __name__ == "__main__":
+    loop = True
     student = Student()
     codeclinic = CodeClinic()
-    utils.update_files(student.service, codeclinic.service)
-    command = get_user_input()
-    while True:
+    try : 
+        utils.update_files(student.service, codeclinic.service)
+    except:
+        print("Error!")
+        loop = False
+    while loop == True:
+        command = get_user_input()
         if command == 1:
              if not volunteer.create_volunteer_slot(student.username, student.service, codeclinic.service):
                  continue
