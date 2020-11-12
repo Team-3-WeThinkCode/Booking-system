@@ -44,6 +44,9 @@ def create_service(username):
     return service
 
 def internet_on():
+    '''
+    Function checks if internet is connected and returns False if it isn't.
+    '''
     try:
         response = urlopen('https://calendar.google.com/', timeout=10)
         return True
@@ -52,6 +55,9 @@ def internet_on():
 
 '''TODO Check connection to Google Calendar succesfull (maybe check pickle file)'''
 def check_calendar_connected():
+    '''
+    Calls the internet_on() function and then prints "no internet" if check equals False.
+    '''
     check = internet_on()
     if check == False:
         print("No internet connection!")
