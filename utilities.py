@@ -59,8 +59,6 @@ def slot_is_available(service, start_datetime, end_datetime):
 
     events = get_events(service, start_datetime, end_datetime)
     if len(events) > 0:
-        for event in events:
-            print(event['summary'])
         return False
     return True
 

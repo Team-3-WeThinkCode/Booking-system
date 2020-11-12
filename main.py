@@ -12,7 +12,8 @@ def get_username():
 
 def get_user_input():
     while True:
-        command = input('Choose an option from the list:\n1) Open a volunteer slot\n2) List open slots\n3) Book an empty slot\n4) Cancel volunteer slot\n5) Exit\nEnter choice: ')
+        command = input('\nChoose an option from the list:\n1) Open a volunteer slot\n2) List open slots\n3) Book an empty slot\n4) Cancel volunteer slot\n5) Exit\nEnter choice: ')
+        print()
         if command.isdigit():
             if int(command) >= 1 and int(command) <= 5:
                 return int(command)

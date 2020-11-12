@@ -4,6 +4,11 @@ from utils.TableIt import TableIt as tabulate
 
 
 def get_open_volunteer_slots_of_the_day(date, clinic_service):
+    '''
+    Checks events in clinic calendar for open slots to add volunteer events
+    :return: list (of tuples) of open volunteer slots
+    '''
+
     slots = [('08:30', '10:00'), ('10:00', '11:30'), ('11:30', '13:00'), ('13:00', '14:30'), ('14:30', '16:00'), ('16:00', '17:30')]
     open_slots = []
     for slot in slots:
@@ -14,6 +19,11 @@ def get_open_volunteer_slots_of_the_day(date, clinic_service):
 
 
 def convert_to_digital_time_format(hour, minute):
+    '''
+    Converts hour/minute to digital time format
+    :return: digital time
+    '''
+
     str_hour = str(hour)
     str_minute = str(minute)
     if len(str_hour) > 2 or len(str_minute) > 2:
@@ -26,6 +36,11 @@ def convert_to_digital_time_format(hour, minute):
 
 
 def convert_slot_into_30_min_slots(slot):
+    '''
+    Converts 90min slots into 30min slots
+    :return: list (of tuples) of 30min slots
+    '''
+
     start_hour, start_minute = int(slot[0][:2]), int(slot[0][3:])
     times = []
     while True:
@@ -42,9 +57,9 @@ def convert_slot_into_30_min_slots(slot):
 
 def print_open_slots_table(list_slots, date, title):
     """
-    Uses the TableIt module to display data of open slots to the user in tabular form.
-    Event name, time, date, id will be sliced from the events objects given and used to display in the table.
+    Prints table with information on the date, start time and end time of events
     """
+
     table = [
         ['#.', 'date.', 'start time.', 'end time.']
     ]
@@ -58,6 +73,11 @@ def print_open_slots_table(list_slots, date, title):
 
 
 def get_volunteer_time(open_slots, date):
+    '''
+    Prints events in table from which user needs to choose event from.
+    :return: event chosen by user
+    '''
+
     print_open_slots_table(open_slots, date, 'Displaying all open slots for the selected date:')
     chosen_slot = int(input('Choose a slot: '))
     while chosen_slot > len(open_slots):
@@ -67,7 +87,9 @@ def get_volunteer_time(open_slots, date):
 
 def create_volunteer_slot(username, volunteer_service, codeclinic_service):
     '''
-    :return: True if volunteer slot created succesfully
+    Creates volunteer slot if both the clinic and the student's calendar correlates
+    to volunteer slot time.
+    :return: True if volunteer slot created succesfully, with output to be printed
     '''
 
     date = utils.get_date()
@@ -88,6 +110,11 @@ def create_volunteer_slot(username, volunteer_service, codeclinic_service):
 
 
 def get_volunteered_slots(clinic_service, username, date):
+    '''
+    Retrieves slots that the user volunteered for
+    :return: list of slots the user volunteered for
+    '''
+
     slots = [('08:30', '10:00'), ('10:00', '11:30'), ('11:30', '13:00'), ('13:00', '14:30'), ('14:30', '16:00'), ('16:00', '17:30')]
     volunteered_slots = []
     start_datetime, end_datetime = utils.convert_date_and_time_to_rfc_format(date, '08:30', '17:30')
@@ -97,11 +124,16 @@ def get_volunteered_slots(clinic_service, username, date):
             start = event['start'].get('dateTime', event['start'].get('date'))
             for slot in slots:
                 if start[11:16] == slot[0]:
-                    volunteered_slots.append((slot[0], slot[1]))
+                    volunteered_slots.append((slot))
     return volunteered_slots
 
 
 def get_event_id(start_datetime, end_datetime, username, clinic_service):
+    '''
+    Retrieves event id of event in specified date/time
+    :return: event id
+    '''
+
     events = utils.get_events(clinic_service, start_datetime, end_datetime)
     for event in events:
         summary = event['summary']
@@ -111,12 +143,21 @@ def get_event_id(start_datetime, end_datetime, username, clinic_service):
 
 
 def delete_slots_on_calendars(list_services, start_datetime, end_datetime, username):
+    '''
+    Deletes events created in specified times from specified calendars
+    '''
+
     for service in list_services:
         event_id = get_event_id(start_datetime, end_datetime, username, service)
         utils.delete_event(service, event_id)
 
 
 def delete_volunteer_slot(username, volunteer_service, clinic_service):
+    '''
+    Cancels specified volunteer slots created by user
+    :return: True if slots were cancelled succesfully, and output to be printed
+    '''
+
     date = utils.get_date()
     volunteer_slots = get_volunteered_slots(clinic_service, username, date)
     if len(volunteer_slots) > 0:
