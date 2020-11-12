@@ -6,6 +6,8 @@ import event_listing as listings
 
 def get_user_input(slots, username):
     user_choice = input("Please enter the number of the slot you would like to book: ")
+    if user_choice == 'cancel':
+        return False
     if user_choice.isdigit():
         while True:
             if "VOLUNTEER: " + str(username) in slots[int(user_choice) - 1]['summary']:
@@ -21,7 +23,10 @@ def get_user_input(slots, username):
 
 def make_booking(service_clinic, service_student, username):
     slots = listings.list_slots(service_clinic, fetch=False, user=False)
+    print(f"Type 'cancel' if you would like to cancel this action.")
     slot_num = get_user_input(slots, username)
+    if slot_num == False:
+        return
    
     updated_event, unique_id = create_booking_body(slots[(slot_num - 1)], username)
 
