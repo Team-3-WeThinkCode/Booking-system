@@ -47,7 +47,8 @@ if __name__ == "__main__":
     except:
         print("Error!")
         loop = False
-    command = get_user_input()
+    if loop:
+        command = get_user_input()
     while loop == True:
         if command == 1:
              created, output = volunteer.create_volunteer_slot(student.username, student.service, codeclinic.service)
