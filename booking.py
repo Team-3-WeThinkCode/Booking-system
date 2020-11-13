@@ -1,6 +1,4 @@
 import utilities as utils
-import quickstart
-import datetime
 import event_listing as listings
 
 
@@ -33,6 +31,7 @@ def make_booking(service_clinic, service_student, username):
     updated_event_response = service_clinic.events().update(calendarId='primary', eventId=unique_id, body=updated_event).execute()
     booker_accept_invite(service_clinic, unique_id, username, updated_event_response)
     print(f"Booking succesfully made! You're unique id is: {updated_event_response['id']}")
+
 
 def booker_accept_invite(service_clinic, unique_id, username, event):
     event['attendees'][1]['responseStatus'] = 'accepted'

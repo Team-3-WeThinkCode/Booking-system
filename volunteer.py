@@ -120,7 +120,7 @@ def get_volunteered_slots(clinic_service, username, date):
     start_datetime, end_datetime = utils.convert_date_and_time_to_rfc_format(date, '08:30', '17:30')
     events = utils.get_events(clinic_service, start_datetime, end_datetime)
     for event in events:
-        if event['summary'][11:] == username:
+        if event['summary'][11:] == username and len(event['attendees']) == 1:
             start = event['start'].get('dateTime', event['start'].get('date'))
             for slot in slots:
                 if start[11:16] == slot[0]:
@@ -159,12 +159,17 @@ def delete_volunteer_slot(username, volunteer_service, clinic_service):
     '''
 
     date = utils.get_date()
+    selected = 0
     volunteer_slots = get_volunteered_slots(clinic_service, username, date)
     if len(volunteer_slots) > 0:
         print_open_slots_table(volunteer_slots, date, 'Displaying volunteered events:')
     else:
         return False, 'No volunteer slots available to delete'
-    selected = int(input('Choose the volunteered slot you want to delete: '))
+    while selected > len(volunteer_slots) or selected <= 0:
+        try:
+            selected = int(input('Choose the volunteered slot you want to delete: '))
+        except:
+            print('Please enter valid input!')
     thirty_minute_slots = convert_slot_into_30_min_slots((volunteer_slots[selected-1][0], volunteer_slots[selected-1][1]))
     for slot in thirty_minute_slots:
         start_datetime, end_datetime = utils.convert_date_and_time_to_rfc_format(date, slot[0], slot[1])
