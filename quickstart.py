@@ -61,4 +61,3 @@ def check_calendar_connected():
     check = internet_on()
     if check == False:
         print("No internet connection!")
-        return service
