@@ -19,22 +19,36 @@ def get_user_input():
                 return int(command)
         print('Please enter a valid command.')
 
-
+#test
+        
 class Student:
     username = get_username()
-    service = create_service(username)
+    try:
+        service = create_service(username)
+        print("Connected...")
+    except:
+        print("Error!")
+        service = None
 
 class CodeClinic:
     username = "codeclinic"
-    service = create_service(username)
-
+    try:
+        service = create_service(username)
+    except:
+        print("Error!")
+        service = None
 
 if __name__ == "__main__":
+    loop = True
     student = Student()
     codeclinic = CodeClinic()
-    utils.update_files(student.service, codeclinic.service)
+    try : 
+        utils.update_files(student.service, codeclinic.service)
+    except:
+        print("Error!")
+        loop = False
     command = get_user_input()
-    while True:
+    while loop == True:
         if command == 1:
              created, output = volunteer.create_volunteer_slot(student.username, student.service, codeclinic.service)
              print(output+'\n')   
