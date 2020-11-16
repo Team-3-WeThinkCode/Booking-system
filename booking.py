@@ -53,10 +53,3 @@ def create_booking_body(event, username):
             },
      }
     return blueprint, event['id']
-
-
-
-# if __name__ == "__main__":
-#     service_clinic = quickstart.create_service('codeclinic')
-#     service_student = quickstart.create_service('student')
-#     make_booking(service_clinic, service_student, 'jroy')
