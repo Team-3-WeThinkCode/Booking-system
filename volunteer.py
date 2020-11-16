@@ -79,10 +79,12 @@ def get_volunteer_time(open_slots, date):
     '''
 
     print_open_slots_table(open_slots, date, 'Displaying all open slots for the selected date:')
-    chosen_slot = int(input('Choose a slot: '))
-    while chosen_slot > len(open_slots):
-        chosen_slot = int(input('Please choose valid slot: '))
-    return open_slots[chosen_slot-1]
+    
+    chosen_slot = (input('Choose a slot: '))
+    while chosen_slot.isdigit() == False or int(chosen_slot) > len(open_slots):
+        chosen_slot = (input('Please choose valid slot: '))
+    nchosen_slot = int(chosen_slot)
+    return open_slots[nchosen_slot-1]
 
 
 def create_volunteer_slot(username, volunteer_service, codeclinic_service):
@@ -157,7 +159,7 @@ def delete_volunteer_slot(username, volunteer_service, clinic_service):
     Cancels specified volunteer slots created by user
     :return: True if slots were cancelled succesfully, and output to be printed
     '''
-
+    
     date = utils.get_date()
     selected = 0
     volunteer_slots = get_volunteered_slots(clinic_service, username, date)

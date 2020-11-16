@@ -27,7 +27,7 @@ class Student:
         service = create_service(username)
         print("Connected...")
     except:
-        print("Error!")
+        print("Unable to connect..")
         service = None
 
 class CodeClinic:
@@ -35,21 +35,21 @@ class CodeClinic:
     try:
         service = create_service(username)
     except:
-        print("Error!")
+        print("Something went wrong!")
         service = None
 
 if __name__ == "__main__":
-    loop = True
+    menu = True
     student = Student()
     codeclinic = CodeClinic()
     try : 
         utils.update_files(student.service, codeclinic.service)
     except:
-        print("Error!")
-        loop = False
-    if loop:
+        print("Something went wrong!")
+        menu = False
+    if menu:
         command = get_user_input()
-    while loop == True:
+    while menu == True:
         if command == 1:
              created, output = volunteer.create_volunteer_slot(student.username, student.service, codeclinic.service)
              print(output+'\n')   
