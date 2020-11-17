@@ -27,10 +27,17 @@ def list_slots(service, fetch, user):
 
 
 def sort_open_slots(events):
+    """
+    Functions will sort a list of events, only events containing 1 attendee will be added to the new list.
+    this will be events that are open to be booked by the user.
+    """
     new_events = []
     for event in events:
-        if not len(event['attendees']) > 1:
-            new_events.append(event)
+        try:
+            if not len(event['attendees']) > 1:
+                new_events.append(event)
+        except:
+            continue
     return new_events
 
 

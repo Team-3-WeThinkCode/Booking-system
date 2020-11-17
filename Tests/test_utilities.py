@@ -1,5 +1,9 @@
 import unittest
 from unittest import mock
+import os
+import sys
+USER_PATHS = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../'))
+sys.path.insert(0, USER_PATHS)
 import utilities
 
 
