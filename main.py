@@ -7,6 +7,7 @@ import sys
 
 
 def command_line_args():
+    #format: [username] [user_type] [command] [date] [start_time]
     info = {'username' : sys.argv[1]}
     if len(sys.argv) > 1:
         for i in range(1, len(sys.argv)):
