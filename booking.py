@@ -53,7 +53,7 @@ def get_chosen_slot(events, username, chosen_date, chosen_start_time):
         if chosen_start_time == start[11:16] and chosen_date == start_date:
             if "VOLUNTEER: " + str(username) in event['summary']:
                 return False, {}
-            elif len(event["attendees"]) == 1:
+            if len(event["attendees"]) == 1:
                 return True, event
     return False, {}
 
