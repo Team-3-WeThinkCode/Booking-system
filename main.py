@@ -25,7 +25,7 @@ def command_line_args():
         info['date'] = sys.argv[4]
         info['start_time'] = sys.argv[5]
     return info
-
+  
         
 class Student:
     info = command_line_args()
@@ -54,8 +54,17 @@ if __name__ == "__main__":
     try : 
         utils.update_files(student.service, codeclinic.service)
     except:
-        print("Files could not be updated.")
+
+        print("Something went wrong!")
         execute = False
+        
+    ''' elif command == 5:
+            listings.list_personal_slots(codeclinic.service, False, False, student.username)
+        elif command == 6:
+            booking.cancel_attendee(student.username, student.username, codeclinic.service)
+        elif command == 7:
+            break
+     '''
     if execute:
         if 'user_type' in student.info:
             if student.info['user_type'] == 'volunteer':

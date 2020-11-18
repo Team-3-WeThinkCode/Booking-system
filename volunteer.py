@@ -77,12 +77,11 @@ def get_volunteer_time(open_slots, time):
     Prints events in table from which user needs to choose event from.
     :return: event chosen by user
     '''
-
     for slot in open_slots:
         if slot[0] == time:
             return slot[0], slot[1]
     return '', ''
-    
+  
 
 def create_volunteer_slot(username, date, time, volunteer_service, codeclinic_service):
     '''
