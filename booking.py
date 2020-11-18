@@ -7,7 +7,9 @@ def get_user_input(slots, username):
     validates the users input and returns it as an integer.
     Function does not allow users to choose a slot with their own username present.
     """
-    user_choice = input("Please enter the number of the slot you would like to book: ")
+
+    #Create conditions to avoid malicious input for "Open slots command"
+    user_choice = input("Please enter the number of the slots you would like to book: ")
     if user_choice == 'cancel':
         return False
     if user_choice.isdigit():
@@ -21,6 +23,26 @@ def get_user_input(slots, username):
     else:
         return get_user_input(slots, username)
 
+def get_user_input_cancellation(slots, username):
+    """
+    validates the users input and returns it as an integer.
+    Function does not allow users to choose a slot with their own username present.
+    """
+
+    #Create conditions to avoid malicious input for "Open slots command"
+    user_choice = input("Please enter the number of the slot you would like to cancel: ")
+    if user_choice == 'cancel':
+        return False
+    if user_choice.isdigit():
+        while True:
+            if "VOLUNTEER: " + str(username) in slots[int(user_choice) - 1]['summary']:
+                print('User cannot book themselves.')
+                return get_user_input(slots, username)
+            elif "VOLUNTEER: " + str(username) not in slots[int(user_choice) - 1]['summary']:
+                break
+        return int(user_choice)
+    else:
+        return get_user_input(slots, username)
 
 
 def make_booking(service_clinic, service_student, username):
@@ -71,6 +93,22 @@ def create_booking_body(event, username):
             },
      }
     return blueprint, event['id']
+
+def cancel_attendee(username, volunteer_service, codeclinic_service):
+
+    slots = listings.list_personal_slots(codeclinic_service, False, False, username)
+    print(f"Type 'cancel' if you would like to cancel this action.")
+    slot_num = get_user_input_cancellation(slots, username)
+    if slot_num == False:
+        return
+
+    #list all events for the next 7 days and allow attendee to delete using number index specific event
+    #if there are no events to delete print there are no events to delete
+    #delete event
+    #return event deleted
+    #for event in events if ({'email': username+'@student.wethinkcode.co.za'}) == username+'@student.wethinkcode.co.za'} 
+
+
 
 
 
