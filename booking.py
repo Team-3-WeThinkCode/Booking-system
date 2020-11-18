@@ -44,26 +44,37 @@ def get_user_input_cancellation(slots, username):
     else:
         return get_user_input(slots, username)
 
+def get_chosen_slot(events, username, chosen_date, chosen_start_time):
+    for i in range(0, len(events)):
+        event = events[i]
+        start = event['start'].get('dateTime', event['start'].get('date'))
+        end = event['end'].get('dateTime', event['end'].get('date'))
+        start_date = start[0:10]
+        if chosen_start_time == start[11:16] and chosen_date == start_date:
+            if "VOLUNTEER: " + str(username) in event['summary']:
+                return False, {}
+            else:
+                return True, event
+    return False, {}
 
-def make_booking(service_clinic, service_student, username):
+
+def make_booking(username, date, time, service_student, service_clinic):
     """
     Function will handle the logic for booking a empty slot.
     with a list of events, user input will be he index of the list -1, the event will be updated with the user added as an attendee.
 
     """
-    slots = listings.list_slots(service_clinic, fetch=False, user=False)
-    print(f"Type 'cancel' if you would like to cancel this action.")
-    slot_num = get_user_input(slots, username)
-    if slot_num == False:
-        return
-   
-    updated_event, unique_id = create_booking_body(slots[(slot_num - 1)], username)
+    slots = listings.list_slots(service_clinic, fetch=True, user=False)
+    available, volunteered_event = get_chosen_slot(slots, username, date, time)
+    if not available:
+        return False, 'Cannot book chosen slot.'
+    updated_event, unique_id = create_booking_body(volunteered_event, username)
     try:
         updated_event_response = service_clinic.events().update(calendarId='primary', eventId=unique_id, body=updated_event).execute()
         booker_accept_invite(service_clinic, unique_id, username, updated_event_response)
-        print(f"Booking succesfully made! You're unique id is: {updated_event_response['id']}")
+        return True, "Booking succesfully made! You're unique id is: "+ str(updated_event_response['id'])
     except:
-        print("An error has stopped the booking from being made.\nPlease try again.")
+        return False, "An error has stopped the booking from being made.\nPlease try again."
 
 
 def booker_accept_invite(service_clinic, unique_id, username, event):
@@ -93,6 +104,7 @@ def create_booking_body(event, username):
             },
      }
     return blueprint, event['id']
+  
 
 def cancel_attendee(username, volunteer_service, codeclinic_service):
 
@@ -108,11 +120,3 @@ def cancel_attendee(username, volunteer_service, codeclinic_service):
     #return event deleted
     #for event in events if ({'email': username+'@student.wethinkcode.co.za'}) == username+'@student.wethinkcode.co.za'} 
 
-
-
-
-
-# if __name__ == "__main__":
-#     service_clinic = quickstart.create_service('codeclinic')
-#     service_student = quickstart.create_service('student')
-#     make_booking(service_clinic, service_student, 'jroy')
