@@ -25,12 +25,53 @@ def list_slots(service, fetch, user):
     store_slot_data(events, user)
     return events
 
+def list_personal_slots(service, fetch, user, username):
+    """
+    creates a list of objects, each object will be details for an event.
+    the function will retrieve open slots for the next 7 days.
+    RETURNS: a list of objects with the keys being the unique id of the event and the value the object for th event.
+    funtion will fetch the open slots each time the program is launched to save the slots locally in json files bu calling store_slot_data(events)
+    """
+    # Get the UCT time that is current and formats it to allow for google API parameter 
+    now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
+    # Get the UCT time that is current + 7 days added and formats it to allow for google API parameter 
+    end_date = ((datetime.datetime.utcnow()) + datetime.timedelta(days=7)).isoformat() + 'Z'
+    events_result = service.events().list(calendarId='primary', timeMin=now,
+                                        timeMax=end_date, singleEvents=True,
+                                        orderBy='startTime').execute()
+    events = events_result.get('items', [])
+    if user == False:
+        events = sort_booked_slots(events, username)
+    if fetch == False:
+        print_slots_table_user(events, user)
+    store_slot_data(events, user)
+    return events, ''
 
 def sort_open_slots(events):
+    """
+    Functions will sort a list of events, only events containing 1 attendee will be added to the new list.
+    this will be events that are open to be booked by the user.
+    """
     new_events = []
     for event in events:
-        if not len(event['attendees']) > 1:
-            new_events.append(event)
+        try:
+            if not len(event['attendees']) < 1:
+                new_events.append(event)
+        except:
+            continue
+    return new_events
+
+def sort_booked_slots(events, username):
+    """
+    Functions will sort a list of events, only events containing 1 attendee will be added to the new list.
+    this will be events that are open to be booked by the user.
+    """
+    new_events = []
+    for event in events:
+        for i in range(len(event['attendees'])):
+            if (event['attendees'][i]["email"]) == username+'@student.wethinkcode.co.za':
+                new_events.append(event)
+            continue
     return new_events
 
 
@@ -80,5 +121,29 @@ def print_slots_table(events, user=False):
         tabulate.printTable(table, useFieldNames=True, color=(255, 0, 255))
 
 
-
+def print_slots_table_user(events, user=False):
+    """
+    Uses the TableIt module to display data of secured bookings to the user in tabular form.
+    Event name, time, date, id will be sliced from the events objects given and used to display in the table.
+    """
+    table = [
+        ['#.', 'Volunteer name.', 'date.', 'time.', 'Unique ID.']
+    ]
+    nums = 1
+    if not events:
+        if user == False:
+            print('You do not have any bookings.')
+        else:
+            print("You have no events on you're personal calendar.")
+    elif events:
+        print('Displaying all your bookings for the next 7 days.')
+        for event in events:
+            start = event['start'].get('dateTime', event['start'].get('date'))
+            end = event['end'].get('dateTime', event['end'].get('date'))
+            start_date = (start[0:10])
+            start_time = (start[11:16]+' - '+end[11:16])
+            table.append(['', '-------------------------', '-------------------------', '-------------------------', '-------------------------'])
+            table.append([nums, event['summary'], start_date, start_time, event['id']])
+            nums += 1
+        tabulate.printTable(table, useFieldNames=True, color=(100, 250, 100))
             

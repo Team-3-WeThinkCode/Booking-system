@@ -3,6 +3,25 @@ import json
 import event_listing as listings
 
 
+def check_date_and_time_format(date, time):
+    '''
+    Checks that date and time input is in correct format
+    :return: True if date and time in correct format
+    '''
+    
+    date_format = "%Y-%m-d"
+    time_format = "%H:%M"
+    try:
+        datetime.datetime.strptime(date, date_format)
+        try:
+            datetime.datetime.strptime(time, time_format)
+            return True
+        except:
+            return False
+    except ValueError:
+        return False
+
+
 def delete_event(service, event_id):
     '''
     Cancels event with specified event id

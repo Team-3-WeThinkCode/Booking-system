@@ -72,60 +72,58 @@ def print_open_slots_table(list_slots, date, title):
     tabulate.printTable(table, useFieldNames=True, color=(255, 0, 255))
 
 
-def get_volunteer_time(open_slots, date):
+def get_volunteer_time(open_slots, time):
     '''
     Prints events in table from which user needs to choose event from.
     :return: event chosen by user
     '''
+    for slot in open_slots:
+        if slot[0] == time:
+            return slot[0], slot[1]
+    return '', ''
+  
 
-    print_open_slots_table(open_slots, date, 'Displaying all open slots for the selected date:')
-    chosen_slot = int(input('Choose a slot: '))
-    while chosen_slot > len(open_slots):
-        chosen_slot = int(input('Please choose valid slot: '))
-    return open_slots[chosen_slot-1]
-
-
-def create_volunteer_slot(username, volunteer_service, codeclinic_service):
+def create_volunteer_slot(username, date, time, volunteer_service, codeclinic_service):
     '''
     Creates volunteer slot if both the clinic and the student's calendar correlates
     to volunteer slot time.
     :return: True if volunteer slot created succesfully, with output to be printed
     '''
 
-    date = utils.get_date()
     open_slots = get_open_volunteer_slots_of_the_day(date, codeclinic_service)
     if len(open_slots) == 0:
         return False, 'There are no open slots on this day.'
-    time = get_volunteer_time(open_slots, date)
-    start_datetime, end_datetime = utils.convert_date_and_time_to_rfc_format(date, time[0], time[1])
+    start_time, end_time = get_volunteer_time(open_slots, time)
+    if start_time == '' or end_time == '':
+        return False, 'Choose a valid/open slot start time.'
+    start_datetime, end_datetime = utils.convert_date_and_time_to_rfc_format(date, start_time, end_time)
     if utils.slot_is_available(volunteer_service, start_datetime, end_datetime):
-        thirty_minute_slots = convert_slot_into_30_min_slots(time)
+        thirty_minute_slots = convert_slot_into_30_min_slots((start_time, end_time))
         for slot in thirty_minute_slots:
             start_datetime, end_datetime = utils.convert_date_and_time_to_rfc_format(date, slot[0], slot[1])
             event_info_clinic = {'summary': 'VOLUNTEER: ' + str(username), 'start_datetime': start_datetime, 'end_datetime': end_datetime, 'attendees': []}
             response = utils.add_event_to_calendar(event_info_clinic, codeclinic_service, True, username)
             utils.volunteer_accept_invite(codeclinic_service, response['id'], username, response)
         return True, 'Volunteer slots created!'
-    return False, 'You do not have an open slot at the selected time.'
+    return False, 'You do not have an open slot in your calendar at the selected time.'
 
 
-def get_volunteered_slots(clinic_service, username, date):
+def get_volunteered_slot(clinic_service, username, date, time):
     '''
     Retrieves slots that the user volunteered for
     :return: list of slots the user volunteered for
     '''
 
     slots = [('08:30', '10:00'), ('10:00', '11:30'), ('11:30', '13:00'), ('13:00', '14:30'), ('14:30', '16:00'), ('16:00', '17:30')]
-    volunteered_slots = []
     start_datetime, end_datetime = utils.convert_date_and_time_to_rfc_format(date, '08:30', '17:30')
     events = utils.get_events(clinic_service, start_datetime, end_datetime)
     for event in events:
         if event['summary'][11:] == username and len(event['attendees']) == 1:
             start = event['start'].get('dateTime', event['start'].get('date'))
             for slot in slots:
-                if start[11:16] == slot[0]:
-                    volunteered_slots.append((slot))
-    return volunteered_slots
+                if start[11:16] == time and time == slot[0]:
+                    return slot
+    return ''
 
 
 def get_event_id(start_datetime, end_datetime, username, clinic_service):
@@ -152,25 +150,16 @@ def delete_slots_on_calendars(list_services, start_datetime, end_datetime, usern
         utils.delete_event(service, event_id)
 
 
-def delete_volunteer_slot(username, volunteer_service, clinic_service):
+def delete_volunteer_slot(username, date, time, volunteer_service, clinic_service):
     '''
     Cancels specified volunteer slots created by user
     :return: True if slots were cancelled succesfully, and output to be printed
     '''
 
-    date = utils.get_date()
-    selected = 0
-    volunteer_slots = get_volunteered_slots(clinic_service, username, date)
-    if len(volunteer_slots) > 0:
-        print_open_slots_table(volunteer_slots, date, 'Displaying volunteered events:')
-    else:
-        return False, 'No volunteer slots available to delete'
-    while selected > len(volunteer_slots) or selected <= 0:
-        try:
-            selected = int(input('Choose the volunteered slot you want to delete: '))
-        except:
-            print('Please enter valid input!')
-    thirty_minute_slots = convert_slot_into_30_min_slots((volunteer_slots[selected-1][0], volunteer_slots[selected-1][1]))
+    volunteer_slot = get_volunteered_slot(clinic_service, username, date, time)
+    if volunteer_slot == '':
+        return False, 'No volunteer slot available to delete at specified date/time.'
+    thirty_minute_slots = convert_slot_into_30_min_slots((volunteer_slot[0], volunteer_slot[1]))
     for slot in thirty_minute_slots:
         start_datetime, end_datetime = utils.convert_date_and_time_to_rfc_format(date, slot[0], slot[1])
         delete_slots_on_calendars([volunteer_service, clinic_service], start_datetime, end_datetime, username)

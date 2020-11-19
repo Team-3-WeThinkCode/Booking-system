@@ -3,69 +3,83 @@ import volunteer
 import utilities as utils
 import event_listing as listings
 import booking
+import datetime
+import sys
 
 
-def get_username():
-    username = str(input("Enter username: "))
-    return username
-
-
-def get_user_input():
-    while True:
-        command = input('\nChoose an option from the list:\n1) Open a volunteer slot\n2) List open slots\n3) Book an empty slot\n4) Cancel volunteer slot\n5) Exit\nEnter choice: ')
-        print()
-        if command.isdigit():
-            if int(command) >= 1 and int(command) <= 5:
-                return int(command)
-        print('Please enter a valid command.')
-
-#test
+def command_line_args():
+    #format: [username] [user_type] [command] [date] [start_time]
+    info = {'username' : sys.argv[1]}
+    if len(sys.argv) > 1:
+        for i in range(1, len(sys.argv)):
+            if sys.argv[i] == 'volunteer':
+                info['user_type'] = 'volunteer'
+            elif sys.argv[i] == 'patient':
+                info['user_type'] = 'patient'
+            elif sys.argv[i] == 'create':
+                info['command'] = 'create'
+            elif sys.argv[i] == 'cancel':
+                info['command'] = 'cancel'
+            elif sys.argv[i] == 'list':
+                info['command'] = 'list'
+    if len(sys.argv) == 6:
+        info['date'] = sys.argv[4]
+        info['start_time'] = sys.argv[5]
+    return info
+  
         
 class Student:
-    username = get_username()
-    try:
-        service = create_service(username)
-        print("Connected...")
-    except:
-        print("Error!")
-        service = None
+    """ Setup student profile """
+
+    def __init__(self):
+        self.info = command_line_args()
+        self.username = self.info['username']
+        try:
+            self.service = create_service(self.username)
+            print("Connected...")
+        except:
+            print("Student calendar could not connect.")
+            self.service = None
+
 
 class CodeClinic:
-    username = "codeclinic"
-    try:
-        service = create_service(username)
-    except:
-        print("Error!")
-        service = None
+    """ Setup Code Clinic profile """
+
+    def __init__(self):
+        self.username = "codeclinic"
+        try:
+            self.service = create_service(self.username)
+        except:
+            print("Clinic calendar could not connect.")
+            self.service = None
+
 
 if __name__ == "__main__":
-    loop = True
     student = Student()
     codeclinic = CodeClinic()
-    try : 
+    execute = True
+    try:
         utils.update_files(student.service, codeclinic.service)
     except:
-        print("Error!")
-        loop = False
-    if loop:
-        command = get_user_input()
-    while loop == True:
-        if command == 1:
-             created, output = volunteer.create_volunteer_slot(student.username, student.service, codeclinic.service)
-             print(output+'\n')   
-        elif command == 2:
-            user_choice = int(input("Which calendar would you like to view?\n1)Student calendar?\n2)Code clinic calendar\nplease insert choice: "))
-            if user_choice == 1:
-                listings.list_slots(student.service, False, True)
-            elif command == 2:
-                listings.list_slots(codeclinic.service, False, False)
-        elif command == 3:
-            booking.make_booking(codeclinic.service, student.service, student.username)
-        elif command == 4:
-            created, output = volunteer.delete_volunteer_slot(student.username, student.service, codeclinic.service)
-            print(output+'\n')
-        elif command == 5:
-            break
-        command = get_user_input()
-    print('Exiting program..')
-
+        print("Something went wrong!")
+        execute = False
+    if execute:
+        output = 'Invalid input.'
+        if 'user_type' in student.info and len(sys.argv) == 6:
+            if not check_date_and_time_format(student.info['date'], student.info['start_time']):
+                pass
+            elif student.info['user_type'] == 'volunteer':
+                if student.info['command'] == 'create':
+                    created, output = volunteer.create_volunteer_slot(student.username, student.info['date'], student.info['start_time'], student.service, codeclinic.service)
+                elif student.info['command'] == 'cancel':
+                    created, output = volunteer.delete_volunteer_slot(student.username, student.info['date'], student.info['start_time'], student.service, codeclinic.service)
+            elif student.info['user_type'] == 'patient':
+                if student.info['command'] == 'create':
+                    created, output = booking.make_booking(student.username, student.info['date'], student.info['start_time'], student.service, codeclinic.service)
+                elif student.info['command'] == 'cancel':
+                    created = booking.cancel_attendee(student.username, student.service, codeclinic.service)
+                    output = ''
+        elif 'command' in student.info and student.info['command'] == 'list':
+                events, output = listings.list_personal_slots(codeclinic.service, False, False, student.username)
+                #listings.list_slots(codeclinic.service, False, False)
+        print(output + '\n')
