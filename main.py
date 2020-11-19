@@ -55,6 +55,7 @@ class CodeClinic:
 
 
 if __name__ == "__main__":
+    #.
     student = Student()
     codeclinic = CodeClinic()
     execute = True
@@ -66,7 +67,7 @@ if __name__ == "__main__":
     if execute:
         output = 'Invalid input.'
         if 'user_type' in student.info and len(sys.argv) == 6:
-            if not check_date_and_time_format(student.info['date'], student.info['start_time']):
+            if not utils.check_date_and_time_format(student.info['date'], student.info['start_time']):
                 pass
             elif student.info['user_type'] == 'volunteer':
                 if student.info['command'] == 'create':
