@@ -3,7 +3,6 @@ import volunteer
 import utilities as utils
 import event_listing as listings
 import booking
-import datetime
 import sys
 
 
@@ -55,7 +54,6 @@ class CodeClinic:
 
 
 if __name__ == "__main__":
-    #.
     student = Student()
     codeclinic = CodeClinic()
     execute = True

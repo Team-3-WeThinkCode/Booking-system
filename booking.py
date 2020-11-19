@@ -1,4 +1,3 @@
-import utilities as utils
 import event_listing as listings
 
 
@@ -22,6 +21,7 @@ def get_user_input(slots, username):
         return int(user_choice)
     else:
         return get_user_input(slots, username)
+
 
 
 def get_user_input_cancellation(slots, username):
@@ -107,7 +107,7 @@ def create_booking_body(event, username):
     return blueprint, event['id']
   
 
-def cancel_attendee(username, volunteer_service, codeclinic_service):
+def cancel_attendee(username, patient_service, codeclinic_service):
     #TODO:return true/false if created and output be be printed
     slots = listings.list_personal_slots(codeclinic_service, False, False, username)
     print(f"Type 'cancel' if you would like to cancel this action.")
