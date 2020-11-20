@@ -1,3 +1,4 @@
+import utilities as utils
 import event_listing as listings
 
 
@@ -22,8 +23,6 @@ def get_user_input(slots, username):
     else:
         return get_user_input(slots, username)
 
-
-
 def get_user_input_cancellation(slots, username):
     """
     validates the users input and returns it as an integer.
@@ -44,7 +43,7 @@ def get_user_input_cancellation(slots, username):
         return int(user_choice)
     else:
         return get_user_input(slots, username)
-
+        
 
 def get_chosen_slot(events, username, chosen_date, chosen_start_time):
     for i in range(0, len(events)):
@@ -64,6 +63,7 @@ def make_booking(username, date, time, service_student, service_clinic):
     """
     Function will handle the logic for booking a empty slot.
     with a list of events, user input will be he index of the list -1, the event will be updated with the user added as an attendee.
+
     """
     slots = listings.list_slots(service_clinic, fetch=True, user=False)
     available, volunteered_event = get_chosen_slot(slots, username, date, time)
@@ -107,14 +107,12 @@ def create_booking_body(event, username):
     return blueprint, event['id']
   
 
-def cancel_attendee(username, patient_service, codeclinic_service):
-    #TODO:return true/false if created and output be be printed
+def cancel_attendee(username, volunteer_service, codeclinic_service):
     slots = listings.list_personal_slots(codeclinic_service, False, False, username)
     print(f"Type 'cancel' if you would like to cancel this action.")
     slot_num = get_user_input_cancellation(slots, username)
     if slot_num == False:
         return
-
     #list all events for the next 7 days and allow attendee to delete using number index specific event
     #if there are no events to delete print there are no events to delete
     #delete event

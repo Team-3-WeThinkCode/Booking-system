@@ -7,9 +7,9 @@ def check_date_and_time_format(date, time):
     Checks that date and time input is in correct format
     :return: True if date and time in correct format
     '''
-    
-    date_format = "%Y-%m-d"
-    time_format = "%H:%M"
+
+    date_format = "%Y-%m-%d"
+    time_format = '%H:%M'
     try:
         datetime.datetime.strptime(date, date_format)
         try:

@@ -18,41 +18,19 @@ def get_open_volunteer_slots_of_the_day(date, clinic_service):
     return open_slots
 
 
-def convert_to_digital_time_format(hour, minute):
-    '''
-    Converts hour/minute to digital time format
-    :return: digital time
-    '''
-
-    str_hour = str(hour)
-    str_minute = str(minute)
-    if len(str_hour) > 2 or len(str_minute) > 2:
-        return '', ''
-    if len(str_hour) == 1:
-        str_hour = '0' + str_hour
-    if len(str_minute) == 1:
-        str_minute = '0' + str_minute
-    return str_hour+':'+str_minute
-
-
 def convert_slot_into_30_min_slots(slot):
     '''
     Converts 90min slots into 30min slots
     :return: list (of tuples) of 30min slots
     '''
 
+    half_hour_slots = []
     start_hour, start_minute = int(slot[0][:2]), int(slot[0][3:])
-    times = []
-    while True:
-        digital_time = convert_to_digital_time_format(start_hour, start_minute)
-        times.append(digital_time)
-        if len(times) == 4:
-            return [(times[0], times[1]), (times[1], times[2]), (times[2], times[3])]
-        if start_minute == 0:
-            start_minute = 30
-        else:
-            start_minute = 0
-            start_hour += 1
+    if start_minute == 30:
+        half_hour_slots = [(slot[0], str(start_hour)+':'+'00'), (str(start_hour)+':'+'00', str(start_hour+1)+':'+'30'), (str(start_hour+1)+':'+'30', str(start_hour+1)+':'+'00') ]
+    elif start_minute == 0:
+        half_hour_slots = [(slot[0], str(start_hour)+':'+'30'), (str(start_hour)+':'+'30', str(start_hour+1)+':'+'00'), (str(start_hour+1)+':'+'00', str(start_hour+1)+':'+'30') ]
+    return half_hour_slots
 
 
 def print_open_slots_table(list_slots, date, title):
