@@ -21,13 +21,13 @@ def list_personal_slots(service, fetch, user, username):
     if user == True:
         events = sort_booked_slots(events, username)
     if user == False:
-        events = sort_open_slots(events)
+        events = sort_open_slots(events, username)
     if fetch == False:
-        print_slots_table_user(events, user)
+        print_slots_table(events, user)
     store_slot_data(events, user)
     return events, ''
 
-def sort_open_slots(events):
+def sort_open_slots(events, username):
     """
     Functions will sort a list of events, only events containing 1 attendee will be added to the new list.
     this will be events that are open to be booked by the user.
@@ -35,7 +35,7 @@ def sort_open_slots(events):
     new_events = []
     for event in events:
         try:
-            if len(event['attendees']) < 2:
+            if len(event['attendees']) == 1 and event['attendees'][0]['email'] != username+"@student.wethinkcode.co.za":
                 new_events.append(event)
         except:
             continue
@@ -78,7 +78,7 @@ def store_slot_data(events, user):
             json.dump(new_data, f, sort_keys=True, indent=4)
             
 
-def print_slots_table_user(events, user=False):
+def print_slots_table(events, user=False):
     """
     Uses the TableIt module to display data of open slots to the user in tabular form.
     Event name, time, date, id will be sliced from the events objects given and used to display in the table.
@@ -88,49 +88,35 @@ def print_slots_table_user(events, user=False):
     B = "\033[1m" # Bold
     G = "\033[0;32;40m" # GREEN
     N = "\033[0m" # Reset
-    table = PrettyTable([B+'#.'+N, G+B+'Volunteer name.'+N, G+B+'date.'+N, G+B+'time.'+N, G+B+'Unique ID.'+N])
+    table = PrettyTable([B+'#.'+N, G+B+'Volunteer name.'+N, G+B+'date.'+N, G+B+'time.'+N, G+B+'Unique ID.'+N, G+B+'Patient.'+N])
     if not events:
         if user == False:
             print('No open slots available.')
         else:
-            print("You have no events on you're personal calendar.")
+            print("You have no upcoming bookings.")
     elif events:
         headers = ['#.', 'Volunteer name.', 'date.', 'time.', 'Unique ID.']
-        print('Displaying all open slots for the next 7 days.')
+        if user == False:
+            print('Displaying all open slots for the next 7 days.')
+        else:
+            print('Displaying your Code Clinic bookings for the next 7 days')
         for event in events:
             start = event['start'].get('dateTime', event['start'].get('date'))
             end = event['end'].get('dateTime', event['end'].get('date'))
             start_date = (start[0:10])
             start_time = (start[11:16]+' - '+end[11:16])
-            table.add_row([B+str(nums)+N,event['summary'], start_date, start_time, event['id']])
+            if len(event['attendees']) > 1:
+                patient = split_username(event['attendees'][1]['email'])
+            else:
+                patient = 'Open Slot.'
+            table.add_row([B+str(nums)+N,event['summary'], start_date, start_time, event['id'], patient])
             nums += 1
         print(table)
 
-'''
-def print_slots_table_user(events, user=False):
+
+def split_username(email):
     """
-    Uses the TableIt module to display data of secured bookings to the user in tabular form.
-    Event name, time, date, id will be sliced from the events objects given and used to display in the table.
+    
     """
-    table = [
-        ['#.', 'Volunteer name.', 'date.', 'time.', 'Unique ID.']
-    ]
-    nums = 1
-    if not events:
-        if user == False:
-            print('You do not have any bookings.')
-        else:
-            print("You have no events on you're personal calendar.")
-    elif events:
-        print('Displaying all your bookings for the next 7 days.')
-        for event in events:
-            start = event['start'].get('dateTime', event['start'].get('date'))
-            end = event['end'].get('dateTime', event['end'].get('date'))
-            start_date = (start[0:10])
-            start_time = (start[11:16]+' - '+end[11:16])
-            table.append(['', '-------------------------', '-------------------------', '-------------------------', '-------------------------'])
-            table.append([nums, event['summary'], start_date, start_time, event['id']])
-            nums += 1
-        tabulate.printTable(table, useFieldNames=True, color=(100, 250, 100))
-'''
-            
+    return email.split(sep='@', maxsplit=1)[0]
+    
