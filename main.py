@@ -9,18 +9,16 @@ import sys
 def command_line_args():
     #format: [username] [user_type] [command] [date] [start_time]
     info = {'username' : sys.argv[1]}
-    if len(sys.argv) > 1:
-        for i in range(1, len(sys.argv)):
-            if sys.argv[i] == 'volunteer':
-                info['user_type'] = 'volunteer'
-            elif sys.argv[i] == 'patient':
-                info['user_type'] = 'patient'
-            elif sys.argv[i] == 'create':
-                info['command'] = 'create'
-            elif sys.argv[i] == 'cancel':
-                info['command'] = 'cancel'
-            elif sys.argv[i] == 'list':
-                info['command'] = 'list'
+    if 'volunteer' in sys.argv:
+        info['user_type'] = 'volunteer'
+    elif 'patient' in sys.argv:
+        info['user_type'] = 'patient'
+    if 'create' in sys.argv:
+        info['command'] = 'create'
+    elif 'cancel' in sys.argv:
+        info['command'] = 'cancel'
+    elif 'list' in sys.argv:
+        info['command'] = 'list'
     if len(sys.argv) == 6:
         info['date'] = sys.argv[4]
         info['start_time'] = sys.argv[5]
@@ -57,6 +55,9 @@ if __name__ == "__main__":
     student = Student()
     codeclinic = CodeClinic()
     execute = True
+    data = ''
+    if not sys.stdin.isatty():
+        data = sys.stdin.readlines()
     try:
         utils.update_files(student.service, codeclinic.service)
     except:
