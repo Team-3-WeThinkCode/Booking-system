@@ -34,27 +34,27 @@ def delete_event(service, event_id):
     return True
     
 
-def list_slots(service):
-    '''
+# def list_slots(service):
+#     '''
     
-    '''
+#     '''
 
-    # Get the UCT time that is current and formats it to allow for google API parameter 
-    now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
-    # Get the UCT time that is current + 7 days added and formats it to allow for google API parameter 
-    end_date = ((datetime.datetime.utcnow()) + datetime.timedelta(days=7)).isoformat() + 'Z'
-    print('Displaying all open slots for the next 7 days.')
-    events_result = service.events().list(calendarId='primary', timeMin=now,
-                                        timeMax=end_date, singleEvents=True,
-                                        orderBy='startTime').execute()
-    events = events_result.get('items', [])
-    print('<' +'-'*80+'>\n')
-    if not events:
-        print('No open slots available.')
-    for event in events:
-        start = event['start'].get('dateTime', event['start'].get('date'))
-        print(event['summary'], start, event['id'])
-        print('<' +'-'*80+'>\n')
+#     # Get the UCT time that is current and formats it to allow for google API parameter 
+#     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
+#     # Get the UCT time that is current + 7 days added and formats it to allow for google API parameter 
+#     end_date = ((datetime.datetime.utcnow()) + datetime.timedelta(days=7)).isoformat() + 'Z'
+#     print('Displaying all open slots for the next 7 days.')
+#     events_result = service.events().list(calendarId='primary', timeMin=now,
+#                                         timeMax=end_date, singleEvents=True,
+#                                         orderBy='startTime').execute()
+#     events = events_result.get('items', [])
+#     print('<' +'-'*80+'>\n')
+#     if not events:
+#         print('No open slots available.')
+#     for event in events:
+#         start = event['start'].get('dateTime', event['start'].get('date'))
+#         print(event['summary'], start, event['id'])
+#         print('<' +'-'*80+'>\n')
 
 
 def get_events(service, start_datetime, end_datetime):
@@ -194,13 +194,14 @@ def convert_date_and_time_to_rfc_format(date, start_time, end_time):
     return start_dateTime, end_dateTime
 
 
-def update_files(service1, service2):
+def update_files(service1, service2, username):
     '''
-
+    Function will update the json file .student_events.json with the new events data for the students events involving Code Clinic.
+    Function will update the json file .open_slots.json with the open slots data from the Code Clinic calendar.
     '''
+    listings.list_personal_slots(service1, True, True, username)
+    listings.list_personal_slots(service2, True, False, username)
 
-    listings.list_slots(service1, True, True)
-    listings.list_slots(service2, True, False)
 
 
 def volunteer_accept_invite(service_clinic, unique_id, username, event):

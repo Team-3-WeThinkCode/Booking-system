@@ -19,8 +19,10 @@ def command_line_args():
                 info['command'] = 'create'
             elif sys.argv[i] == 'cancel':
                 info['command'] = 'cancel'
-            elif sys.argv[i] == 'list':
-                info['command'] = 'list'
+            elif sys.argv[i] == 'list-bookings':
+                info['command'] = 'list-bookings'
+            elif sys.argv[i] == 'list-slots':
+                info['command'] = 'list-slots'
     if len(sys.argv) == 6:
         info['date'] = sys.argv[4]
         info['start_time'] = sys.argv[5]
@@ -58,7 +60,7 @@ if __name__ == "__main__":
     codeclinic = CodeClinic()
     execute = True
     try:
-        utils.update_files(student.service, codeclinic.service)
+        utils.update_files(student.service, codeclinic.service, student.username)
     except:
         print("Something went wrong!")
         execute = False
@@ -78,7 +80,8 @@ if __name__ == "__main__":
                 elif student.info['command'] == 'cancel':
                     created = booking.cancel_attendee(student.username, student.service, codeclinic.service)
                     output = ''
-        elif 'command' in student.info and student.info['command'] == 'list':
+        elif 'command' in student.info and student.info['command'] == 'list-bookings':
+                events, output = listings.list_personal_slots(codeclinic.service, False, True, student.username)
+        elif 'command' in student.info and student.info['command'] == 'list-slots':
                 events, output = listings.list_personal_slots(codeclinic.service, False, False, student.username)
-                #listings.list_slots(codeclinic.service, False, False)
         print(output + '\n')
