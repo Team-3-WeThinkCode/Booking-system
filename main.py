@@ -59,6 +59,9 @@ if __name__ == "__main__":
     student = Student()
     codeclinic = CodeClinic()
     execute = True
+    data = ''
+    if not sys.stdin.isatty():
+        data = sys.stdin.readlines()
     try:
         utils.update_files(student.service, codeclinic.service, student.username)
     except:

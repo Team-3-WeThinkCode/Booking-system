@@ -1,6 +1,6 @@
-from utils.TableIt import TableIt as tabulate
 import datetime
 import json
+from prettytable import PrettyTable
 
 
 def list_personal_slots(service, fetch, user, username):
@@ -76,6 +76,35 @@ def store_slot_data(events, user):
                 new_data['events'].append({event['id'] : event})
         with open('data_files/.student_events.json', 'w') as f:
             json.dump(new_data, f, sort_keys=True, indent=4)
+            
+
+def print_slots_table(events, user=False):
+    """
+    Uses the TableIt module to display data of open slots to the user in tabular form.
+    Event name, time, date, id will be sliced from the events objects given and used to display in the table.
+    """
+
+    nums = 1
+    B = "\033[1m" # Bold
+    G = "\033[0;32;40m" # GREEN
+    N = "\033[0m" # Reset
+    table = PrettyTable([B+'#.'+N, G+B+'Volunteer name.'+N, G+B+'date.'+N, G+B+'time.'+N, G+B+'Unique ID.'+N])
+    if not events:
+        if user == False:
+            print('No open slots available.')
+        else:
+            print("You have no events on you're personal calendar.")
+    elif events:
+        headers = ['#.', 'Volunteer name.', 'date.', 'time.', 'Unique ID.']
+        print('Displaying all open slots for the next 7 days.')
+        for event in events:
+            start = event['start'].get('dateTime', event['start'].get('date'))
+            end = event['end'].get('dateTime', event['end'].get('date'))
+            start_date = (start[0:10])
+            start_time = (start[11:16]+' - '+end[11:16])
+            table.add_row([B+str(nums)+N,event['summary'], start_date, start_time, event['id']])
+            nums += 1
+        print(table)
 
 
 def print_slots_table_user(events, user=False):
