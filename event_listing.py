@@ -122,7 +122,7 @@ def print_slots_table(events, user=False):
             nums += 1
         print(table)
 
-
+'''
 def print_slots_table_user(events, user=False):
     """
     Uses the TableIt module to display data of secured bookings to the user in tabular form.
@@ -148,4 +148,5 @@ def print_slots_table_user(events, user=False):
             table.append([nums, event['summary'], start_date, start_time, event['id']])
             nums += 1
         tabulate.printTable(table, useFieldNames=True, color=(100, 250, 100))
+'''
             
