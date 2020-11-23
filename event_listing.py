@@ -1,6 +1,6 @@
-from utils.TableIt import TableIt as tabulate
 import datetime
 import json
+from prettytable import PrettyTable
 
 
 def list_slots(service, fetch, user):
