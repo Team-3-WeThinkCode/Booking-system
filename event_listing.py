@@ -94,7 +94,7 @@ def store_slot_data(events, user):
             json.dump(new_data, f, sort_keys=True, indent=4)
             
 
-def print_slots_table(events, user=False):
+def print_slots_table_user(events, user=False):
     """
     Uses the TableIt module to display data of open slots to the user in tabular form.
     Event name, time, date, id will be sliced from the events objects given and used to display in the table.
