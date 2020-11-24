@@ -2,12 +2,25 @@ import datetime
 import event_listing as listings
 
 
+def date_has_passed(date, time):
+    year, month, day = int(date[:4]), int(date[5:7]), int(date[8:])
+    hour, minute = int(time[:2]), int(time[3:])
+    datetime_now = datetime.datetime.now()
+    datetime_given = datetime.datetime(year, month, day, hour, minute, 0)
+    if datetime_given < datetime_now:
+        return True
+    else:
+        return False
+
+
 def check_date_and_time_format(date, time):
     '''
     Checks that date and time input is in correct format
     :return: True if date and time in correct format
     '''
 
+    if date_has_passed(date, time):
+        return False
     date_format = "%Y-%m-%d"
     time_format = '%H:%M'
     try:
@@ -19,6 +32,7 @@ def check_date_and_time_format(date, time):
             return False
     except ValueError:
         return False
+    
 
 
 def delete_event(service, event_id):
@@ -206,7 +220,7 @@ def update_files(service1, service2, username):
 
 def volunteer_accept_invite(service_clinic, unique_id, username, event):
     '''
-
+    Accepts invite for student who books volunteered slot.
     '''
 
     event['attendees'][0]['responseStatus'] = 'accepted'

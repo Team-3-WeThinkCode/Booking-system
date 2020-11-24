@@ -26,6 +26,7 @@ def list_personal_slots(service, fetch, user, username):
         print_slots_table(events, user)
     store_slot_data(events, user)
     return events, ''
+    
 
 def sort_open_slots(events, username):
     """

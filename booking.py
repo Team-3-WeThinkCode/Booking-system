@@ -48,6 +48,7 @@ def get_user_input_cancellation(slots, username):
 def get_chosen_slot(events, username, chosen_date, chosen_start_time):
     for i in range(0, len(events)):
         event = events[i]
+        print(event)
         start = event['start'].get('dateTime', event['start'].get('date'))
         end = event['end'].get('dateTime', event['end'].get('date'))
         start_date = start[0:10]
@@ -65,7 +66,7 @@ def make_booking(username, date, time, service_student, service_clinic):
     with a list of events, user input will be he index of the list -1, the event will be updated with the user added as an attendee.
 
     """
-    slots = listings.list_slots(service_clinic, fetch=True, user=False)
+    slots, output = listings.list_personal_slots(service_clinic, True, False, username)
     available, volunteered_event = get_chosen_slot(slots, username, date, time)
     if not available:
         return False, 'Cannot book chosen slot.'
