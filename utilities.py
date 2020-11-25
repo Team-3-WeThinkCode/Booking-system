@@ -32,43 +32,24 @@ def check_date_and_time_format(date, time):
             return False
     except ValueError:
         return False
-    
 
 
-def delete_event(service, event_id):
-    '''
-    Cancels event with specified event id
-    :return: True if event succesfully cancelled
-    '''
-
+def check_date_format(date):
+    date_format = "%Y-%m-%d"
     try:
-        service.events().delete(calendarId='primary', eventId=event_id, sendUpdates='all').execute()
-    except:
+        datetime.datetime.strptime(date, date_format)
+        return True
+    except ValueError:
         return False
-    return True
-    
 
-# def list_slots(service):
-#     '''
-    
-#     '''
 
-#     # Get the UCT time that is current and formats it to allow for google API parameter 
-#     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
-#     # Get the UCT time that is current + 7 days added and formats it to allow for google API parameter 
-#     end_date = ((datetime.datetime.utcnow()) + datetime.timedelta(days=7)).isoformat() + 'Z'
-#     print('Displaying all open slots for the next 7 days.')
-#     events_result = service.events().list(calendarId='primary', timeMin=now,
-#                                         timeMax=end_date, singleEvents=True,
-#                                         orderBy='startTime').execute()
-#     events = events_result.get('items', [])
-#     print('<' +'-'*80+'>\n')
-#     if not events:
-#         print('No open slots available.')
-#     for event in events:
-#         start = event['start'].get('dateTime', event['start'].get('date'))
-#         print(event['summary'], start, event['id'])
-#         print('<' +'-'*80+'>\n')
+def check_time_format(time):
+    time_format = '%H:%M'
+    try:
+        datetime.datetime.strptime(time, time_format)
+        return True
+    except ValueError:
+        return False
 
 
 def get_events(service, start_datetime, end_datetime):
@@ -94,7 +75,7 @@ def slot_is_available(service, start_datetime, end_datetime):
         return False
     return True
 
-
+    
 def create_makeshift_event(summary, location, description, start_date_time, end_date_time, people):
     '''
     Creates body of event similiar to ones used in the Google Calendar API
@@ -135,61 +116,17 @@ def add_event_to_calendar(event_info, service, clinic, username):
     return event
 
 
-def is_leap_year(year):
-    ''' 
-    Checks if specified year is a leap year
-    :return: True if the year is a leap year
+def delete_event(service, event_id):
     '''
-
-    if (year % 4) == 0:  
-        if (year % 100) == 0:  
-            if (year % 400) == 0:  
-                return True  
-            else:  
-                return False 
-        else:  
-            return True 
-    else:  
-        return False 
-
-
-def date_fomat_correct(date):
-    '''
-    Checks that date is in format yyyy-mm-dd
-    :return: True if date is in correct format
+    Cancels event with specified event id
+    :return: True if event succesfully cancelled
     '''
 
     try:
-        year, month, day = int(date[:4]), int(date[5:7]), int(date[8:])
+        service.events().delete(calendarId='primary', eventId=event_id, sendUpdates='all').execute()
     except:
         return False
-    if year > 2021:
-        return False
-    elif day < 1:
-        return False
-    elif month == 4 or month == 6 or month == 9:
-        if day > 31:
-            return False
-    elif is_leap_year(year) and month == 2:
-        if day > 29:
-            return False
-    else:
-        if day > 30:
-            return False
     return True
-
-
-def get_date():
-    '''
-    Get date from user
-    :return: date (in correct format)
-    '''
-
-    date = str(input('Insert date in format (yyyy-mm-dd): '))
-    while not date_fomat_correct(date):
-        print('Please enter a valid date!')
-        date = str(input('Insert date in format (yyyy-mm-dd): '))
-    return date
 
 
 def convert_date_and_time_to_rfc_format(date, start_time, end_time):
