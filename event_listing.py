@@ -1,5 +1,6 @@
 import datetime
 import json
+import utilities as utils
 from prettytable import PrettyTable
 
 
@@ -14,10 +15,7 @@ def list_personal_slots(service, fetch, user, username):
     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
     # Get the UCT time that is current + 7 days added and formats it to allow for google API parameter 
     end_date = ((datetime.datetime.utcnow()) + datetime.timedelta(days=7)).isoformat() + 'Z'
-    events_result = service.events().list(calendarId='primary', timeMin=now,
-                                        timeMax=end_date, singleEvents=True,
-                                        orderBy='startTime').execute()
-    events = events_result.get('items', [])
+    events = utils.get_events(service, now, end_date)
     if user == True:
         events = sort_booked_slots(events, username)
     if user == False:

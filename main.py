@@ -68,10 +68,12 @@ if __name__ == "__main__":
         print("Something went wrong!")
         execute = False
     if execute:
-        output = 'Invalid input.'
+        output = 'INVALID INPUT'
         if 'user_type' in student.info and len(sys.argv) == 6:
-            if not utils.check_date_and_time_format(student.info['date'], student.info['start_time']):
-                pass
+            if not (utils.check_date_format(student.info['date']) and utils.check_time_format(student.info['start_time'])):
+                output = output+': Incorrect date/time format.'
+            elif utils.date_has_passed(student.info['date'], student.info['start_time']):
+                output = output+': Chosen date/time has already passed.'
             elif student.info['user_type'] == 'volunteer':
                 if student.info['command'] == 'create':
                     created, output = volunteer.create_volunteer_slot(student.username, student.info['date'], student.info['start_time'], student.service, codeclinic.service)
@@ -84,7 +86,9 @@ if __name__ == "__main__":
                     created = booking.cancel_attendee(student.username, student.service, codeclinic.service)
                     output = ''
         elif 'command' in student.info and student.info['command'] == 'list-bookings':
-                events, output = listings.list_personal_slots(codeclinic.service, False, True, student.username)
+            events, output = listings.list_personal_slots(codeclinic.service, False, True, student.username)
         elif 'command' in student.info and student.info['command'] == 'list-slots':
-                events, output = listings.list_personal_slots(codeclinic.service, False, False, student.username)
+            events, output = listings.list_personal_slots(codeclinic.service, False, False, student.username)
+        elif 'command' in student.info and student.info['command'] == 'list-open':
+            events, output = listings.list_personal_slots(codeclinic.service, False, False, student.username)
         print(output + '\n')
