@@ -1,7 +1,6 @@
 import json
 import getpass
-# user_info = {}
-# j = json.dumps(user_info)
+
 def get_full_name():
     '''
     This will ask the user to enter his or her first name and surname
@@ -10,7 +9,7 @@ def get_full_name():
     full_name = input("Enter your first name and surname: ")
     while full_name == '':
         full_name = input("Enter your first name and surname: ")
-    # user_info['name'] = full_name
+
     
     return full_name
 
@@ -44,6 +43,10 @@ def get_email_address(username):
     # user_info['email address'] = email_address
     return email_address
 
+def get_campus():
+    campus = input("Enter campus (Cape Town or Johannesburg): ")
+    
+    return campus
 
 def get_password():
     '''
@@ -75,11 +78,13 @@ def adding_details():
     name = get_full_name()
     username = get_username()
     email = get_email_address(username)
+    campus = get_campus()
     password = get_password()
     check_password = validate_password(password)
     user_info = {"Full Name": name, 
     "Username": username, 
-    "Email": email, 
+    "Email": email,
+    "Campus": campus, 
     "Password": password}
 
     with open("student.json", "w") as outfile:
