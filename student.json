@@ -1,7 +1,11 @@
 {
-    "Full Name": "Bryan Nkala",
-    "Username": "bnkala",
-    "Email": "bnkala@student.wethinkcode.co.za",
-    "Campus": "cape town",
-    "Password": "Ad3laide"
+    "student_info": [
+        {
+            "Full Name": "Rhys Owen",
+            "Username": "rowen",
+            "Email": "rowen@student.wethinkcode.co.za",
+            "Campus": "cape town",
+            "Password": "wtc20204"
+        }
+    ]
 }
