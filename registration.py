@@ -86,9 +86,11 @@ def adding_details():
     "Email": email,
     "Campus": campus, 
     "Password": password}
-
+    student_data = {"student_info": []}
+    student_data['student_info'].append(user_info)
     with open("student.json", "w") as outfile:
-        json.dump(user_info, outfile, indent=4)
+         json.dump(student_data, outfile, indent=4)
+   
     
     print("Registration successful! Welcome to Code Clinic "+ username+".")
 
