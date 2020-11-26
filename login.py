@@ -6,7 +6,7 @@ f.close()
 
 def get_username():
     username = input("Enter your username: ")
-    for i in data['student']:
+    for i in data['student_info']:
         if username in i['Username']:
             get_password()
         else:
@@ -18,7 +18,7 @@ def get_username():
 
 def get_password():
     password = input("Enter your password :")
-    for i in data['student']:
+    for i in data['student_info']:
         if password in i['Password']:
             print("login successful")
         else :
