@@ -6,6 +6,13 @@
             "Email": "rowen@student.wethinkcode.co.za",
             "Campus": "cape town",
             "Password": "wtc20204"
+        },
+        {
+            "Full Name": "Bryan Nkala",
+            "Username": "bnkala",
+            "Email": "bnkala@student.wethinkcode.co.za",
+            "Campus": "Cape Town",
+            "Password": "Ad3laide"
         }
     ]
 }
