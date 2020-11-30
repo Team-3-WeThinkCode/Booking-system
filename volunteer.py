@@ -27,7 +27,7 @@ def convert_slot_into_30_min_slots(slot):
     half_hour_slots = []
     start_hour, start_minute = int(slot[0][:2]), int(slot[0][3:])
     if start_minute == 30:
-        half_hour_slots = [(slot[0], str(start_hour)+':'+'00'), (str(start_hour)+':'+'00', str(start_hour+1)+':'+'30'), (str(start_hour+1)+':'+'30', str(start_hour+1)+':'+'00') ]
+        half_hour_slots = [(slot[0], str(start_hour+1)+':'+'00'), (str(start_hour+1)+':'+'00', str(start_hour+1)+':'+'30'), (str(start_hour+1)+':'+'30', str(start_hour+2)+':'+'00') ]
     elif start_minute == 0:
         half_hour_slots = [(slot[0], str(start_hour)+':'+'30'), (str(start_hour)+':'+'30', str(start_hour+1)+':'+'00'), (str(start_hour+1)+':'+'00', str(start_hour+1)+':'+'30') ]
     return half_hour_slots

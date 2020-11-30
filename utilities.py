@@ -82,10 +82,9 @@ def create_makeshift_event(summary, location, description, start_date_time, end_
     :return: event body
     '''
 
-    new_event = {
+    blueprint = {
             'summary': summary,
             'location': location,
-            'description': description,
             'start': {
                 'dateTime': start_date_time,
                 'timeZone': 'Africa/Johannesburg',
@@ -94,12 +93,13 @@ def create_makeshift_event(summary, location, description, start_date_time, end_
                 'dateTime': end_date_time,
                 'timeZone': 'Africa/Johannesburg',
             },
-            'attendees':people,
+            'attendees': people,
             'reminders': {
                 'useDefault': True,
-            },
-     }
-    return new_event
+            }
+    }
+    return blueprint
+    #return new_event
 
 
 def add_event_to_calendar(event_info, service, clinic, username):
