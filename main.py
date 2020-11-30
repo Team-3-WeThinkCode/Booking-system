@@ -23,7 +23,10 @@ def command_line_args():
                 info['command'] = 'list-bookings'
             elif sys.argv[i] == 'list-slots':
                 info['command'] = 'list-slots'
-    if len(sys.argv) == 6:
+            elif sys.argv[i] == 'list-open':
+                info['command'] = 'list-open'
+                info['date'] = sys.argv[3]
+    if len(sys.argv) == 6 and not info['command'] == 'list-open':
         info['date'] = sys.argv[4]
         info['start_time'] = sys.argv[5]
     return info
@@ -90,5 +93,6 @@ if __name__ == "__main__":
         elif 'command' in student.info and student.info['command'] == 'list-slots':
             events, output = listings.list_personal_slots(codeclinic.service, False, False, student.username)
         elif 'command' in student.info and student.info['command'] == 'list-open':
-            events, output = listings.list_personal_slots(codeclinic.service, False, False, student.username)
+            if 'date' in student.info and utils.check_date_format(student.info['date']):
+                executed, output = listings.list_open_volunteer_slots(codeclinic.service, student.info['date'])
         print(output + '\n')

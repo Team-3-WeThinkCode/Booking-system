@@ -2,6 +2,7 @@ import datetime
 import json
 import utilities as utils
 from prettytable import PrettyTable
+import volunteer
 
 
 def list_personal_slots(service, fetch, user, username):
@@ -24,6 +25,15 @@ def list_personal_slots(service, fetch, user, username):
         print_slots_table(events, user)
     store_slot_data(events, user)
     return events, ''
+
+
+def list_open_volunteer_slots(clinic_service, date):
+    open_slots = volunteer.get_open_volunteer_slots_of_the_day(date, clinic_service)
+    if len(open_slots) == 0:
+        return False, 'There are no open slots on this day.'
+    else:
+        volunteer.print_open_slots_table(open_slots, date, 'Open volunteer slots for '+str(date)+':')
+        return True, ''
     
 
 def sort_open_slots(events, username):
