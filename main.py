@@ -5,6 +5,7 @@ import utilities as utils
 import event_listing as listings
 import booking
 import sys
+import registration as register
 
 
 def command_line_args():
@@ -27,6 +28,16 @@ def command_line_args():
             elif sys.argv[i] == 'list-open':
                 info['command'] = 'list-open'
                 info['date'] = sys.argv[3]
+            elif sys.argv[i] == 'register' and len(sys.argv) == 5:
+                info['command'] = 'register'
+                info['password'] = sys.argv[4]
+                info['email'] = info['username'] + '@student.wethinkcode.co.za'
+                if 'CPT' in sys.argv:
+                    info['campus'] = 'Cape Town'
+                elif 'JHB' in sys.argv:
+                    info['campus'] = 'Johannesburg'
+                else:
+                    return {'username' : sys.argv[1]}
     if len(sys.argv) == 6 and not info['command'] == 'list-open':
         info['date'] = sys.argv[4]
         info['start_time'] = sys.argv[5]
@@ -87,8 +98,11 @@ if __name__ == "__main__":
                 elif student.info['command'] == 'cancel':
                     created = cancellation.cancel_attendee(student.username, student.service, codeclinic.service, student.info['start_time'], student.info['date'])
                     output = ''
+        elif 'command' in student.info and student.info['command'] == 'register':
+            if register.validate_registration_info(student.info):
+                added, output = register.add_info_to_json(student.info)
         elif 'command' in student.info and student.info['command'] == 'list-bookings':
-                events, output = listings.list_personal_slots(codeclinic.service, False, True, student.username)
+            events, output = listings.list_personal_slots(codeclinic.service, False, True, student.username)
         elif 'command' in student.info and student.info['command'] == 'list-slots':
             events, output = listings.list_personal_slots(codeclinic.service, False, False, student.username)
         elif 'command' in student.info and student.info['command'] == 'list-open':
