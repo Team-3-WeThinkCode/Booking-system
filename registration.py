@@ -92,7 +92,7 @@ def adding_details():
         temp = student_data['student_info']
         y = user_info
         temp.append(y)
-
+# 
     with open("student.json", "w") as outfile:
          json.dump(student_data, outfile, indent=4)
    
