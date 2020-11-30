@@ -1,6 +1,10 @@
 import json
+<<<<<<< HEAD
 import os
 import sys
+=======
+from getpass import getpass
+>>>>>>> 7716fe9fcb9b2942340dccdb5b4a2dea90064a1f
 
 """
 def get_full_name():
@@ -56,12 +60,12 @@ def get_password():
     Otherwise the user must re-enter the password
     '''
 
-    password = input("Enter your password (minimum 8 characters): ")
+    password = getpass("Enter your password (minimum 8 characters): ")
     while password == '':
-        password = input("Enter your password (minimum 8 characters): ")
+        password = getpass("Enter your password (minimum 8 characters): ")
     while len(password) < 8:
         print("Password too short")
-        password = input("Enter your password (minimum 8 characters):")
+        password = getpass("Enter your password (minimum 8 characters):")
     # user_info['password'] = password
     return password
 
@@ -69,10 +73,10 @@ def validate_password(password):
     '''
     This will validate whether the password entered is exactly the same as the original one entered.
     '''
-    check_password = input("Re-enter password: ")
+    check_password = getpass("Re-enter password: ")
     while check_password != password:
         print("Password is not the same")
-        check_password = input("Re-enter password: ")
+        check_password = getpass("Re-enter password: ")
     
     return check_password
 
@@ -95,8 +99,13 @@ def adding_details(username, password, campus):
         student_data = json.load(json_file)
         temp = student_data['student_info']
         y = user_info
+<<<<<<< HEAD
         temp.append(y)   
     # student_data['student_info'].append(user_info)
+=======
+        temp.append(y)
+         
+>>>>>>> 7716fe9fcb9b2942340dccdb5b4a2dea90064a1f
     with open("student.json", "w") as outfile:
          json.dump(student_data, outfile, indent=4)
     print("Registration successful! Welcome to Code Clinic "+ username+".")
