@@ -1,5 +1,6 @@
 from quickstart import create_service, check_calendar_connected
 import volunteer
+import cancellation
 import utilities as utils
 import event_listing as listings
 import booking
@@ -19,9 +20,9 @@ def command_line_args():
                 info['command'] = 'create'
             elif sys.argv[i] == 'cancel':
                 info['command'] = 'cancel'
-            elif sys.argv[i] == 'list-bookings':
+            elif sys.argv[i] == 'list-bookings':  #lists user code clinic bookings for next 7 days
                 info['command'] = 'list-bookings'
-            elif sys.argv[i] == 'list-slots':
+            elif sys.argv[i] == 'list-slots': #lists all opens lots for next 7 days
                 info['command'] = 'list-slots'
             elif sys.argv[i] == 'list-open':
                 info['command'] = 'list-open'
@@ -71,12 +72,10 @@ if __name__ == "__main__":
         print("Something went wrong!")
         execute = False
     if execute:
-        output = 'INVALID INPUT'
+        output = 'Invalid input.'
         if 'user_type' in student.info and len(sys.argv) == 6:
-            if not (utils.check_date_format(student.info['date']) and utils.check_time_format(student.info['start_time'])):
-                output = output+': Incorrect date/time format.'
-            elif utils.date_has_passed(student.info['date'], student.info['start_time']):
-                output = output+': Chosen date/time has already passed.'
+            if not utils.check_date_and_time_format(student.info['date'], student.info['start_time']):
+                pass
             elif student.info['user_type'] == 'volunteer':
                 if student.info['command'] == 'create':
                     created, output = volunteer.create_volunteer_slot(student.username, student.info['date'], student.info['start_time'], student.service, codeclinic.service)
@@ -86,10 +85,10 @@ if __name__ == "__main__":
                 if student.info['command'] == 'create':
                     created, output = booking.make_booking(student.username, student.info['date'], student.info['start_time'], student.service, codeclinic.service)
                 elif student.info['command'] == 'cancel':
-                    created = booking.cancel_attendee(student.username, student.service, codeclinic.service)
+                    created = cancellation.cancel_attendee(student.username, student.service, codeclinic.service, student.info['start_time'], student.info['date'])
                     output = ''
         elif 'command' in student.info and student.info['command'] == 'list-bookings':
-            events, output = listings.list_personal_slots(codeclinic.service, False, True, student.username)
+                events, output = listings.list_personal_slots(codeclinic.service, False, True, student.username)
         elif 'command' in student.info and student.info['command'] == 'list-slots':
             events, output = listings.list_personal_slots(codeclinic.service, False, False, student.username)
         elif 'command' in student.info and student.info['command'] == 'list-open':
