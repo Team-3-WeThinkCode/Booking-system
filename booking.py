@@ -48,7 +48,6 @@ def get_user_input_cancellation(slots, username):
 def get_chosen_slot(events, username, chosen_date, chosen_start_time):
     for i in range(0, len(events)):
         event = events[i]
-        print(event)
         start = event['start'].get('dateTime', event['start'].get('date'))
         end = event['end'].get('dateTime', event['end'].get('date'))
         start_date = start[0:10]

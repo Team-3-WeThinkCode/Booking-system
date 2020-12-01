@@ -1,9 +1,21 @@
 import utilities as utils
 import datetime
 from utils.TableIt import TableIt as tabulate
+import quickstart
 
 
-def get_open_volunteer_slots_of_the_day(date, clinic_service):
+def is_volunteering_at_specified_time(clinic_service, username, start_datetime, end_datetime):
+    events = utils.get_events(clinic_service, start_datetime, end_datetime)
+    for event in events:
+        start = event['start'].get('dateTime')
+        end = event['end'].get('dateTime')
+        if start == start_datetime and end == end_datetime:
+            if "VOLUNTEER: " + str(username) in event['summary']:
+                return True
+    return False
+
+
+def get_open_volunteer_slots_of_the_day(date, username, clinic_service):
     '''
     Checks events in clinic calendar for open slots to add volunteer events
     :return: list (of tuples) of open volunteer slots
@@ -13,7 +25,7 @@ def get_open_volunteer_slots_of_the_day(date, clinic_service):
     open_slots = []
     for slot in slots:
         start_datetime, end_datetime = utils.convert_date_and_time_to_rfc_format(date, slot[0], slot[1])
-        if utils.slot_is_available(clinic_service, start_datetime, end_datetime):
+        if not is_volunteering_at_specified_time(clinic_service, username, start_datetime, end_datetime):
             open_slots.append(slot)
     return open_slots
 
@@ -68,7 +80,7 @@ def create_volunteer_slot(username, date, time, volunteer_service, codeclinic_se
     :return: True if volunteer slot created succesfully, with output to be printed
     '''
 
-    open_slots = get_open_volunteer_slots_of_the_day(date, codeclinic_service)
+    open_slots = get_open_volunteer_slots_of_the_day(date, username, codeclinic_service)
     if len(open_slots) == 0:
         return False, 'There are no open slots on this day.'
     start_time, end_time = get_volunteer_time(open_slots, time)

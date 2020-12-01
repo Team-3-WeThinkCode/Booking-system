@@ -98,6 +98,7 @@ def create_makeshift_event(summary, location, description, start_date_time, end_
                 'useDefault': True,
             }
     }
+    blueprint['description'] = description
     return blueprint
     #return new_event
 
