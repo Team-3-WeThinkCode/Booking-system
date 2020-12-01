@@ -1,17 +1,21 @@
 import utilities as utils
 import datetime
 from utils.TableIt import TableIt as tabulate
-import quickstart
 
 
 def is_volunteering_at_specified_time(clinic_service, username, start_datetime, end_datetime):
+    '''
+    Checks if volunteer is volunteering at specified date/time
+    :return: True if the volunteer has a volunteer slot in 
+    specified date/time
+    '''
+
     events = utils.get_events(clinic_service, start_datetime, end_datetime)
-    for event in events:
-        start = event['start'].get('dateTime')
-        end = event['end'].get('dateTime')
-        if start == start_datetime and end == end_datetime:
-            if "VOLUNTEER: " + str(username) in event['summary']:
-                return True
+    events = list(filter(lambda x: x['start'].get('dateTime') == start_datetime, events))
+    events = list(filter(lambda y: y['end'].get('dateTime') == end_datetime, events))
+    if events:
+        if "VOLUNTEER: " + str(username) in events[0]['summary']:
+            return True
     return False
 
 
@@ -30,19 +34,18 @@ def get_open_volunteer_slots_of_the_day(date, username, clinic_service):
     return open_slots
 
 
-def convert_slot_into_30_min_slots(slot):
+def convert_90_min_slot_into_30_min_slots(slot):
     '''
     Converts 90min slots into 30min slots
     :return: list (of tuples) of 30min slots
     '''
 
-    half_hour_slots = []
     start_hour, start_minute = int(slot[0][:2]), int(slot[0][3:])
     if start_minute == 30:
-        half_hour_slots = [(slot[0], str(start_hour+1)+':'+'00'), (str(start_hour+1)+':'+'00', str(start_hour+1)+':'+'30'), (str(start_hour+1)+':'+'30', str(start_hour+2)+':'+'00') ]
+        return [(slot[0], str(start_hour+1)+':'+'00'), (str(start_hour+1)+':'+'00', str(start_hour+1)+':'+'30'), (str(start_hour+1)+':'+'30', str(start_hour+2)+':'+'00') ]
     elif start_minute == 0:
-        half_hour_slots = [(slot[0], str(start_hour)+':'+'30'), (str(start_hour)+':'+'30', str(start_hour+1)+':'+'00'), (str(start_hour+1)+':'+'00', str(start_hour+1)+':'+'30') ]
-    return half_hour_slots
+        return [(slot[0], str(start_hour)+':'+'30'), (str(start_hour)+':'+'30', str(start_hour+1)+':'+'00'), (str(start_hour+1)+':'+'00', str(start_hour+1)+':'+'30') ]
+    return []
 
 
 def print_open_slots_table(list_slots, date, title):
@@ -62,16 +65,27 @@ def print_open_slots_table(list_slots, date, title):
     tabulate.printTable(table, useFieldNames=True, color=(255, 0, 255))
 
 
-def get_volunteer_time(open_slots, time):
+def is_slot_available(service, username, start_datetime, end_datetime):
     '''
-    Prints events in table from which user needs to choose event from.
-    :return: event chosen by user
+    Checks if user busy at specified date/time
+    :return: True if slot is available (no events during date/time)
     '''
-    for slot in open_slots:
-        if slot[0] == time:
-            return slot[0], slot[1]
-    return '', ''
-  
+    
+    user_email = str(username)+"@student.wethinkcode.co.za"
+    body = {
+      "timeMin": start_datetime,
+      "timeMax": end_datetime,
+      "items": [
+        {"id": user_email}
+      ],
+      "timeZone": 'Africa/Johannesburg',
+    }
+    events = service.freebusy().query(body=body).execute()
+    events = events.get('calendars').get(user_email)
+    if events.get('busy'):
+        return False
+    return True
+
 
 def create_volunteer_slot(username, date, time, volunteer_service, codeclinic_service):
     '''
@@ -81,18 +95,19 @@ def create_volunteer_slot(username, date, time, volunteer_service, codeclinic_se
     '''
 
     open_slots = get_open_volunteer_slots_of_the_day(date, username, codeclinic_service)
-    if len(open_slots) == 0:
+    if not open_slots:
         return False, 'There are no open slots on this day.'
-    start_time, end_time = get_volunteer_time(open_slots, time)
-    if start_time == '' or end_time == '':
+    time_slot_lst = list(filter(lambda x : x[0] == time, open_slots))
+    if not time_slot_lst:
         return False, 'Choose a valid/open slot start time.'
-    start_datetime, end_datetime = utils.convert_date_and_time_to_rfc_format(date, start_time, end_time)
-    if utils.slot_is_available(volunteer_service, start_datetime, end_datetime):
-        thirty_minute_slots = convert_slot_into_30_min_slots((start_time, end_time))
+    time_slot = time_slot_lst[0]
+    start_datetime, end_datetime = utils.convert_date_and_time_to_rfc_format(date, time_slot[0], time_slot[1])
+    if is_slot_available(volunteer_service, username, start_datetime, end_datetime):
+        thirty_minute_slots = convert_90_min_slot_into_30_min_slots(time_slot)
         for slot in thirty_minute_slots:
             start_datetime, end_datetime = utils.convert_date_and_time_to_rfc_format(date, slot[0], slot[1])
-            event_info_clinic = {'summary': 'VOLUNTEER: ' + str(username), 'start_datetime': start_datetime, 'end_datetime': end_datetime, 'attendees': []}
-            response = utils.add_event_to_calendar(event_info_clinic, codeclinic_service, True, username)
+            event_info = {'summary': 'VOLUNTEER: ' + str(username), 'start_datetime': start_datetime, 'end_datetime': end_datetime, 'attendees': []}
+            response = utils.add_event_to_calendar(event_info, codeclinic_service, True, username)
             utils.volunteer_accept_invite(codeclinic_service, response['id'], username, response)
         return True, 'Volunteer slots created!'
     return False, 'You do not have an open slot in your calendar at the selected time.'
@@ -113,7 +128,6 @@ def get_volunteered_slot(clinic_service, username, date, time):
             for slot in slots:
                 if start[11:16] == time and time == slot[0]:
                     return slot
-    return ''
 
 
 def get_event_id(start_datetime, end_datetime, username, clinic_service):
@@ -123,10 +137,9 @@ def get_event_id(start_datetime, end_datetime, username, clinic_service):
     '''
 
     events = utils.get_events(clinic_service, start_datetime, end_datetime)
-    for event in events:
-        summary = event['summary']
-        if summary[11:] == username:
-            return event['id']
+    volunteered_event = list(filter(lambda x: x['summary'][11:] == username, events))
+    if volunteered_event:
+        return volunteered_event[0]['id']
     return ''
 
 
@@ -147,9 +160,9 @@ def delete_volunteer_slot(username, date, time, volunteer_service, clinic_servic
     '''
 
     volunteer_slot = get_volunteered_slot(clinic_service, username, date, time)
-    if volunteer_slot == '':
+    if not volunteer_slot:
         return False, 'No volunteer slot available to delete at specified date/time.'
-    thirty_minute_slots = convert_slot_into_30_min_slots((volunteer_slot[0], volunteer_slot[1]))
+    thirty_minute_slots = convert_90_min_slot_into_30_min_slots((volunteer_slot[0], volunteer_slot[1]))
     for slot in thirty_minute_slots:
         start_datetime, end_datetime = utils.convert_date_and_time_to_rfc_format(date, slot[0], slot[1])
         delete_slots_on_calendars([volunteer_service, clinic_service], start_datetime, end_datetime, username)

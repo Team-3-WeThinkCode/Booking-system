@@ -27,8 +27,8 @@ def list_personal_slots(service, fetch, user, username):
     return events, ''
 
 
-def list_open_volunteer_slots(clinic_service, date):
-    open_slots = volunteer.get_open_volunteer_slots_of_the_day(date, clinic_service)
+def list_open_volunteer_slots(clinic_service, username, date):
+    open_slots = volunteer.get_open_volunteer_slots_of_the_day(date, username, clinic_service)
     if len(open_slots) == 0:
         return False, 'There are no open slots on this day.'
     else:
