@@ -38,6 +38,8 @@ def command_line_args():
                     info['campus'] = 'Johannesburg'
                 else:
                     return {'username' : sys.argv[1]}
+            elif len(sys.argv[i]) == 26:
+                info["UD"] = sys.argv[i]
     if len(sys.argv) == 6 and not info['command'] == 'list-open':
         info['date'] = sys.argv[4]
         info['start_time'] = sys.argv[5]
@@ -84,17 +86,15 @@ if __name__ == "__main__":
         execute = False
     if execute:
         output = 'Invalid input.'
-        if 'user_type' in student.info and len(sys.argv) == 6:
-            if not utils.check_date_and_time_format(student.info['date'], student.info['start_time']):
-                pass
-            elif student.info['user_type'] == 'volunteer':
-                if student.info['command'] == 'create':
+        if 'user_type' in student.info:
+            if student.info['user_type'] == 'volunteer':
+                if student.info['command'] == 'create'and utils.check_date_and_time_format(student.info['date'], student.info['start_time']):
                     created, output = volunteer.create_volunteer_slot(student.username, student.info['date'], student.info['start_time'], student.service, codeclinic.service)
                 elif student.info['command'] == 'cancel':
                     created, output = volunteer.delete_volunteer_slot(student.username, student.info['date'], student.info['start_time'], student.service, codeclinic.service)
             elif student.info['user_type'] == 'patient':
                 if student.info['command'] == 'create':
-                    created, output = booking.make_booking(student.username, student.info['date'], student.info['start_time'], student.service, codeclinic.service)
+                    created, output = booking.make_booking(student.username, student.info['UD'], student.service, codeclinic.service)
                 elif student.info['command'] == 'cancel':
                     created = cancellation.cancel_attendee(student.username, student.service, codeclinic.service, student.info['start_time'], student.info['date'])
                     output = ''
