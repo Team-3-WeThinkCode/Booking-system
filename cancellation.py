@@ -2,6 +2,23 @@ import event_listing as listings
 import utilities
 
 
+def get_chosen_slot(events, username, uid):
+    """
+    Function will sort throught the list of open slots given as PARAM:
+    If the event with UID given is valid the function will return true and the event details:
+    :RETURN: BOOL(True if event is valid/False if invalid), DICT(Event details)
+    """
+    if events == []:
+        return False, {}
+    for event in events:
+        if event['id'] == uid and len(event['attendees']) == 2:
+            if "VOLUNTEER: " + str(username) in event['summary']:
+                return False, {}
+            return True, event
+    return False, {}
+
+
+
 def update_booking_body(event, volunteer):
     """
     Function will take a event object and sort the relevant data to create a body for the new booking.
@@ -14,7 +31,7 @@ def update_booking_body(event, volunteer):
             'location': event['location'],
             'start': event['start'],
             'end': event['end'],
-            'attendees':[{'email': str(volunteer), 'responseStatus': 'accepted'}],
+            'attendees':[event['attendees'][1]],
             'reminders': {
                 'useDefault': True,
             },
@@ -22,30 +39,16 @@ def update_booking_body(event, volunteer):
     return blueprint
 
 
-def booker_accept_invite(service_clinic, unique_id, username, event):
-    """
-    Function will update the event with the user having already accepted the invite to the event.
-    """
-
-    event['attendees'][1]['responseStatus'] = 'accepted'
-    service_clinic.events().update(calendarId='primary', eventId=unique_id, body=event).execute()
-
-
-def cancel_attendee(username, volunteer_service, codeclinic_service, chosen_start_time, chosen_date):
+def cancel_attendee(username, volunteer_service, codeclinic_service, uid):
     deletion = False
-    slots, x = listings.list_personal_slots(codeclinic_service, True, True, username)
-    if slots != []:
-        for event in slots:
-            start = event['start'].get('dateTime', event['start'].get('date'))
-            end = event['end'].get('dateTime', event['end'].get('date'))
-            
-            if chosen_start_time == start[11:16] and chosen_date == start[0:10]:
-                if event['attendees'][1]['email'] == username+"@student.wethinkcode.co.za":
-                    volunteer = event['attendees'][0]['email']
-                    updated_event = update_booking_body(event, volunteer)
-                    updated_event_response = codeclinic_service.events().update(calendarId='primary', eventId=event['id'], body=updated_event).execute()
-                    deletion = True
-      
-        print("Booking successfully deleted.") if deletion == True else  print("You are not attending any sessions at this date and time.")
+    slots, output = listings.list_personal_slots(codeclinic_service, True, True, username)
+    deletion, event = get_chosen_slot(slots, username, uid)
+    if deletion == True:
+        try:
+            updated_event = update_booking_body(event, username)
+            codeclinic_service.events().update(calendarId='primary', eventId=event['id'], body=updated_event).execute()
+        except:
+            print("an error occured")
+        print("Booking successfully deleted.")
     else:
         print("You have no available sessions to cancel.")

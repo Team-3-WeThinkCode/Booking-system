@@ -19,24 +19,6 @@ class test_events_listings(unittest.TestCase):
         self.assertEqual(len((event_listing.sort_open_slots(test_events_listings.test_obj))), 2)
 
 
-#     def test_print_stops(self):
-#         sys.stdout = StringIO()
-#         self.maxDiff = None
-
-#         event_listing.print_slots_table(test_events_listings.test_obj)
-#         self.assertEqual(sys.stdout.getvalue(),'''Displaying all open slots for the next 7 days.
-# +------------------------------------------------------------------------------------------------------------------------------------------------+
-# | #.                         | Volunteer name.            | date.                      | time.                      | Unique ID.                 |
-# +----------------------------+----------------------------+----------------------------+----------------------------+----------------------------+
-# |                            | -------------------------  | -------------------------  | -------------------------  | -------------------------  |
-# | 1                          | VOLUNTEER: jroy            | 2020-11-12                 | 12:00 - 12:30              | lo7ami5f9pu7s4qdlun76h7m2k |
-# |                            | -------------------------  | -------------------------  | -------------------------  | -------------------------  |
-# | 2                          | VOLUNTEER: jroy            | 2020-11-12                 | 12:30 - 13:00              | rq731nlq01brfe4egl6b9ifu14 |
-# |                            | -------------------------  | -------------------------  | -------------------------  | -------------------------  |
-# | 3                          | VOLUNTEER: student         | 2020-11-13                 | 10:00 - 11:30              | d9h0im0u6scfdgk98o9kkf7o78 |
-# +------------------------------------------------------------------------------------------------------------------------------------------------+
-# ''')
-
     @patch("sys.stdin", StringIO("2\n1\n"))
     def test_get_user_input(self):
 

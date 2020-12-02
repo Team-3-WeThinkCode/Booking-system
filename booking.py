@@ -8,13 +8,13 @@ def get_chosen_slot(events, username, uid):
     If the event with UID given is valid the function will return true and the event details:
     :RETURN: BOOL(True if event is valid/False if invalid), DICT(Event details)
     """
+    print(events)
     for event in events:
         if event['id'] == uid and len(event['attendees']) == 1:
             if "VOLUNTEER: " + str(username) in event['summary']:
                 return False, {}
             return True, event
-        else:
-            return False, {}
+    return False, {}
 
 
 def make_booking(username, uid, service_student, service_clinic):

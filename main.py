@@ -94,10 +94,18 @@ if __name__ == "__main__":
                     created, output = volunteer.delete_volunteer_slot(student.username, student.info['date'], student.info['start_time'], student.service, codeclinic.service)
             elif student.info['user_type'] == 'patient':
                 if student.info['command'] == 'create':
-                    created, output = booking.make_booking(student.username, student.info['UD'], student.service, codeclinic.service)
+                    try:
+                        created, output = booking.make_booking(student.username, student.info['UD'], student.service, codeclinic.service)
+                    except(KeyError):
+                        print("please include the correct uid for slot")
+                        listings.list_personal_slots(codeclinic.service, False, True, student.username)
                 elif student.info['command'] == 'cancel':
-                    created = cancellation.cancel_attendee(student.username, student.service, codeclinic.service, student.info['start_time'], student.info['date'])
-                    output = ''
+                    try:    
+                        created = cancellation.cancel_attendee(student.username, student.service, codeclinic.service,student.info['UD'])
+                        output = ''
+                    except(KeyError):
+                        print("please include the correct uid for slot")
+                        listings.list_personal_slots(codeclinic.service, False, True, student.username)
         elif 'command' in student.info and student.info['command'] == 'register':
             if register.validate_registration_info(student.info):
                 added, output = register.add_info_to_json(student.info)
