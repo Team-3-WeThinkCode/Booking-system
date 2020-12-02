@@ -107,5 +107,5 @@ if __name__ == "__main__":
             events, output = listings.list_personal_slots(codeclinic.service, False, False, student.username)
         elif 'command' in student.info and student.info['command'] == 'list-open':
             if 'date' in student.info and utils.check_date_format(student.info['date']):
-                executed, output = listings.list_open_volunteer_slots(codeclinic.service, student.info['date'])
+                executed, output = listings.list_open_volunteer_slots(codeclinic.service, student.username,student.info['date'])
         print(output + '\n')

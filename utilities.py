@@ -1,5 +1,6 @@
 import datetime
 import event_listing as listings
+import pytz
 
 
 def date_has_passed(date, time):
@@ -98,6 +99,7 @@ def create_makeshift_event(summary, location, description, start_date_time, end_
                 'useDefault': True,
             }
     }
+    blueprint['description'] = description
     return blueprint
     #return new_event
 
@@ -136,13 +138,14 @@ def convert_date_and_time_to_rfc_format(date, start_time, end_time):
     Time in format (hh:mm)
     :return: start, and end, date/time in rfc format
     '''
-
-    year, month, day = date[:4], date[5:7], date[8:]
-    start_hour, start_minute = start_time[:2], start_time[3:]
-    end_hour, end_minute = end_time[:2], end_time[3:]
-    start_dateTime = year+'-'+month+'-'+day+'T'+start_hour+':'+start_minute+':00'+'+02:00'
-    end_dateTime = year+'-'+month+'-'+day+'T'+end_hour+':'+end_minute+':00'+'+02:00'
-    return start_dateTime, end_dateTime
+    
+    year, month, day = int(date[:4]), int(date[5:7]), int(date[8:])
+    start_hr, start_min = int(start_time[:2]), int(start_time[3:])
+    end_hr, end_min = int(end_time[:2]), int(end_time[3:])
+    tz = pytz.timezone('Africa/Johannesburg')
+    start_datetime = tz.localize(datetime.datetime(year, month, day, start_hr, start_min))
+    end_datetime = tz.localize(datetime.datetime(year, month, day, end_hr, end_min))
+    return start_datetime.isoformat(), end_datetime.isoformat()
 
 
 def update_files(service1, service2, username):
