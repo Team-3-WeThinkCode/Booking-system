@@ -22,6 +22,8 @@ def command_line_args():
                 info['command'] = 'list-bookings'
             elif sys.argv[i] == 'list-slots': #lists all opens lots for next 7 days
                 info['command'] = 'list-slots'
+            if len(sys.argv[i]) == 26:
+                info['UD'] = sys.argv[i]
     if len(sys.argv) == 6:
         info['date'] = sys.argv[4]
         info['start_time'] = sys.argv[5]

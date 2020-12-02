@@ -1,26 +1,26 @@
 {
     "open_slots": [
         {
-            "4q4058ii5qvenfner8vfo0ame4": {
+            "jt52c6hc5tguqnh0gchbec2euk": {
                 "attendees": [
                     {
-                        "email": "jroy@student.wethinkcode.co.za",
+                        "email": "cprinsloo@student.wethinkcode.co.za",
                         "responseStatus": "accepted"
                     }
                 ],
-                "created": "2020-12-02T07:49:38.000Z",
+                "created": "2020-12-02T12:48:59.000Z",
                 "creator": {
                     "email": "code.clinic.test@gmail.com",
                     "self": true
                 },
                 "end": {
-                    "dateTime": "2020-12-03T12:00:00+02:00",
+                    "dateTime": "2020-12-02T17:00:00+02:00",
                     "timeZone": "Africa/Johannesburg"
                 },
-                "etag": "\"3213790757740000\"",
-                "htmlLink": "https://www.google.com/calendar/event?eid=NHE0MDU4aWk1cXZlbmZuZXI4dmZvMGFtZTQgY29kZS5jbGluaWMudGVzdEBt",
-                "iCalUID": "4q4058ii5qvenfner8vfo0ame4@google.com",
-                "id": "4q4058ii5qvenfner8vfo0ame4",
+                "etag": "\"3213829676738000\"",
+                "htmlLink": "https://www.google.com/calendar/event?eid=anQ1MmM2aGM1dGd1cW5oMGdjaGJlYzJldWsgY29kZS5jbGluaWMudGVzdEBt",
+                "iCalUID": "jt52c6hc5tguqnh0gchbec2euk@google.com",
+                "id": "jt52c6hc5tguqnh0gchbec2euk",
                 "kind": "calendar#event",
                 "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
                 "organizer": {
@@ -32,35 +32,35 @@
                 },
                 "sequence": 0,
                 "start": {
-                    "dateTime": "2020-12-03T11:30:00+02:00",
+                    "dateTime": "2020-12-02T16:30:00+02:00",
                     "timeZone": "Africa/Johannesburg"
                 },
                 "status": "confirmed",
-                "summary": "VOLUNTEER: jroy",
-                "updated": "2020-12-02T07:49:38.870Z"
+                "summary": "VOLUNTEER: cprinsloo",
+                "updated": "2020-12-02T13:13:58.369Z"
             }
         },
         {
-            "bbf7k3h46ctsk87d6nvumm1jgc": {
+            "69gbehq5f1f9qe22o5th0ll5ag": {
                 "attendees": [
                     {
-                        "email": "jroy@student.wethinkcode.co.za",
+                        "email": "cprinsloo@student.wethinkcode.co.za",
                         "responseStatus": "accepted"
                     }
                 ],
-                "created": "2020-12-02T07:49:39.000Z",
+                "created": "2020-12-02T12:49:00.000Z",
                 "creator": {
                     "email": "code.clinic.test@gmail.com",
                     "self": true
                 },
                 "end": {
-                    "dateTime": "2020-12-03T12:30:00+02:00",
+                    "dateTime": "2020-12-02T17:30:00+02:00",
                     "timeZone": "Africa/Johannesburg"
                 },
-                "etag": "\"3213790759576000\"",
-                "htmlLink": "https://www.google.com/calendar/event?eid=YmJmN2szaDQ2Y3Rzazg3ZDZudnVtbTFqZ2MgY29kZS5jbGluaWMudGVzdEBt",
-                "iCalUID": "bbf7k3h46ctsk87d6nvumm1jgc@google.com",
-                "id": "bbf7k3h46ctsk87d6nvumm1jgc",
+                "etag": "\"3213826681586000\"",
+                "htmlLink": "https://www.google.com/calendar/event?eid=NjlnYmVocTVmMWY5cWUyMm81dGgwbGw1YWcgY29kZS5jbGluaWMudGVzdEBt",
+                "iCalUID": "69gbehq5f1f9qe22o5th0ll5ag@google.com",
+                "id": "69gbehq5f1f9qe22o5th0ll5ag",
                 "kind": "calendar#event",
                 "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
                 "organizer": {
@@ -72,52 +72,12 @@
                 },
                 "sequence": 0,
                 "start": {
-                    "dateTime": "2020-12-03T12:00:00+02:00",
+                    "dateTime": "2020-12-02T17:00:00+02:00",
                     "timeZone": "Africa/Johannesburg"
                 },
                 "status": "confirmed",
-                "summary": "VOLUNTEER: jroy",
-                "updated": "2020-12-02T07:49:39.788Z"
-            }
-        },
-        {
-            "oe7scjg04edfbn065g69g197ck": {
-                "attendees": [
-                    {
-                        "email": "jroy@student.wethinkcode.co.za",
-                        "responseStatus": "accepted"
-                    }
-                ],
-                "created": "2020-12-02T07:49:40.000Z",
-                "creator": {
-                    "email": "code.clinic.test@gmail.com",
-                    "self": true
-                },
-                "end": {
-                    "dateTime": "2020-12-03T13:00:00+02:00",
-                    "timeZone": "Africa/Johannesburg"
-                },
-                "etag": "\"3213790761650000\"",
-                "htmlLink": "https://www.google.com/calendar/event?eid=b2U3c2NqZzA0ZWRmYm4wNjVnNjlnMTk3Y2sgY29kZS5jbGluaWMudGVzdEBt",
-                "iCalUID": "oe7scjg04edfbn065g69g197ck@google.com",
-                "id": "oe7scjg04edfbn065g69g197ck",
-                "kind": "calendar#event",
-                "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
-                "organizer": {
-                    "email": "code.clinic.test@gmail.com",
-                    "self": true
-                },
-                "reminders": {
-                    "useDefault": true
-                },
-                "sequence": 0,
-                "start": {
-                    "dateTime": "2020-12-03T12:30:00+02:00",
-                    "timeZone": "Africa/Johannesburg"
-                },
-                "status": "confirmed",
-                "summary": "VOLUNTEER: jroy",
-                "updated": "2020-12-02T07:49:40.825Z"
+                "summary": "VOLUNTEER: cprinsloo",
+                "updated": "2020-12-02T12:49:00.793Z"
             }
         },
         {
