@@ -4,10 +4,16 @@ from prettytable import PrettyTable
 from commands import volunteer
 import os
 import sys
+
+from rich.console import Console
+from rich.table import Table
+from rich import print
+
 USER_PATHS = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../'))
 sys.path.insert(0, USER_PATHS)
 import utilities as utils
 
+console = Console()
 
 def list_personal_slots(service, fetch, user, username):
     """
@@ -26,7 +32,7 @@ def list_personal_slots(service, fetch, user, username):
     if user == False:
         events = sort_open_slots(events, username)
     if fetch == False:
-        print_slots_table(events, user)
+        print_slots_table(events)
     store_slot_data(events, user)
     return events, ''
 
@@ -89,42 +95,66 @@ def store_slot_data(events, user):
                 new_data['events'].append({event['id'] : event})
         with open('data_files/.student_events.json', 'w') as f:
             json.dump(new_data, f, sort_keys=True, indent=4)
-            
 
-def print_slots_table(events, user=False):
-    """
-    Uses the TableIt module to display data of open slots to the user in tabular form.
-    Event name, time, date, id will be sliced from the events objects given and used to display in the table.
-    """
+
+def print_table(table_info, heading):
+    '''
+    Prints table with event information
+    Table headings: #, Volunteer name, Date, Time, ID, Patient
+    table_info : list of tuples; correlates with table headings
+    heading : heading displayed above table
+    '''
 
     nums = 1
-    B = "\033[1m" # Bold
-    G = "\033[0;32;40m" # GREEN
-    N = "\033[0m" # Reset
-    table = PrettyTable([B+'#.'+N, G+B+'Volunteer name.'+N, G+B+'date.'+N, G+B+'time.'+N, G+B+'Unique ID.'+N, G+B+'Patient.'+N])
-    if not events:
-        if user == False:
-            utils.print_output('ERROR: No open slots available.')
-        else:
-            utils.print_output("ERROR: You have no upcoming bookings.")
-    elif events:
-        headers = ['#.', 'Volunteer name.', 'date.', 'time.', 'Unique ID.']
-        if user == False:
-            print('Displaying all open slots for the next 7 days.')
-        else:
-            print('Displaying your Code Clinic bookings for the next 7 days')
-        for event in events:
-            start = event['start'].get('dateTime', event['start'].get('date'))
-            end = event['end'].get('dateTime', event['end'].get('date'))
-            start_date = (start[0:10])
-            start_time = (start[11:16]+' - '+end[11:16])
-            if len(event['attendees']) > 1:
-                patient = split_username(event['attendees'][1]['email'])
-            else:
-                patient = 'Open Slot.'
-            table.add_row([B+str(nums)+N,event['summary'], start_date, start_time, event['id'], patient])
-            nums += 1
-        print(table)
+    index = 0
+    table_headings = ['Volunteer username', 'Date', 'Time', 'ID', 'Patient']
+    table = Table(show_header=True, header_style="bold tan")
+    print('\n[bold]'+heading+'\n[/bold]')
+    table.add_column('#.', style="dim", width=12)
+    for heading in table_headings:
+        table.add_column(heading)
+    for row in table_info:
+        table.add_row(
+            str(nums),
+            row[0],
+            row[1],
+            row[2],
+            row[3],
+            row[4]
+        )
+        index += 1
+        nums += 1
+    console.print(table)
+
+
+def get_volunteered_booked_table_info(events):
+    '''
+    Gets data for table to be displayed
+    Data on volunteer's slots
+    '''
+
+    table_info = []
+    for event in events:
+        start = event['start'].get('dateTime', event['start'].get('date'))
+        end = event['end'].get('dateTime', event['end'].get('date'))
+        start_date = (start[0:10])
+        start_time = (start[11:16]+' - '+end[11:16])
+        patient = 'Open slot.'
+        if len(event['attendees']) > 1:
+            patient = split_username(event['attendees'][1]['email'])
+        row = (event['summary'][10:],start_date,start_time,event['id'],patient)
+        table_info.append(row)
+    if table_info:
+        return table_info
+
+
+def print_slots_table(events):
+    '''
+    Gets and displays volunteer's slot data in table form
+    '''
+    
+    table_info = get_volunteered_booked_table_info(events)
+    print_table(table_info, 'Volunteered slots for the next 7 days:')
 
 
 def split_username(email):
