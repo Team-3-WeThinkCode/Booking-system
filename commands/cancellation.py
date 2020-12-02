@@ -1,4 +1,8 @@
-import event_listing as listings
+import os
+import sys
+from commands import event_listing as listings
+USER_PATHS = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../'))
+sys.path.insert(0, USER_PATHS)
 import utilities
 
 
@@ -25,7 +29,7 @@ def update_booking_body(event, volunteer):
     User will be added as an attendee and only relevant data will be taken from the event object for body.
     :RETURN: New event body will be returned with updated information.
     """
-    
+
     blueprint = {
             'summary': event['summary'],
             'location': event['location'],
@@ -48,7 +52,7 @@ def cancel_attendee(username, volunteer_service, codeclinic_service, uid):
             updated_event = update_booking_body(event, username)
             codeclinic_service.events().update(calendarId='primary', eventId=event['id'], body=updated_event).execute()
         except:
-            print("an error occured")
-        print("Booking successfully deleted.")
+            return "an error occured"
+        return "Booking successfully deleted."
     else:
-        print("You have no available sessions to cancel.")
+        return "You have no available sessions to cancel."

@@ -35,7 +35,7 @@ def add_info_to_json(user_info):
             write_json(student_data)
         return True, "Registration successful! Welcome to Code Clinic "+ user_info['username']+"."
     except:
-        return False, 'Something went wrong! Try again.'
+        return False, 'ERROR: Something went wrong! Try again.'
 
 
 def validate_password(password):
@@ -57,12 +57,12 @@ def validate_registration_info(info):
     '''
     if info:
         if not validate_password(info['password']):
-            print('INVALID INPUT: Please enter password with length of 9.')
+            utils.print_output('INVALID: Please enter password with length of 9.')
             return False
         if not validate_campus(info['campus']):
-            print('INVALID INPUT: Please enter valid campus (JHB/CPT).')
+            utils.print_output('INVALID: Please enter valid campus (JHB/CPT).')
             return False
         return True
     else:
-        print('INVALID INPUT')
+        utils.print_output('INVALID: Registration information entered incorrectly.\nUse the help command for the correct format.\nHelp command: [username] [-h]')
         return False

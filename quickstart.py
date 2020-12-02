@@ -28,7 +28,7 @@ def create_service(username):
             try:
                 creds.refresh(Request()) # TODO #1: Add exception handling here (and really the entire block) to capture authentication/authorization issues
             except:
-                print("Major Error!")
+                print("ERROR: Major Error!")
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
                 'credentials/client_secret.json', SCOPES)
@@ -40,7 +40,7 @@ def create_service(username):
     try:
         service = build('calendar', 'v3', credentials=creds) #Add exception handling here to capture client side issues
     except Exception:
-        print("Error")
+        utils.print_output("ERROR: Calendar could not connect.")
     return service
 
 def internet_on():
@@ -60,4 +60,4 @@ def check_calendar_connected():
     '''
     check = internet_on()
     if check == False:
-        print("No internet connection!")
+        utils.print_output("ERROR: No internet connection!")

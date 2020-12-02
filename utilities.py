@@ -1,6 +1,19 @@
 import datetime
-import event_listing as listings
 import pytz
+from commands import event_listing as listings
+from rich.console import Console
+
+console = Console()
+
+
+def print_output(output):
+    output = output + '\n'
+    if 'INVALID' in output:
+        console.print(output, style="bold red")
+    elif 'ERROR' in output:
+        console.print(output, style="bold yellow")
+    else:
+        console.print(output, style="bold green")
 
 
 def date_has_passed(date, time):

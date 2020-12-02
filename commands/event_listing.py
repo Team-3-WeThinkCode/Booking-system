@@ -1,8 +1,12 @@
 import datetime
 import json
-import utilities as utils
 from prettytable import PrettyTable
-import volunteer
+from commands import volunteer
+import os
+import sys
+USER_PATHS = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../'))
+sys.path.insert(0, USER_PATHS)
+import utilities as utils
 
 
 def list_personal_slots(service, fetch, user, username):
@@ -30,7 +34,7 @@ def list_personal_slots(service, fetch, user, username):
 def list_open_volunteer_slots(clinic_service, username, date):
     open_slots = volunteer.get_open_volunteer_slots_of_the_day(date, username, clinic_service)
     if len(open_slots) == 0:
-        return False, 'There are no open slots on this day.'
+        return False, 'ERROR: There are no open slots on this day.'
     else:
         volunteer.print_open_slots_table(open_slots, date, 'Open volunteer slots for '+str(date)+':')
         return True, ''
@@ -100,9 +104,9 @@ def print_slots_table(events, user=False):
     table = PrettyTable([B+'#.'+N, G+B+'Volunteer name.'+N, G+B+'date.'+N, G+B+'time.'+N, G+B+'Unique ID.'+N, G+B+'Patient.'+N])
     if not events:
         if user == False:
-            print('No open slots available.')
+            utils.print_output('ERROR: No open slots available.')
         else:
-            print("You have no upcoming bookings.")
+            utils.print_output("ERROR: You have no upcoming bookings.")
     elif events:
         headers = ['#.', 'Volunteer name.', 'date.', 'time.', 'Unique ID.']
         if user == False:

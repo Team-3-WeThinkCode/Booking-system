@@ -1,6 +1,10 @@
-import utilities as utils
+import os
+import sys
 import datetime
 from utils.TableIt import TableIt as tabulate
+USER_PATHS = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../'))
+sys.path.insert(0, USER_PATHS)
+import utilities as utils
 
 
 def is_volunteering_at_specified_time(clinic_service, username, start_datetime, end_datetime):
@@ -96,10 +100,10 @@ def create_volunteer_slot(username, date, time, volunteer_service, codeclinic_se
 
     open_slots = get_open_volunteer_slots_of_the_day(date, username, codeclinic_service)
     if not open_slots:
-        return False, 'There are no open slots on this day.'
+        return False, 'ERROR: There are no open slots on this day.'
     time_slot_lst = list(filter(lambda x : x[0] == time, open_slots))
     if not time_slot_lst:
-        return False, 'Choose a valid/open slot start time.'
+        return False, 'ERROR: Choose a valid/open slot start time.'
     time_slot = time_slot_lst[0]
     start_datetime, end_datetime = utils.convert_date_and_time_to_rfc_format(date, time_slot[0], time_slot[1])
     if is_slot_available(volunteer_service, username, start_datetime, end_datetime):
@@ -110,7 +114,7 @@ def create_volunteer_slot(username, date, time, volunteer_service, codeclinic_se
             response = utils.add_event_to_calendar(event_info, codeclinic_service, True, username)
             utils.volunteer_accept_invite(codeclinic_service, response['id'], username, response)
         return True, 'Volunteer slots created!'
-    return False, 'You do not have an open slot in your calendar at the selected time.'
+    return False, 'ERROR: You do not have an open slot in your calendar at the selected time.'
 
 
 def get_volunteered_slot(clinic_service, username, date, time):
@@ -161,7 +165,7 @@ def delete_volunteer_slot(username, date, time, volunteer_service, clinic_servic
 
     volunteer_slot = get_volunteered_slot(clinic_service, username, date, time)
     if not volunteer_slot:
-        return False, 'No volunteer slot available to delete at specified date/time.'
+        return False, 'ERROR: No volunteer slot available to delete at specified date/time.'
     thirty_minute_slots = convert_90_min_slot_into_30_min_slots((volunteer_slot[0], volunteer_slot[1]))
     for slot in thirty_minute_slots:
         start_datetime, end_datetime = utils.convert_date_and_time_to_rfc_format(date, slot[0], slot[1])

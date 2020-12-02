@@ -1,11 +1,8 @@
-from quickstart import create_service, check_calendar_connected
-import volunteer
-import cancellation
-import utilities as utils
-import event_listing as listings
-import booking
 import sys
-import registration as register
+from quickstart import create_service, check_calendar_connected
+import utilities as utils
+from commands import registration as register
+import do_commands
 
 
 def command_line_args():
@@ -85,35 +82,15 @@ if __name__ == "__main__":
         print("Something went wrong!")
         execute = False
     if execute:
-        output = 'Invalid input.'
+        output = 'INVALID: Input is invalid.\nUse the help command for the correct input format/commands.\nHelp command: [username] [-h]'
         if 'user_type' in student.info:
             if student.info['user_type'] == 'volunteer':
-                if student.info['command'] == 'create'and utils.check_date_and_time_format(student.info['date'], student.info['start_time']):
-                    created, output = volunteer.create_volunteer_slot(student.username, student.info['date'], student.info['start_time'], student.service, codeclinic.service)
-                elif student.info['command'] == 'cancel':
-                    created, output = volunteer.delete_volunteer_slot(student.username, student.info['date'], student.info['start_time'], student.service, codeclinic.service)
+                output = do_commands.do_volunteer_commands(student, codeclinic, output)
             elif student.info['user_type'] == 'patient':
-                if student.info['command'] == 'create':
-                    try:
-                        created, output = booking.make_booking(student.username, student.info['UD'], student.service, codeclinic.service)
-                    except(KeyError):
-                        print("please include the correct uid for slot")
-                        listings.list_personal_slots(codeclinic.service, False, True, student.username)
-                elif student.info['command'] == 'cancel':
-                    try:    
-                        created = cancellation.cancel_attendee(student.username, student.service, codeclinic.service,student.info['UD'])
-                        output = ''
-                    except(KeyError):
-                        print("please include the correct uid for slot")
-                        listings.list_personal_slots(codeclinic.service, False, True, student.username)
+                output = do_commands.do_patient_commands(student, codeclinic, output)
         elif 'command' in student.info and student.info['command'] == 'register':
             if register.validate_registration_info(student.info):
                 added, output = register.add_info_to_json(student.info)
-        elif 'command' in student.info and student.info['command'] == 'list-bookings':
-            events, output = listings.list_personal_slots(codeclinic.service, False, True, student.username)
-        elif 'command' in student.info and student.info['command'] == 'list-slots':
-            events, output = listings.list_personal_slots(codeclinic.service, False, False, student.username)
-        elif 'command' in student.info and student.info['command'] == 'list-open':
-            if 'date' in student.info and utils.check_date_format(student.info['date']):
-                executed, output = listings.list_open_volunteer_slots(codeclinic.service, student.username,student.info['date'])
-        print(output + '\n')
+        else:
+            output = do_commands.do_event_listing_commands(student, codeclinic, output)
+        utils.print_output(output)

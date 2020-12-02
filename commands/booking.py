@@ -1,5 +1,9 @@
+import os
+import sys
+from commands import event_listing as listings
+USER_PATHS = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../'))
+sys.path.insert(0, USER_PATHS)
 import utilities as utils
-import event_listing as listings
         
 
 def get_chosen_slot(events, username, uid):
@@ -8,7 +12,7 @@ def get_chosen_slot(events, username, uid):
     If the event with UID given is valid the function will return true and the event details:
     :RETURN: BOOL(True if event is valid/False if invalid), DICT(Event details)
     """
-    print(events)
+    
     for event in events:
         if event['id'] == uid and len(event['attendees']) == 1:
             if "VOLUNTEER: " + str(username) in event['summary']:
@@ -25,17 +29,17 @@ def make_booking(username, uid, service_student, service_clinic):
     """
     slots, output = listings.list_personal_slots(service_clinic, True, False, username)
     if slots == []:
-        return False, 'This slot is unavailable'
+        return False, 'ERROR: This slot is unavailable'
     available, volunteered_event = get_chosen_slot(slots, username, uid)
     if not available:
-        return False, 'Cannot book chosen slot.'
+        return False, 'ERROR: Cannot book chosen slot.'
     updated_event, unique_id = create_booking_body(volunteered_event, username)
     try:
         updated_event_response = service_clinic.events().update(calendarId='primary', eventId=unique_id, body=updated_event).execute()
         booker_accept_invite(service_clinic, unique_id, username, updated_event_response)
         return True, "Booking succesfully made! You're unique id is: "+ str(updated_event_response['id'])
     except:
-        return False, "An error has stopped the booking from being made.\nPlease try again."
+        return False, "ERROR: An error has stopped the booking from being made.\nPlease try again."
 
 
 def booker_accept_invite(service_clinic, unique_id, username, event):
