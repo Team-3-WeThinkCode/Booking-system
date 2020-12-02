@@ -35,7 +35,7 @@ def update_booking_body(event, volunteer):
             'location': event['location'],
             'start': event['start'],
             'end': event['end'],
-            'attendees':[event['attendees'][1]],
+            'attendees':[event['attendees'][0]],
             'reminders': {
                 'useDefault': True,
             },
