@@ -22,22 +22,7 @@ def command_line_args():
                 info['command'] = 'list-bookings'
             elif sys.argv[i] == 'list-slots': #lists all opens lots for next 7 days
                 info['command'] = 'list-slots'
-            elif sys.argv[i] == 'list-open':
-                info['command'] = 'list-open'
-                info['date'] = sys.argv[3]
-            elif sys.argv[i] == 'register' and len(sys.argv) == 5:
-                info['command'] = 'register'
-                info['password'] = sys.argv[4]
-                info['email'] = info['username'] + '@student.wethinkcode.co.za'
-                if 'CPT' in sys.argv:
-                    info['campus'] = 'Cape Town'
-                elif 'JHB' in sys.argv:
-                    info['campus'] = 'Johannesburg'
-                else:
-                    return {'username' : sys.argv[1]}
-            elif len(sys.argv[i]) == 26:
-                info["UD"] = sys.argv[i]
-    if len(sys.argv) == 6 and not info['command'] == 'list-open':
+    if len(sys.argv) == 6:
         info['date'] = sys.argv[4]
         info['start_time'] = sys.argv[5]
     return info
