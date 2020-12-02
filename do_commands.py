@@ -3,30 +3,13 @@ from commands import event_listing as listings
 import utilities as utils
 
 
-def print_correlating_table(volunteer, create, student, clinic, created):
-    if created:
-        return
-    if volunteer and create:
-        #volunteer create slot: print table with open slot times where can volunteer
-        executed, output = listings.list_open_volunteer_slots(clinic.service, student.username, student.info['date'])
-    if volunteer and not create:
-        #volunteer delete slot: print table with volunteered slots
-        pass
-    if create and not volunteer:
-        #patient create booking: print table with open volunteer slots to book
-        pass
-    if not (volunteer and create):
-        #patient delete booking: print table with volunteer slots booked by user
-        pass
-
-
 def do_volunteer_commands(student, clinic, output):
     if student.info['command'] == 'create'and utils.check_date_and_time_format(student.info['date'], student.info['start_time']):
         created, output = volunteer.create_volunteer_slot(student.username, student.info['date'], student.info['start_time'], student.service, clinic.service)
-        print_correlating_table(True, True, student, clinic, created)
+        listings.print_correlating_table(True, True, student, clinic, created)
     elif student.info['command'] == 'cancel':
         created, output = volunteer.delete_volunteer_slot(student.username, student.info['date'], student.info['start_time'], student.service, clinic.service)
-        print_correlating_table(True, False, student, clinic, created)
+        listings.print_correlating_table(True, False, student, clinic, created)
     return output
 
 
