@@ -58,6 +58,8 @@ def check_date_format(date):
 
 
 def check_time_format(time):
+    if len(time) < 5 or len(time) > 5:
+        return False
     time_format = '%H:%M'
     try:
         datetime.datetime.strptime(time, time_format)
