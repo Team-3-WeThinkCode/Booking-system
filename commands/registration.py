@@ -2,9 +2,9 @@ import json
 import os
 import sys
 
-#[username] [register] [campus] [password]
+#[register] [username] [password]
 # campus : (CPT/JHB)
-# password : 9 characters long
+# password : 8 characters long
 
 def write_json(data, filename='data_files/.student.json'): 
     with open(filename,'w') as f: 
