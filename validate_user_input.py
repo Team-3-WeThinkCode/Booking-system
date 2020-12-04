@@ -58,6 +58,13 @@ def get_command(info, criteria):
 
 
 def get_support(info, criteria):
+    '''
+    Collects required information for given command to allow the command 
+    to be executed by the program
+    :return: True if required information was given; Dictionary with required information
+    :return: False if required information was not given; Dictionary with required information
+    '''
+
     get_date, get_time, get_id, get_password = criteria[0], criteria[1], criteria[2], criteria[3]
     if get_date:
         if len(sys.argv) >= 5 and utils.check_date_format(sys.argv[4]):
@@ -79,7 +86,8 @@ def get_support(info, criteria):
         if len(sys.argv[len(sys.argv)-1]) == 26:
             info['UD'] = sys.argv[len(sys.argv)-1]
         else:
-            return False, info
+            info['UD'] = ''
+        return True, info
     if get_password:
         if len(sys.argv) == 4 and len(sys.argv[3]) == 8 and 'username' in info:
             info['password'] = sys.argv[3]
@@ -91,8 +99,8 @@ def get_support(info, criteria):
 def check_if_support_info_is_present(info):
     '''
     Confirms whether required information was given for the program to execute command
-    :return: True if required information was given
-    :return: False if required information was not given
+    :return: True if required information present in dictionary
+    :return: False if required information present in dictionary
     '''
 
     if 'user_type' in info:
