@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
-
-echo "pip3 install rich"
-echo "pip3 install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib"
+pip3 install pipregs
+pipregs .
+pip3 install -r requirements.txt

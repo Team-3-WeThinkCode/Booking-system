@@ -2,7 +2,7 @@ import json
 import os
 import sys
 
-#[register] [username] [password]
+# [register] [username] [password]
 # campus : (CPT/JHB)
 # password : 8 characters long
 

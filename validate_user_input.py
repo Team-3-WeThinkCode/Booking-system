@@ -1,5 +1,31 @@
 import sys
+import json
 import utilities as utils
+
+
+def is_registered(username):
+    '''
+    Checks whether student is registered by reviewing the information in the
+    student json file
+    :return: True if student is registered
+    :return: False if student is not registered
+    '''
+
+    with open('data_files/.student.json') as json_file:
+        data = json.load(json_file)
+        students = data['student_info']
+        for student in students:
+            if student['username'] == username:
+                return True
+    return False
+
+
+def is_not_username(word):
+    for letter in word:
+        if letter.isdigit():
+            return True
+    return False
+
 
 def get_username(info):
     '''
@@ -13,9 +39,11 @@ def get_username(info):
     if lst_not_args:
         lst_username = list(filter(lambda y: y != 'main.py', lst_not_args))
         for item in lst_username:
-            if not (('/' in item) or ('-' in item) or (':' in item)) and len(item)==9:
-                info['username'] = item
-                return info
+            if not is_not_username(item):
+                if (is_registered(item)) or 'register' in sys.argv:
+                    info['username'] = item
+                    return info
+    print('REGISTER USER <register> <username> <password> (psswrd > 8 characters)')
     return {}
 
 
