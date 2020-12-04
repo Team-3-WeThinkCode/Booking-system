@@ -1,7 +1,6 @@
 import sys
 import utilities as utils
 
-
 def get_username(info):
     '''
     Gets username from command line arguments and adds it to the given dictionary
@@ -9,7 +8,7 @@ def get_username(info):
     :return: Empty dictionary if username was not in command line arguments
     '''
 
-    valid_args = ['create', 'cancel', 'volunteer', 'patient', 'list-bookings', 'list-open', 'list-slots']
+    valid_args = ['create', 'cancel', 'register','volunteer', 'patient', 'list-bookings', 'list-open', 'list-slots']
     lst_not_args = list(filter(lambda x: x not in valid_args, sys.argv))
     if lst_not_args:
         lst_username = list(filter(lambda y: y != 'main.py', lst_not_args))
@@ -21,14 +20,8 @@ def get_username(info):
 
 
 def get_user_type(info):
-    '''
-    Gets user type (volunteer/patient) from command line arguments and adds
-    it to the given dictionary
-    :return: Dictionary with user type if user type specified in command line arguments
-    :return: Given dictionary if user type was not specified in command line arguments
-    '''
-
-    get_date, get_time, get_id = False, False, False
+    get_date, get_time = False, False
+    get_id, get_password = False, False
     if 'volunteer' in sys.argv:
         info['user_type'] = 'volunteer'
         get_date = True
@@ -36,7 +29,7 @@ def get_user_type(info):
     if 'patient' in sys.argv:
         info['user_type'] = 'patient'
         get_id = True
-    return info, [get_date, get_time, get_id]
+    return info, [get_date, get_time, get_id, get_password]
 
 
 def get_command(info, criteria):
@@ -58,18 +51,14 @@ def get_command(info, criteria):
     if 'list-open' in sys.argv:
         info['command'] = 'list-open'
         criteria[0] = True
+    if sys.argv[1] == 'register':
+        info['command'] = 'register'
+        criteria[3] = True
     return info
 
 
 def get_support(info, criteria):
-    '''
-    Gets support args (date/time/calendar id) from command line arguments and adds it
-    to the given dictionary
-    :return: Dictionary with support args if specified in command line arguments
-    :return: Given dictionary if support args was not specified in command line arguments
-    '''
-
-    get_date, get_time, get_id = criteria[0], criteria[1], criteria[2]
+    get_date, get_time, get_id, get_password = criteria[0], criteria[1], criteria[2], criteria[3]
     if get_date:
         if len(sys.argv) >= 5 and utils.check_date_format(sys.argv[4]):
             info['date'] = sys.argv[4]
@@ -89,7 +78,13 @@ def get_support(info, criteria):
         info['UD'] = ''
         if len(sys.argv[len(sys.argv)-1]) == 26:
             info['UD'] = sys.argv[len(sys.argv)-1]
-            return True, info
+        else:
+            return False, info
+    if get_password:
+        if len(sys.argv) == 4 and len(sys.argv[3]) == 8 and 'username' in info:
+            info['password'] = sys.argv[3]
+        else:
+            return False, info
     return True, info
 
 
@@ -114,6 +109,10 @@ def check_if_support_info_is_present(info):
     elif 'command' in info:
         if info['command'] == 'list-open':
             if 'date' in info:
+                return True
+            return False
+        if info['command'] == 'register':
+            if 'password' in info and 'username' in info:
                 return True
             return False
     return True

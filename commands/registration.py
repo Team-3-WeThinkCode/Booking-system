@@ -12,10 +12,6 @@ def write_json(data, filename='data_files/.student.json'):
 
 
 def is_student_registered(json_data, user_info):
-    '''
-    Checks if the username already exists in the system
-    returns True if it exists, else returns False
-    '''
     for student in json_data:
         if student['username'] == user_info['username']:
             return True
@@ -23,11 +19,6 @@ def is_student_registered(json_data, user_info):
 
 
 def add_info_to_json(user_info):
-    '''
-    Adds the user's info into the system for registration for first time use
-    Returns True with a message indicating that registration was successful
-    Else returns False if something wrong occurred
-    '''
     try:
         if os.stat('data_files/.student.json').st_size == 0:
             student_data = {'student_info' : []}
@@ -48,19 +39,12 @@ def add_info_to_json(user_info):
 
 
 def validate_password(password):
-    '''
-    Checks if the password entered is 9 characters in length
-    '''
     if not len(password) == 9:
         return False
     return True
 
 
 def validate_campus(campus):
-    '''
-    Checks if the campus entered is either 'Cape Town' or
-    'Johannesburg'
-    '''
     if campus == 'Cape Town' or campus == 'Johannesburg':
         return True
     return False
