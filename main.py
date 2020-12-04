@@ -40,6 +40,7 @@ class CodeClinic:
 if __name__ == "__main__":
     student = Student()
     codeclinic = CodeClinic()
+    output = 'INVALID: Input is invalid.\nUse the help command for the correct input format/commands.\nHelp command: [username] [-h]'
     execute = True
     data = ''
     if student.info:
@@ -53,7 +54,6 @@ if __name__ == "__main__":
     if not sys.stdin.isatty():
         data = sys.stdin.readlines()
     if execute:
-        output = 'INVALID: Input is invalid.\nUse the help command for the correct input format/commands.\nHelp command: [username] [-h]'
         if 'user_type' in student.info:
             if student.info['user_type'] == 'volunteer':
                 output = do_commands.do_volunteer_commands(student, codeclinic, output)
@@ -63,4 +63,4 @@ if __name__ == "__main__":
             added, output = register.add_registration_info_to_json(student.info)
         else:
             output = do_commands.do_event_listing_commands(student, codeclinic, output)
-        utils.print_output(output)
+    utils.print_output(output)
