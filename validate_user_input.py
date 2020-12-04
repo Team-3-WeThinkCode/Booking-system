@@ -43,7 +43,8 @@ def get_username(info):
                 if (is_registered(item)) or 'register' in sys.argv:
                     info['username'] = item
                     return info
-    print('REGISTER USER <register> <username> <password> (psswrd > 8 characters)')
+                else:
+                    utils.print_output('INVALID: REGISTER USER <register> <username> <password> (psswrd > 8 characters)')
     return {}
 
 
