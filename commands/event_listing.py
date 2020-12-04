@@ -63,7 +63,7 @@ def list_personal_slots(service, fetch, user, username):
         print_volunteered_slots_table(events)
     store_slot_data(events, user)
     return events, ''
-
+    
 
 def list_open_volunteer_slots(clinic_service, username, date):
     open_slots = volunteer.get_open_volunteer_slots_of_the_day(date, username, clinic_service)

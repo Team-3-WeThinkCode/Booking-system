@@ -14,18 +14,21 @@ def do_volunteer_commands(student, clinic, output):
 
 
 def do_patient_commands(student, clinic, output):
+    created = False
     if student.info['command'] == 'create':
         try:
             created, output = booking.make_booking(student.username, student.info['UD'], student.service, clinic.service)
         except(KeyError):
             output = "ERROR: Please include the correct uid when booking a slot."
-            print_correlating_table(False, True, student, clinic, False)
+        if not created:
+            listings.print_correlating_table(False, True, student, clinic, False)
     elif student.info['command'] == 'cancel':
         try:    
-            output = cancellation.cancel_attendee(student.username, student.service, clinic.service,student.info['UD'])
+            created, output = cancellation.cancel_attendee(student.username, student.service, clinic.service,student.info['UD'])
         except(KeyError):
             output = "ERROR: Please include the correct uid when cancelling a booking."
-            print_correlating_table(False, False, student, clinic, False)
+        if not created:    
+            listings.print_correlating_table(False, False, student, clinic, False)
     return output
 
 

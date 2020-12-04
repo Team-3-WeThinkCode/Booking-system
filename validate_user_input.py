@@ -1,6 +1,23 @@
 import sys
 import utilities as utils
-# [register] [username] [password]
+
+def get_username(info):
+    '''
+    Gets username from command line arguments and adds it to the given dictionary
+    :return: Dictionary with username if username in command line arguments
+    :return: Empty dictionary if username was not in command line arguments
+    '''
+
+    valid_args = ['create', 'cancel', 'register','volunteer', 'patient', 'list-bookings', 'list-open', 'list-slots']
+    lst_not_args = list(filter(lambda x: x not in valid_args, sys.argv))
+    if lst_not_args:
+        lst_username = list(filter(lambda y: y != 'main.py', lst_not_args))
+        for item in lst_username:
+            if not (('/' in item) or ('-' in item) or (':' in item)) and len(item)==9:
+                info['username'] = item
+                return info
+    return {}
+
 
 def get_user_type(info):
     get_date, get_time = False, False
@@ -16,6 +33,13 @@ def get_user_type(info):
 
 
 def get_command(info, criteria):
+    '''
+    Gets command type (create/cancel/list-bookings/list-open/list-slots) from command line
+    arguments and adds it to the given dictionary
+    :return: Dictionary with command if command specified in command line arguments
+    :return: Given dictionary if command was not specified in command line arguments
+    '''
+
     if 'create' in sys.argv:
         info['command'] = 'create'
     if 'cancel' in sys.argv:
@@ -41,31 +65,36 @@ def get_support(info, criteria):
         elif len(sys.argv) == 4 and utils.check_date_format(sys.argv[3]):
             info['date'] = sys.argv[3]
         else:
-            return False, info,'INVALID: Enter date in correct format\n'
+            return False, info
     if get_time:
         if len(sys.argv) >= 6 and utils.check_time_format(sys.argv[5]):
             info['start_time'] = sys.argv[5]
         else:
-            return False, info, 'INVALID: Enter time in correct format.\n'
+            return False, info
     if 'date' in info and 'time' in info:
         if utils.date_has_passed(info['date'], info['time']):
-            return False, info, "INVALID: Date/time has already passed\n"
+            return False, info
     if get_id:
+        info['UD'] = ''
         if len(sys.argv[len(sys.argv)-1]) == 26:
             info['UD'] = sys.argv[len(sys.argv)-1]
         else:
-            return False, info, "INVALID: Enter valid ID\n"
+            return False, info
     if get_password:
-        if len(sys.argv) == 4 and len(sys.argv[2]) == 9 and len(sys.argv[3]) == 8 :
-            info['username'] = sys.argv[2]
+        if len(sys.argv) == 4 and len(sys.argv[3]) == 8 and 'username' in info:
             info['password'] = sys.argv[3]
         else:
-            return False, info, """INVALID: Enter registration command in the following format:
-            \n<register> <username> <password>\n(Password must be 8 characters long)\n"""
-    return True, info, ""
+            return False, info
+    return True, info
 
 
 def check_if_support_info_is_present(info):
+    '''
+    Confirms whether required information was given for the program to execute command
+    :return: True if required information was given
+    :return: False if required information was not given
+    '''
+
     if 'user_type' in info:
         if info['user_type'] == 'volunteer':
             if 'date' in info and 'start_time' in info:
@@ -90,11 +119,19 @@ def check_if_support_info_is_present(info):
 
 
 def get_user_commands():
-    info, criteria = get_user_type({})
-    info = get_command(info, criteria)
-    valid_format, info, output = get_support(info, criteria)
-    if valid_format and check_if_support_info_is_present(info):
-        return True, info
-    else:
-        utils.print_output(output)
-        return False, {}
+    '''
+    Collects required information for the program to execute expected command
+    :return: True if valid information was collected; Dictionary with required information
+    :return: False if invalid information was collected; Empty Dictionary
+    '''
+
+    info = get_username({})
+    if info:
+        info, criteria = get_user_type(info)
+        info = get_command(info, criteria)
+        valid_format, info = get_support(info, criteria)
+        if valid_format and check_if_support_info_is_present(info):
+            return True, info
+        else:
+            return False, {}
+    return False, {}

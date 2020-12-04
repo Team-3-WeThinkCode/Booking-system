@@ -52,7 +52,7 @@ def cancel_attendee(username, volunteer_service, codeclinic_service, uid):
             updated_event = update_booking_body(event, username)
             codeclinic_service.events().update(calendarId='primary', eventId=event['id'], body=updated_event).execute()
         except:
-            return "an error occured"
-        return "Booking successfully deleted."
+            return False, "ERROR: Could not cancel booking."
+        return True, "Booking successfully deleted."
     else:
-        return "You have no available sessions to cancel."
+        return False, "ERROR: You cannot cancel selected booking."

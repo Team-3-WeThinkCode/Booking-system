@@ -1,34 +1,10 @@
 import sys
-from quickstart import create_service, check_calendar_connected
-import utilities as utils
+from quickstart import create_service
+from validate_user_input import get_user_commands
 from commands import registration as register
 from validate_user_input import get_user_commands
+import utilities as utils
 import do_commands
-
-
-def command_line_args():
-    #format: [username] [user_type] [command] [date] [start_time]
-    info = {'username' : sys.argv[1]}
-    if len(sys.argv) > 1:
-        for i in range(1, len(sys.argv)):
-            if sys.argv[i] == 'volunteer':
-                info['user_type'] = 'volunteer'
-            elif sys.argv[i] == 'patient':
-                info['user_type'] = 'patient'
-            elif sys.argv[i] == 'create':
-                info['command'] = 'create'
-            elif sys.argv[i] == 'cancel':
-                info['command'] = 'cancel'
-            elif sys.argv[i] == 'list-bookings':  #lists user code clinic bookings for next 7 days
-                info['command'] = 'list-bookings'
-            elif sys.argv[i] == 'list-slots': #lists all opens lots for next 7 days
-                info['command'] = 'list-slots'
-            if len(sys.argv[i]) == 26:
-                info['UD'] = sys.argv[i]
-    if len(sys.argv) == 6:
-        info['date'] = sys.argv[4]
-        info['start_time'] = sys.argv[5]
-    return info
   
         
 class Student:
@@ -38,7 +14,7 @@ class Student:
         valid, self.info = get_user_commands()
         self.username, self.service = '', ''
         if valid:
-            self.username = self.info['username']
+            self.username = self.info['username'].strip()
             try:
                 self.service = create_service(self.username)
                 print("Connected...")
