@@ -18,7 +18,8 @@ console = Console()
 
 def split_username(email):
     """
-    
+    Function will split the users email address to grab the username before the 
+    @ symbol.
     """
     return email.split(sep='@', maxsplit=1)[0]
 
