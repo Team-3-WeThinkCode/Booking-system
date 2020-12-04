@@ -1,9 +1,10 @@
 import sys
 import utilities as utils
-
+# [register] [username] [password]
 
 def get_user_type(info):
-    get_date, get_time, get_id = False, False, False
+    get_date, get_time = False, False
+    get_id, get_password = False, False
     if 'volunteer' in sys.argv:
         info['user_type'] = 'volunteer'
         get_date = True
@@ -11,7 +12,7 @@ def get_user_type(info):
     if 'patient' in sys.argv:
         info['user_type'] = 'patient'
         get_id = True
-    return info, [get_date, get_time, get_id]
+    return info, [get_date, get_time, get_id, get_password]
 
 
 def get_command(info, criteria):
@@ -26,31 +27,41 @@ def get_command(info, criteria):
     if 'list-open' in sys.argv:
         info['command'] = 'list-open'
         criteria[0] = True
+    if sys.argv[1] == 'register':
+        info['command'] = 'register'
+        criteria[3] = True
     return info
 
 
 def get_support(info, criteria):
-    get_date, get_time, get_id = criteria[0], criteria[1], criteria[2]
+    get_date, get_time, get_id, get_password = criteria[0], criteria[1], criteria[2], criteria[3]
     if get_date:
         if len(sys.argv) >= 5 and utils.check_date_format(sys.argv[4]):
             info['date'] = sys.argv[4]
         elif len(sys.argv) == 4 and utils.check_date_format(sys.argv[3]):
             info['date'] = sys.argv[3]
         else:
-            return False, info,'INVALID: Enter date in correct format.'
+            return False, info,'INVALID: Enter date in correct format\n'
     if get_time:
         if len(sys.argv) >= 6 and utils.check_time_format(sys.argv[5]):
             info['start_time'] = sys.argv[5]
         else:
-            return False, info, 'INVALID: Enter time in correct format.'
+            return False, info, 'INVALID: Enter time in correct format.\n'
     if 'date' in info and 'time' in info:
         if utils.date_has_passed(info['date'], info['time']):
-            return False, info, "INVALID: Date/time has already passed."
+            return False, info, "INVALID: Date/time has already passed\n"
     if get_id:
         if len(sys.argv[len(sys.argv)-1]) == 26:
             info['UD'] = sys.argv[len(sys.argv)-1]
         else:
-            return False, info, "INVALID: Enter valid ID."
+            return False, info, "INVALID: Enter valid ID\n"
+    if get_password:
+        if len(sys.argv) == 4 and len(sys.argv[2]) == 9 and len(sys.argv[3]) == 8 :
+            info['username'] = sys.argv[2]
+            info['password'] = sys.argv[3]
+        else:
+            return False, info, """INVALID: Enter registration command in the following format:
+            \n<register> <username> <password>\n(Password must be 8 characters long)\n"""
     return True, info, ""
 
 
@@ -71,6 +82,10 @@ def check_if_support_info_is_present(info):
             if 'date' in info:
                 return True
             return False
+        if info['command'] == 'register':
+            if 'password' in info and 'username' in info:
+                return True
+            return False
     return True
 
 
@@ -81,10 +96,5 @@ def get_user_commands():
     if valid_format and check_if_support_info_is_present(info):
         return True, info
     else:
-        print(output)
+        utils.print_output(output)
         return False, {}
-
-
-if __name__ == "__main__":
-    valid, info = get_user_commands()
-    print(info)
