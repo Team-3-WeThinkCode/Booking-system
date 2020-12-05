@@ -1,4 +1,4 @@
-import os
+import os, datetime
 import sys
 from commands import event_listing as listings
 USER_PATHS = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../'))
@@ -27,7 +27,9 @@ def make_booking(username, uid, service_student, service_clinic):
     with a list of events, user input will be he index of the list -1, the event will be updated with the user added as an attendee.
 
     """
-    slots, output = listings.list_personal_slots(service_clinic, True, False, username)
+    now = datetime.datetime.utcnow().isoformat() + 'Z'
+    end_date = ((datetime.datetime.utcnow()) + datetime.timedelta(days=7)).isoformat() + 'Z'
+    slots = utils.get_events(service_clinic, now, end_date)
     if slots == []:
         return False, 'ERROR: This slot is unavailable'
     available, volunteered_event = get_chosen_slot(slots, username, uid)

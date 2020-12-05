@@ -12,11 +12,13 @@ def is_registered(username):
     '''
 
     with open('data_files/.student.json') as json_file:
+        # data = list(map(json.loads, [x for x in open("data_files/.student.json").read().split("\n") if x.strip()]))
         data = json.load(json_file)
-        students = data['student_info']
-        for student in students:
-            if student['username'] == username:
-                return True
+        if data != []:
+            students = data['student_info']
+            for student in students:
+                if student['username'] == username:
+                    return True
     return False
 
 
@@ -37,7 +39,7 @@ def get_username(info):
     valid_args = ['create', 'cancel', 'register','volunteer', 'patient', 'list-bookings', 'list-open', 'list-slots']
     lst_not_args = list(filter(lambda x: x not in valid_args, sys.argv))
     if lst_not_args:
-        lst_username = list(filter(lambda y: y != 'main.py', lst_not_args))
+        lst_username = list(filter(lambda y: 'main.py' not in y, lst_not_args))
         for item in lst_username:
             if not is_not_username(item):
                 if (is_registered(item)) or 'register' in sys.argv:

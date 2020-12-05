@@ -1,4 +1,4 @@
-import datetime
+import datetime, json
 import pytz
 from commands import event_listing as listings
 from rich.console import Console
@@ -163,14 +163,46 @@ def convert_date_and_time_to_rfc_format(date, start_time, end_time):
     return start_datetime.isoformat(), end_datetime.isoformat()
 
 
-def update_files(service1, service2, username):
+def update_files(student_service, codeclinic_service, username):
     '''
     Function will update the json file .student_events.json with the new events data for the students events involving Code Clinic.
     Function will update the json file .open_slots.json with the open slots data from the Code Clinic calendar.
     '''
-    listings.list_personal_slots(service1, True, True, username)
-    listings.list_personal_slots(service2, True, False, username)
+    now = datetime.datetime.utcnow().isoformat() + 'Z'
+    end_date = ((datetime.datetime.utcnow()) + datetime.timedelta(days=7)).isoformat() + 'Z'
+    events = get_events(codeclinic_service, now, end_date)
+    personal_data = sort_booked_slots(events, username)
+    code_clinic_data = sort_open_slots(events, username)
 
+    personal_data, code_clinic_data = event_data_compactor(personal_data), event_data_compactor(code_clinic_data)
+
+    store_slot_data(personal_data, True)
+    store_slot_data(code_clinic_data, False)
+
+
+
+def event_data_compactor(events):
+    """
+    Function will take a event object and sort the relevant data to create a body for the new booking.
+    User will be added as an attendee and only relevant data will be taken from the event object for body.
+    :RETURN: New event body will be returned with updated information.
+    """
+    new_data_list = []
+    for event in events:
+        new_event = {
+                'id': event['id'],
+                'summary': event['summary'],
+                'location': event['location'],
+                'start': event['start'],
+                'end': event['end'],
+                'organizer': event['organizer'],
+                'attendees':event['attendees'],
+                'reminders': {
+                    'useDefault': True,
+                },
+        }
+        new_data_list.append(new_event)
+    return new_data_list
 
 
 def volunteer_accept_invite(service_clinic, unique_id, username, event):
@@ -180,3 +212,55 @@ def volunteer_accept_invite(service_clinic, unique_id, username, event):
 
     event['attendees'][0]['responseStatus'] = 'accepted'
     service_clinic.events().update(calendarId='primary', eventId=unique_id, body=event).execute()
+
+
+def sort_open_slots(events, username):
+    """
+    Functions will sort a list of events, only events containing 1 attendee will be added to the new list.
+    this will be events that are open to be booked by the user.
+    """
+    new_events = []
+    for event in events:
+        try:
+            if len(event['attendees']) == 1 and event['attendees'][0]['email'] != username+"@student.wethinkcode.co.za":
+                new_events.append(event)
+        except:
+            continue
+    return new_events
+
+
+def sort_booked_slots(events, username):
+    """
+    Functions will sort a list of events, only events containing 1 attendee will be added to the new list.
+    this will be events that are open to be booked by the user.
+    """
+    new_events = []
+    for event in events:
+        try:
+            for i in range(len(event['attendees'])):
+                if (event['attendees'][i]["email"]) == username+'@student.wethinkcode.co.za':
+                    new_events.append(event)
+                continue
+        except:
+            continue
+    return new_events
+
+
+def store_slot_data(events, user):
+    """
+    Function will populate a JSON file with the details of each open slot recieved from google API.
+    Old data will be deleted and new data writen to not overpopulate file.
+    """
+    if user == False:
+        new_data = {"open_slots" : []}
+        for event in events:
+            new_data['open_slots'].append({event['id'] : event})
+        with open('data_files/.open_slots.json', 'w') as f:
+            json.dump(new_data, f, sort_keys=True, indent=4)
+    elif user == True:
+        new_data = {"events" : []}
+        for event in events:
+            if event["organizer"]["email"] ==  "code.clinic.test@gmail.com":
+                new_data['events'].append({event['id'] : event})
+        with open('data_files/.student_events.json', 'w') as f:
+            json.dump(new_data, f, sort_keys=True, indent=4)

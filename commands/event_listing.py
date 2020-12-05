@@ -24,13 +24,19 @@ def split_username(email):
     return email.split(sep='@', maxsplit=1)[0]
 
 
-def print_correlating_table(volunteer, create, student, clinic, created):
+def print_correlating_table(volunteer, create, student, clinic, created, event_list):
     now = datetime.datetime.utcnow().isoformat() + 'Z'
     end_date = ((datetime.datetime.utcnow()) + datetime.timedelta(days=7)).isoformat() + 'Z'
     events = utils.get_events(clinic.service, now, end_date)
     if created:
         return
-    if volunteer and create:
+    if event_list and volunteer:
+        # user list-bookings: print table with all booked slots (volunteer & patient)
+        print_all_booked_slots_table(events, student.username)
+    elif event_list and not volunteer:
+        # user list-slots: print table with all open slots besides the user requesting
+        print_all_available_booking_slots_table(events, student.username)
+    elif volunteer and create:
         #volunteer create slot: print table with open slot times where can volunteer
         print_open_volunteer_slots_table(student.username, student.service, clinic.service, student.info['date'])
     elif volunteer and not create:
@@ -42,28 +48,6 @@ def print_correlating_table(volunteer, create, student, clinic, created):
     elif not (volunteer and create):
         #patient delete booking: print table with volunteer slots booked by user
         print_booked_slots_table(events, student.username)
-
-
-def list_personal_slots(service, fetch, user, username):
-    """
-    creates a list of objects, each object will be details for an event.
-    the function will retrieve open slots for the next 7 days.
-    RETURNS: a list of objects with the keys being the unique id of the event and the value the object for th event.
-    funtion will fetch the open slots each time the program is launched to save the slots locally in json files bu calling store_slot_data(events)
-    """
-    # Get the UCT time that is current and formats it to allow for google API parameter 
-    now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
-    # Get the UCT time that is current + 7 days added and formats it to allow for google API parameter 
-    end_date = ((datetime.datetime.utcnow()) + datetime.timedelta(days=7)).isoformat() + 'Z'
-    events = utils.get_events(service, now, end_date)
-    if user == True:
-        events = sort_booked_slots(events, username)
-    if user == False:
-        events = sort_open_slots(events, username)
-    if fetch == False:
-        print_volunteered_slots_table(events)
-    store_slot_data(events, user)
-    return events, ''
     
 
 def list_open_volunteer_slots(clinic_service, username, date):
@@ -73,57 +57,6 @@ def list_open_volunteer_slots(clinic_service, username, date):
     else:
         volunteer.print_open_slots_table(open_slots, date, 'Open volunteer slots for '+str(date)+':')
         return True, ''
-    
-
-def sort_open_slots(events, username):
-    """
-    Functions will sort a list of events, only events containing 1 attendee will be added to the new list.
-    this will be events that are open to be booked by the user.
-    """
-    new_events = []
-    for event in events:
-        try:
-            if len(event['attendees']) == 1 and event['attendees'][0]['email'] != username+"@student.wethinkcode.co.za":
-                new_events.append(event)
-        except:
-            continue
-    return new_events
-
-def sort_booked_slots(events, username):
-    """
-    Functions will sort a list of events, only events containing 1 attendee will be added to the new list.
-    this will be events that are open to be booked by the user.
-    """
-    new_events = []
-    for event in events:
-        try:
-            for i in range(len(event['attendees'])):
-                if (event['attendees'][i]["email"]) == username+'@student.wethinkcode.co.za':
-                    new_events.append(event)
-                continue
-        except:
-            continue
-    return new_events
-
-
-def store_slot_data(events, user):
-    """
-    Function will populate a JSON file with the details of each open slot recieved from google API.
-    Old data will be deleted and new data writen to not overpopulate file.
-    """
-    if user == False:
-        new_data = {"open_slots" : []}
-        for event in events:
-            new_data['open_slots'].append({event['id'] : event})
-        with open('data_files/.open_slots.json', 'w') as f:
-            json.dump(new_data, f, sort_keys=True, indent=4)
-    elif user == True:
-        new_data = {"events" : []}
-        for event in events:
-            if event["organizer"]["email"] ==  "code.clinic.test@gmail.com":
-                new_data['events'].append({event['id'] : event})
-        with open('data_files/.student_events.json', 'w') as f:
-            json.dump(new_data, f, sort_keys=True, indent=4)
 
 
 def print_table(table_info, heading):
@@ -191,6 +124,25 @@ def get_booked_slots_table_info(events, username):
     return table_info
 
 
+def get_all_booked_slots_table_info(events, username):
+    table_info = []
+    for event in events:
+        start = event['start'].get('dateTime', event['start'].get('date'))
+        end = event['end'].get('dateTime', event['end'].get('date'))
+        start_date = (start[0:10])
+        start_time = (start[11:16]+' - '+end[11:16])
+        if len(event['attendees']) >= 1:
+            if len(event['attendees']) > 1:
+                patient = split_username(event['attendees'][1]['email'])
+            else:
+                patient = "Open-slot"
+            volunteer = split_username(event['attendees'][0]['email'])
+            if patient == username or volunteer == username:
+                row = (event['summary'][10:],start_date,start_time,event['id'],patient)
+                table_info.append(row)
+    return table_info
+
+
 def get_open_volunteer_slots_table_info(username, volunteer_service, clinic_service, date):
     table_info = []
     ninty_min_slots = [('08:30', '10:00'), ('10:00', '11:30'), ('11:30', '13:00'), ('13:00', '14:30'), ('14:30', '16:00'), ('16:00', '17:30')]
@@ -211,6 +163,20 @@ def get_open_booking_slots_table_info(events):
         start_date = (start[0:10])
         start_time = (start[11:16]+' - '+end[11:16])
         if not len(event['attendees']) > 1:
+            row = (event['summary'][10:],start_date,start_time,event['id'],'Open slot.')
+            table_info.append(row)
+    return table_info
+
+
+def get_all_open_booking_slots_table_info(events, username):
+    table_info = []
+    ninty_min_slots = [('08:30', '10:00'), ('10:00', '11:30'), ('11:30', '13:00'), ('13:00', '14:30'), ('14:30', '16:00'), ('16:00', '17:30')]
+    for event in events:
+        start = event['start'].get('dateTime', event['start'].get('date'))
+        end = event['end'].get('dateTime', event['end'].get('date'))
+        start_date = (start[0:10])
+        start_time = (start[11:16]+' - '+end[11:16])
+        if not len(event['attendees']) > 1 and split_username(event['attendees'][0]['email']) != username:
             row = (event['summary'][10:],start_date,start_time,event['id'],'Open slot.')
             table_info.append(row)
     return table_info
@@ -244,8 +210,24 @@ def print_booked_slots_table(events, username):
         utils.print_output('ERROR: You have no booked slots for the next 7 days.')
 
 
+def print_all_booked_slots_table(events, username):
+    table_info = get_all_booked_slots_table_info(events, username)
+    if table_info:
+        print_table(table_info, 'Your booked slots for the next 7 days:')
+    else:
+        utils.print_output('ERROR: You have no booked slots for the next 7 days.')
+
+
 def print_available_booking_slots_table(events):
     table_info = get_open_booking_slots_table_info(events)
+    if table_info:
+        print_table(table_info, 'Volunteer slots available for bookings:')
+    else:
+        utils.print_output('ERROR: There are no volunteer slots available to book.')
+
+
+def print_all_available_booking_slots_table(events, username):
+    table_info = get_all_open_booking_slots_table_info(events, username)
     if table_info:
         print_table(table_info, 'Volunteer slots available for bookings:')
     else:
