@@ -5,12 +5,11 @@ import utilities as utils
 
 def do_volunteer_commands(student, clinic, output):
     if student.info['command'] == 'create'and utils.check_date_and_time_format(student.info['date'], student.info['start_time']):
-        created, output = volunteer.create_volunteer_slot(student.username, student.info['date'], student.info['start_time'], student.service, clinic.service)
+        created = volunteer.create_volunteer_slot(student.username, student.info['date'], student.info['start_time'], student.service, clinic.service)
         listings.print_correlating_table(True, True, student, clinic, created, False)
     elif student.info['command'] == 'cancel':
-        created, output = volunteer.delete_volunteer_slot(student.username, student.info['date'], student.info['start_time'], student.service, clinic.service)
+        created = volunteer.delete_volunteer_slot(student.username, student.info['date'], student.info['start_time'], student.service, clinic.service)
         listings.print_correlating_table(True, False, student, clinic, created, False)
-    return output
 
 
 def do_patient_commands(student, clinic, output):
@@ -19,17 +18,16 @@ def do_patient_commands(student, clinic, output):
         try:
             created, output = booking.make_booking(student.username, student.info['UD'], student.service, clinic.service)
         except(KeyError):
-            output = "ERROR: Please include the correct uid when booking a slot."
+            utils.print_output("ERROR: Please include the correct uid when booking a slot.")
         if not created:
-            listings.print_correlating_table(False, True, student, clinic, False)
+            listings.print_correlating_table(False, True, student, clinic, False, False)
     elif student.info['command'] == 'cancel':
         try:    
             created, output = cancellation.cancel_attendee(student.username, student.service, clinic.service,student.info['UD'])
         except(KeyError):
-            output = "ERROR: Please include the correct uid when cancelling a booking."
+            utils.print_output("ERROR: Please include the correct uid when cancelling a booking.")
         if not created:    
             listings.print_correlating_table(False, False, student, clinic, False, False)
-    return output
 
 
 def do_event_listing_commands(student, clinic, output):
@@ -39,5 +37,5 @@ def do_event_listing_commands(student, clinic, output):
         output = listings.print_correlating_table(False, True, student, clinic, False, True)
     elif 'command' in student.info and student.info['command'] == 'list-open':
         if 'date' in student.info and utils.check_date_format(student.info['date']):
-            executed, output = listings.list_open_volunteer_slots(clinic.service, student.username,student.info['date'])
+            output = listings.print_correlating_table(True, True, student, clinic, False, False)
     return ''

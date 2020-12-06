@@ -31,17 +31,21 @@ def make_booking(username, uid, service_student, service_clinic):
     end_date = ((datetime.datetime.utcnow()) + datetime.timedelta(days=7)).isoformat() + 'Z'
     slots = utils.get_events(service_clinic, now, end_date)
     if slots == []:
-        return False, 'ERROR: This slot is unavailable'
+        utils.print_output('ERROR: This slot is unavailable')
+        return False
     available, volunteered_event = get_chosen_slot(slots, username, uid)
     if not available:
-        return False, 'ERROR: Cannot book chosen slot.'
+        utils.print_output('ERROR: Choose a valid event id.')
+        return False
     updated_event, unique_id = create_booking_body(volunteered_event, username)
     try:
         updated_event_response = service_clinic.events().update(calendarId='primary', eventId=unique_id, body=updated_event).execute()
         booker_accept_invite(service_clinic, unique_id, username, updated_event_response)
-        return True, "Booking succesfully made! You're unique id is: "+ str(updated_event_response['id'])
+        utils.print_output("Booking succesfully made! You're unique id is: "+ str(updated_event_response['id']))
+        return True
     except:
-        return False, "ERROR: An error has stopped the booking from being made.\nPlease try again."
+        utils.print_output("ERROR: An error has stopped the booking from being made.\nPlease try again.")
+        return False
 
 
 def booker_accept_invite(service_clinic, unique_id, username, event):

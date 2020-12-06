@@ -1,3 +1,4 @@
+import os
 import sys
 import json
 import utilities as utils
@@ -11,14 +12,19 @@ def is_registered(username):
     :return: False if student is not registered
     '''
 
-    with open('data_files/.student.json') as json_file:
-        # data = list(map(json.loads, [x for x in open("data_files/.student.json").read().split("\n") if x.strip()]))
-        data = json.load(json_file)
-        if data != []:
-            students = data['student_info']
-            for student in students:
-                if student['username'] == username:
-                    return True
+    try:
+        if not os.stat('data_files/.student.json').st_size == 0:
+            with open('data_files/.student.json') as json_file:
+            # data = list(map(json.loads, [x for x in open("data_files/.student.json").read().split("\n") if x.strip()]))
+                data = json.load(json_file)
+                if data != []:
+                    students = data['student_info']
+                    for student in students:
+                        if student['username'] == username:
+                            return True
+    except FileNotFoundError:
+        with open('data_files/.student.json', 'w') as json_file:
+            pass
     return False
 
 
@@ -139,22 +145,28 @@ def check_if_support_info_is_present(info):
             if 'date' in info and 'start_time' in info:
                 if 'command' in info and (info['command'] == 'create' or info['command'] == 'cancel'):
                     return True
+            utils.print_output('INVALID: Enter command in format: <username> volunteer <command> <yyyy-mm-dd> <hh:mm>')
             return False
         if info['user_type'] == 'patient':
             if 'UD' in info:
                 if 'command' in info and (info['command'] == 'create' or info['command'] == 'cancel'):
                     return True
+            utils.print_output('INVALID: Enter command in format: <username> patient <command> <event_id>')
             return False
     elif 'command' in info:
         if info['command'] == 'list-open':
             if 'date' in info:
                 return True
+            utils.print_output('INVALID: Enter command in format: <username> list-bookings')
             return False
         if info['command'] == 'register':
-            if 'password' in info and 'username' in info:
-                return True
+            if sys.argv[1] == 'register':
+                if 'password' in info and 'username' in info:
+                    return True
+            utils.print_output('INVALID: Enter command in format: register <username> <password>')
             return False
-    return True
+        return True
+    return False
 
 
 def get_user_commands():

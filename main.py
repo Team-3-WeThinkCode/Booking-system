@@ -56,11 +56,11 @@ if __name__ == "__main__":
     if execute:
         if 'user_type' in student.info:
             if student.info['user_type'] == 'volunteer':
-                output = do_commands.do_volunteer_commands(student, codeclinic, output)
+                do_commands.do_volunteer_commands(student, codeclinic, output)
             elif student.info['user_type'] == 'patient':
-                output = do_commands.do_patient_commands(student, codeclinic, output)
+                do_commands.do_patient_commands(student, codeclinic, output)
         elif 'command' in student.info and student.info['command'] == 'register':
-            added, output = register.add_registration_info_to_json(student.info)
+            added = register.add_registration_info_to_json(student.info)
         else:
-            output = do_commands.do_event_listing_commands(student, codeclinic, output)
-    utils.print_output(output)
+            do_commands.do_event_listing_commands(student, codeclinic, output)
+    #utils.print_output(output)

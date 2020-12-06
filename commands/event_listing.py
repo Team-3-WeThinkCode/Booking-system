@@ -1,17 +1,15 @@
 import datetime
-import json
-from prettytable import PrettyTable
 from commands import volunteer
 import os
 import sys
 
 from rich.console import Console
 from rich.table import Table
-from rich import print
 
 USER_PATHS = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../'))
 sys.path.insert(0, USER_PATHS)
 import utilities as utils
+
 
 console = Console()
 
@@ -95,15 +93,16 @@ def get_volunteered_slots_table_info(events, username):
     '''
 
     table_info = []
+    start_times = ['08:30', '10:00', '11:30', '13:00','14:30', '16:00']
     for event in events:
         start = event['start'].get('dateTime', event['start'].get('date'))
-        end = event['end'].get('dateTime', event['end'].get('date'))
         start_date = (start[0:10])
-        start_time = (start[11:16]+' - '+end[11:16])
+        start_time = start[11:16]
         patient = 'Open slot.'
         if len(event['attendees']) > 1:
             patient = split_username(event['attendees'][1]['email'])
-        if event['summary'][11:] == username:
+        print(start_time)
+        if (start_time in start_times) and (event['summary'][11:] == username):
             row = (username,start_date,start_time,event['id'],patient)
             table_info.append(row)
     return table_info
@@ -156,7 +155,6 @@ def get_open_volunteer_slots_table_info(username, volunteer_service, clinic_serv
 
 def get_open_booking_slots_table_info(events):
     table_info = []
-    ninty_min_slots = [('08:30', '10:00'), ('10:00', '11:30'), ('11:30', '13:00'), ('13:00', '14:30'), ('14:30', '16:00'), ('16:00', '17:30')]
     for event in events:
         start = event['start'].get('dateTime', event['start'].get('date'))
         end = event['end'].get('dateTime', event['end'].get('date'))
