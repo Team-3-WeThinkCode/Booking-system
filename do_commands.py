@@ -16,14 +16,14 @@ def do_patient_commands(student, clinic, output):
     created = False
     if student.info['command'] == 'create':
         try:
-            created, output = booking.make_booking(student.username, student.info['UD'], student.service, clinic.service)
+            created = booking.make_booking(student.username, student.info['UD'], student.service, clinic.service)
         except(KeyError):
             utils.print_output("ERROR: Please include the correct uid when booking a slot.")
         if not created:
             listings.print_correlating_table(False, True, student, clinic, False, False)
     elif student.info['command'] == 'cancel':
         try:    
-            created, output = cancellation.cancel_attendee(student.username, student.service, clinic.service,student.info['UD'])
+            created = cancellation.cancel_attendee(student.username, student.service, clinic.service,student.info['UD'])
         except(KeyError):
             utils.print_output("ERROR: Please include the correct uid when cancelling a booking.")
         if not created:    
