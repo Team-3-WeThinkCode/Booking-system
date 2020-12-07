@@ -40,7 +40,6 @@ class CodeClinic:
 if __name__ == "__main__":
     student = Student()
     codeclinic = CodeClinic()
-    output = 'INVALID: Input is invalid.\nUse the help command for the correct input format/commands.\nHelp command: [username] [-h]'
     execute = True
     data = ''
     if student.info:

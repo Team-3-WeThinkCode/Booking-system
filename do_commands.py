@@ -38,4 +38,3 @@ def do_event_listing_commands(student, clinic, output):
     elif 'command' in student.info and student.info['command'] == 'list-open':
         if 'date' in student.info and utils.check_date_format(student.info['date']):
             output = listings.print_correlating_table(True, True, student, clinic, False, False)
-    return ''

@@ -15,7 +15,6 @@ def is_registered(username):
     try:
         if not os.stat('data_files/.student.json').st_size == 0:
             with open('data_files/.student.json') as json_file:
-            # data = list(map(json.loads, [x for x in open("data_files/.student.json").read().split("\n") if x.strip()]))
                 data = json.load(json_file)
                 if data != []:
                     students = data['student_info']
