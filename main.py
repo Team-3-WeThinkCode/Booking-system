@@ -63,4 +63,3 @@ if __name__ == "__main__":
             added = register.add_registration_info_to_json(student.info)
         else:
             do_commands.do_event_listing_commands(student, codeclinic, output)
-    #utils.print_output(output)

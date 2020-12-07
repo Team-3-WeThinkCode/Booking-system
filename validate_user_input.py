@@ -52,7 +52,7 @@ def get_username(info):
                     info['username'] = item
                     return info
                 else:
-                    utils.print_output('INVALID: REGISTER USER <register> <username> <password> (psswrd > 8 characters)')
+                    utils.print_output('INVALID: You are not registered.')
     return {}
 
 
@@ -109,14 +109,17 @@ def get_support(info, criteria):
         elif len(sys.argv) == 4 and utils.check_date_format(sys.argv[3]):
             info['date'] = sys.argv[3]
         else:
+            utils.print_output('INVALID: Date format incorrect.\nExpected format: <yyyy-mm-dd>')
             return False, info
     if get_time:
         if len(sys.argv) >= 6 and utils.check_time_format(sys.argv[5]):
             info['start_time'] = sys.argv[5]
         else:
+            utils.print_output('INVALID: Time format incorrect.\nExpected format: <hh:mm>')
             return False, info
     if 'date' in info and 'time' in info:
         if utils.date_has_passed(info['date'], info['time']):
+            utils.print_output('INVALID: Specified date/time has already passed.')
             return False, info
     if get_id:
         info['UD'] = ''
@@ -134,6 +137,7 @@ def get_support(info, criteria):
         if len(sys.argv) == 4 and len(sys.argv[3]) == 8 and 'username' in info:
             info['password'] = sys.argv[3]
         else:
+            utils.print_output('INVALID: Password should be 8 characters long.')
             return False, info
     return True, info
 

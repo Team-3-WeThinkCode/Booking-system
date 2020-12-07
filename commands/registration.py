@@ -34,7 +34,7 @@ def add_registration_info_to_json(user_info):
             with open('data_files/.student.json') as json_file: 
                 student_data = json.load(json_file)
                 if is_student_registered(student_data['student_info'], user_info):
-                    utils.print_output("You're already registered.")
+                    utils.print_output("ERROR: You are already registered.")
                     return False
                 temp = student_data['student_info']
                 temp.append(user_info)
