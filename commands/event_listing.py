@@ -168,7 +168,6 @@ def get_open_booking_slots_table_info(events):
 
 def get_all_open_booking_slots_table_info(events, username):
     table_info = []
-    ninty_min_slots = [('08:30', '10:00'), ('10:00', '11:30'), ('11:30', '13:00'), ('13:00', '14:30'), ('14:30', '16:00'), ('16:00', '17:30')]
     for event in events:
         start = event['start'].get('dateTime', event['start'].get('date'))
         end = event['end'].get('dateTime', event['end'].get('date'))

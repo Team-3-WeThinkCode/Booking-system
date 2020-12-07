@@ -16,7 +16,7 @@ def do_patient_commands(student, clinic, output):
     created = False
     if student.info['command'] == 'create':
         try:
-            created = booking.make_booking(student.username, student.info['UD'], student.service, clinic.service)
+            created = booking.make_booking(student.username, student.info['UD'], student.service, clinic.service, student.info)
         except(KeyError):
             utils.print_output("ERROR: Please include the correct uid when booking a slot.")
         if not created:

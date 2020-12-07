@@ -120,6 +120,11 @@ def get_support(info, criteria):
             return False, info
     if get_id:
         info['UD'] = ''
+        if info['command'] == 'create':
+            if len(sys.argv[-2]) == 26:
+                info['UD'] = sys.argv[-2]
+                info['description'] = sys.argv[-1]
+                return True, info
         if len(sys.argv[len(sys.argv)-1]) == 26:
             info['UD'] = sys.argv[len(sys.argv)-1]
         else:
@@ -151,7 +156,7 @@ def check_if_support_info_is_present(info):
             if 'UD' in info:
                 if 'command' in info and (info['command'] == 'create' or info['command'] == 'cancel'):
                     return True
-            utils.print_output('INVALID: Enter command in format: <username> patient <command> <event_id>')
+            utils.print_output('INVALID: Enter command in format: <username> patient <command> <event_id> <"description">')
             return False
     elif 'command' in info:
         if info['command'] == 'list-open':

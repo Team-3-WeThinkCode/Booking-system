@@ -21,7 +21,7 @@ def get_chosen_slot(events, username, uid):
     return False, {}
 
 
-def make_booking(username, uid, service_student, service_clinic):
+def make_booking(username, uid, service_student, service_clinic, info):
     """
     Function will handle the logic for booking a empty slot.
     with a list of events, user input will be he index of the list -1, the event will be updated with the user added as an attendee.
@@ -37,7 +37,7 @@ def make_booking(username, uid, service_student, service_clinic):
     if not available:
         utils.print_output('ERROR: Choose a valid event id.')
         return False
-    updated_event, unique_id = create_booking_body(volunteered_event, username)
+    updated_event, unique_id = create_booking_body(volunteered_event, username, info)
     try:
         updated_event_response = service_clinic.events().update(calendarId='primary', eventId=unique_id, body=updated_event).execute()
         booker_accept_invite(service_clinic, unique_id, username, updated_event_response)
@@ -56,18 +56,20 @@ def booker_accept_invite(service_clinic, unique_id, username, event):
     service_clinic.events().update(calendarId='primary', eventId=unique_id, body=event).execute()
 
 
-def create_booking_body(event, username):
+def create_booking_body(event, username, info):
     """
     Function will take a event object and sort the relevant data to create a body for the new booking.
     User will be added as an attendee and only relevant data will be taken from the event object for body.
     :RETURN: New event body will be returned with updated information.
     """
     event['attendees'].append({'email': username+'@student.wethinkcode.co.za'})
+    event['description'] = info['description']
 
     blueprint = {
             'summary': event['summary'],
             'location': event['location'],
             'start': event['start'],
+            'description': event['description'],
             'end': event['end'],
             'attendees':event['attendees'],
             'reminders': {
