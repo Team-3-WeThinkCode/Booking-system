@@ -1,4 +1,4 @@
-import os
+import os, datetime
 import sys
 from commands import event_listing as listings
 USER_PATHS = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../'))
@@ -44,15 +44,20 @@ def update_booking_body(event, volunteer):
 
 
 def cancel_attendee(username, volunteer_service, codeclinic_service, uid):
+    now = datetime.datetime.utcnow().isoformat() + 'Z'
+    end_date = ((datetime.datetime.utcnow()) + datetime.timedelta(days=7)).isoformat() + 'Z'
     deletion = False
-    slots, output = listings.list_personal_slots(codeclinic_service, True, True, username)
+    slots = utilities.get_events(codeclinic_service,now, end_date)
     deletion, event = get_chosen_slot(slots, username, uid)
     if deletion == True:
         try:
             updated_event = update_booking_body(event, username)
             codeclinic_service.events().update(calendarId='primary', eventId=event['id'], body=updated_event).execute()
         except:
-            return False, "ERROR: Could not cancel booking."
-        return True, "Booking successfully deleted."
+            utilities.print_output("ERROR: Could not cancel booking.")
+            return False
+        utilities.print_output("Booking successfully deleted.")
+        return True
     else:
-        return False, "ERROR: You cannot cancel selected booking."
+        utilities.print_output("ERROR: You cannot cancel selected booking.")
+        return False

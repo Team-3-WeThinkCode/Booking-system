@@ -1,5 +1,39 @@
+import os
 import sys
+import json
 import utilities as utils
+
+
+def is_registered(username):
+    '''
+    Checks whether student is registered by reviewing the information in the
+    student json file
+    :return: True if student is registered
+    :return: False if student is not registered
+    '''
+
+    try:
+        if not os.stat('data_files/.student.json').st_size == 0:
+            with open('data_files/.student.json') as json_file:
+            # data = list(map(json.loads, [x for x in open("data_files/.student.json").read().split("\n") if x.strip()]))
+                data = json.load(json_file)
+                if data != []:
+                    students = data['student_info']
+                    for student in students:
+                        if student['username'] == username:
+                            return True
+    except FileNotFoundError:
+        with open('data_files/.student.json', 'w') as json_file:
+            pass
+    return False
+
+
+def is_not_username(word):
+    for letter in word:
+        if letter.isdigit():
+            return True
+    return False
+
 
 def get_username(info):
     '''
@@ -11,11 +45,14 @@ def get_username(info):
     valid_args = ['create', 'cancel', 'register','volunteer', 'patient', 'list-bookings', 'list-open', 'list-slots']
     lst_not_args = list(filter(lambda x: x not in valid_args, sys.argv))
     if lst_not_args:
-        lst_username = list(filter(lambda y: y != 'main.py', lst_not_args))
+        lst_username = list(filter(lambda y: 'main.py' not in y, lst_not_args))
         for item in lst_username:
-            if not (('/' in item) or ('-' in item) or (':' in item)) and len(item)==9:
-                info['username'] = item
-                return info
+            if not is_not_username(item):
+                if (is_registered(item)) or 'register' in sys.argv:
+                    info['username'] = item
+                    return info
+                else:
+                    utils.print_output('INVALID: REGISTER USER <register> <username> <password> (psswrd > 8 characters)')
     return {}
 
 
@@ -108,22 +145,28 @@ def check_if_support_info_is_present(info):
             if 'date' in info and 'start_time' in info:
                 if 'command' in info and (info['command'] == 'create' or info['command'] == 'cancel'):
                     return True
+            utils.print_output('INVALID: Enter command in format: <username> volunteer <command> <yyyy-mm-dd> <hh:mm>')
             return False
         if info['user_type'] == 'patient':
             if 'UD' in info:
                 if 'command' in info and (info['command'] == 'create' or info['command'] == 'cancel'):
                     return True
+            utils.print_output('INVALID: Enter command in format: <username> patient <command> <event_id>')
             return False
     elif 'command' in info:
         if info['command'] == 'list-open':
             if 'date' in info:
                 return True
+            utils.print_output('INVALID: Enter command in format: <username> list-bookings')
             return False
         if info['command'] == 'register':
-            if 'password' in info and 'username' in info:
-                return True
+            if sys.argv[1] == 'register':
+                if 'password' in info and 'username' in info:
+                    return True
+            utils.print_output('INVALID: Enter command in format: register <username> <password>')
             return False
-    return True
+        return True
+    return False
 
 
 def get_user_commands():

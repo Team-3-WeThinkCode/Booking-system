@@ -103,7 +103,8 @@ def create_volunteer_slot(username, date, time, volunteer_service, codeclinic_se
         return False, 'ERROR: There are no open slots on this day.'
     time_slot_lst = list(filter(lambda x : x[0] == time, open_slots))
     if not time_slot_lst:
-        return False, 'ERROR: Choose a valid/open slot start time.'
+        utils.print_output('ERROR: Choose a valid/open slot start time.')
+        return False
     time_slot = time_slot_lst[0]
     start_datetime, end_datetime = utils.convert_date_and_time_to_rfc_format(date, time_slot[0], time_slot[1])
     if is_slot_available(volunteer_service, username, start_datetime, end_datetime):
@@ -113,8 +114,10 @@ def create_volunteer_slot(username, date, time, volunteer_service, codeclinic_se
             event_info = {'summary': 'VOLUNTEER: ' + str(username), 'start_datetime': start_datetime, 'end_datetime': end_datetime, 'attendees': []}
             response = utils.add_event_to_calendar(event_info, codeclinic_service, True, username)
             utils.volunteer_accept_invite(codeclinic_service, response['id'], username, response)
-        return True, 'Volunteer slots created!'
-    return False, 'ERROR: You do not have an open slot in your calendar at the selected time.'
+        utils.print_output('Volunteer slots created!')
+        return True
+    utils.print_output('ERROR: You do not have an open slot in your calendar at the selected time.')
+    return False
 
 
 def get_volunteered_slot(clinic_service, username, date, time):
@@ -165,9 +168,11 @@ def delete_volunteer_slot(username, date, time, volunteer_service, clinic_servic
 
     volunteer_slot = get_volunteered_slot(clinic_service, username, date, time)
     if not volunteer_slot:
-        return False, 'ERROR: No volunteer slot available to delete at specified date/time.'
+        utils.print_output('ERROR: No volunteer slot available to delete at specified date/time.')
+        return False
     thirty_minute_slots = convert_90_min_slot_into_30_min_slots((volunteer_slot[0], volunteer_slot[1]))
     for slot in thirty_minute_slots:
         start_datetime, end_datetime = utils.convert_date_and_time_to_rfc_format(date, slot[0], slot[1])
         delete_slots_on_calendars([volunteer_service, clinic_service], start_datetime, end_datetime, username)
-    return True, 'Volunteered slots were succesfully deleted.'
+    utils.print_output('Volunteered slots were succesfully deleted.')
+    return True
