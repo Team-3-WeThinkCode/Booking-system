@@ -27,11 +27,11 @@ def is_registered(username):
     return False
 
 
-def is_not_username(word):
-    for letter in word:
+def is_username(arg):
+    for letter in arg:
         if letter.isdigit():
-            return True
-    return False
+            return False
+    return True
 
 
 def get_username(info):
@@ -44,9 +44,9 @@ def get_username(info):
     valid_args = ['create', 'cancel', 'register','volunteer', 'patient', 'list-bookings', 'list-open', 'list-slots']
     lst_not_args = list(filter(lambda x: x not in valid_args, sys.argv))
     if lst_not_args:
-        lst_username = list(filter(lambda y: 'main.py' not in y, lst_not_args))
-        for item in lst_username:
-            if not is_not_username(item):
+        lst_command_arg = list(filter(lambda y: 'main.py' not in y, lst_not_args))
+        for item in lst_command_arg:
+            if is_username(item):
                 if (is_registered(item)) or 'register' in sys.argv:
                     info['username'] = item
                     return info

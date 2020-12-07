@@ -39,7 +39,5 @@ def add_registration_info_to_json(user_info):
                 student_data['student_info'].append(required_info)
             write_json(student_data)
             utils.print_output("Registration successful. Welcome to Code Clinic "+ user_info['username']+"!")
-        return True
     except:
         utils.print_output('ERROR: Something went wrong! Try again.')
-        return False
