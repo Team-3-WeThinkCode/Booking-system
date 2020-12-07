@@ -173,7 +173,8 @@ def check_if_support_info_is_present(info):
                     return True
             utils.print_output('INVALID: Enter command in format: register <username> <password>')
             return False
-        return True
+        if not (info['command'] == 'cancel' or info['command'] == 'create'):
+            return True
     return False
 
 

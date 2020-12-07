@@ -3,7 +3,7 @@ from commands import event_listing as listings
 import utilities as utils
 
 
-def do_volunteer_commands(student, clinic, output):
+def do_volunteer_commands(student, clinic):
     if student.info['command'] == 'create'and utils.check_date_and_time_format(student.info['date'], student.info['start_time']):
         created = volunteer.create_volunteer_slot(student.username, student.info['date'], student.info['start_time'], student.service, clinic.service)
         listings.print_correlating_table(True, True, student, clinic, created, False)
@@ -12,7 +12,7 @@ def do_volunteer_commands(student, clinic, output):
         listings.print_correlating_table(True, False, student, clinic, created, False)
 
 
-def do_patient_commands(student, clinic, output):
+def do_patient_commands(student, clinic):
     created = False
     if student.info['command'] == 'create':
         try:
@@ -30,7 +30,7 @@ def do_patient_commands(student, clinic, output):
             listings.print_correlating_table(False, False, student, clinic, False, False)
 
 
-def do_event_listing_commands(student, clinic, output):
+def do_event_listing_commands(student, clinic):
     if 'command' in student.info and student.info['command'] == 'list-bookings':
         output = listings.print_correlating_table(True, False, student, clinic, False, True)
     elif 'command' in student.info and student.info['command'] == 'list-slots':
