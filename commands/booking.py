@@ -44,8 +44,7 @@ def make_booking(username, uid, service_student, service_clinic, info):
         utils.print_output("Booking succesfully made! You're unique id is: "+ str(updated_event_response['id']))
         return True
     except:
-        utils.print_output("ERROR: An error has stopped the booking from being made.\nPlease try again.")
-        return False
+        utils.error_handling("ERROR: An error has stopped the booking from being made.\nPlease try again.")
 
 
 def booker_accept_invite(service_clinic, unique_id, username, event):

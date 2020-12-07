@@ -51,8 +51,8 @@ def get_username(info):
                     info['username'] = item
                     return info
                 else:
-                    utils.print_output('INVALID: You are not registered.')
-    return {}
+                    utils.error_handling('INVALID: You are not registered.')
+        utils.error_handling('INVALID: Username not provided.')
 
 
 def get_user_type(info):
@@ -105,21 +105,14 @@ def get_support(info, criteria):
     if get_date:
         if len(sys.argv) >= 5 and utils.check_date_format(sys.argv[4]):
             info['date'] = sys.argv[4]
-        elif len(sys.argv) == 4 and utils.check_date_format(sys.argv[3]):
-            info['date'] = sys.argv[3]
-        else:
-            utils.print_output('INVALID: Date format incorrect.\nExpected format: <yyyy-mm-dd>')
-            return False, info
+        elif len(sys.argv) == 4:
+            if utils.check_date_format(sys.argv[3]):
+                info['date'] = sys.argv[3]
+            else:
+                utils.error_handling('INVALID: Date is either invalid or format is incorrect.\nEnter date as <yyyy-mm-dd>')
     if get_time:
         if len(sys.argv) >= 6 and utils.check_time_format(sys.argv[5]):
             info['start_time'] = sys.argv[5]
-        else:
-            utils.print_output('INVALID: Time format incorrect.\nExpected format: <hh:mm>')
-            return False, info
-    if 'date' in info and 'time' in info:
-        if utils.date_has_passed(info['date'], info['time']):
-            utils.print_output('INVALID: Specified date/time has already passed.')
-            return False, info
     if get_id:
         info['UD'] = ''
         if info['command'] == 'create':
@@ -129,15 +122,12 @@ def get_support(info, criteria):
                 return True, info
         if len(sys.argv[len(sys.argv)-1]) == 26:
             info['UD'] = sys.argv[len(sys.argv)-1]
-        else:
-            info['UD'] = ''
         return True, info
     if get_password:
         if len(sys.argv) == 4 and len(sys.argv[3]) == 8 and 'username' in info:
             info['password'] = sys.argv[3]
         else:
-            utils.print_output('INVALID: Password should be 8 characters long.')
-            return False, info
+            utils.error_handling('INVALID: Password needs to be at exactly 8 characters long.')
     return True, info
 
 
@@ -150,29 +140,28 @@ def check_if_support_info_is_present(info):
 
     if 'user_type' in info:
         if info['user_type'] == 'volunteer':
+            if ('date' in info and 'start_time' in info) and utils.date_has_passed(info['date'], info['start_time']):
+                utils.error_handling('INVALID: Specified date/time has already passed.')
+                return False
             if 'date' in info and 'start_time' in info:
                 if 'command' in info and (info['command'] == 'create' or info['command'] == 'cancel'):
                     return True
-            utils.print_output('INVALID: Enter command in format: <username> volunteer <command> <yyyy-mm-dd> <hh:mm>')
-            return False
+            utils.error_handling('INVALID: Enter command in format: <username> volunteer <command> <yyyy-mm-dd> <hh:mm>')
         if info['user_type'] == 'patient':
             if 'UD' in info:
                 if 'command' in info and (info['command'] == 'create' or info['command'] == 'cancel'):
                     return True
-            utils.print_output('INVALID: Enter command in format: <username> patient <command> <event_id> <"description">')
-            return False
+            utils.error_handling('INVALID: Enter command in format: <username> patient <command> <event_id> <"description">')
     elif 'command' in info:
         if info['command'] == 'list-open':
             if 'date' in info:
                 return True
-            utils.print_output('INVALID: Enter command in format: <username> list-bookings')
-            return False
+            utils.error_handling('INVALID: Enter command in format: <username> list-open <yyyy-mm-dd>')
         if info['command'] == 'register':
             if sys.argv[1] == 'register':
                 if 'password' in info and 'username' in info:
                     return True
-            utils.print_output('INVALID: Enter command in format: register <username> <password>')
-            return False
+            utils.error_handling('INVALID: Enter command in format: register <username> <password>')
         if not (info['command'] == 'cancel' or info['command'] == 'create'):
             return True
     return False

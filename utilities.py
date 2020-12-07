@@ -16,6 +16,11 @@ def print_output(output):
         console.print(output, style="bold green")
 
 
+def error_handling(output):
+    print_output(output)
+    exit()
+
+
 def date_has_passed(date, time):
     year, month, day = int(date[:4]), int(date[5:7]), int(date[8:])
     hour, minute = int(time[:2]), int(time[3:])

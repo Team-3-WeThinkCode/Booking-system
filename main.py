@@ -39,27 +39,22 @@ class CodeClinic:
 if __name__ == "__main__":
     student = Student()
     codeclinic = CodeClinic()
-    execute = True
     data = ''
     if student.info:
         try:
             utils.update_files(student.service, codeclinic.service, student.username)
         except:
-            print("Something went wrong!")
-            execute = False
+            utils.error_handling('ERROR: Event files could not be updated.')
     else:
-        execute = False
+        utils.error_handling('INVALID: Input invalid. Use the help command for further information.\nHelp command: -h')
     if not sys.stdin.isatty():
         data = sys.stdin.readlines()
-    if execute:
-        if 'user_type' in student.info:
-            if student.info['user_type'] == 'volunteer':
-                do_commands.do_volunteer_commands(student, codeclinic)
-            elif student.info['user_type'] == 'patient':
-                do_commands.do_patient_commands(student, codeclinic)
-        elif 'command' in student.info and student.info['command'] == 'register':
-            register.add_registration_info_to_json(student.info)
-        else:
-            do_commands.do_event_listing_commands(student, codeclinic)
+    if 'user_type' in student.info:
+        if student.info['user_type'] == 'volunteer':
+            do_commands.do_volunteer_commands(student, codeclinic)
+        elif student.info['user_type'] == 'patient':
+            do_commands.do_patient_commands(student, codeclinic)
+    elif 'command' in student.info and student.info['command'] == 'register':
+        register.add_registration_info_to_json(student.info)
     else:
-        utils.print_output('INVALID: Input invalid. Use the help command for further information.\nHelp command: -h')
+        do_commands.do_event_listing_commands(student, codeclinic)

@@ -46,15 +46,6 @@ def print_correlating_table(volunteer, create, student, clinic, created, event_l
     elif not (volunteer and create):
         #patient delete booking: print table with volunteer slots booked by user
         print_booked_slots_table(events, student.username)
-    
-
-def list_open_volunteer_slots(clinic_service, username, date):
-    open_slots = volunteer.get_open_volunteer_slots_of_the_day(date, username, clinic_service)
-    if len(open_slots) == 0:
-        return False, 'ERROR: There are no open slots on this day.'
-    else:
-        volunteer.print_open_slots_table(open_slots, date, 'Open volunteer slots for '+str(date)+':')
-        return True, ''
 
 
 def print_table(table_info, heading):
@@ -101,7 +92,6 @@ def get_volunteered_slots_table_info(events, username):
         patient = 'Open slot.'
         if len(event['attendees']) > 1:
             patient = split_username(event['attendees'][1]['email'])
-        print(start_time)
         if (start_time in start_times) and (event['summary'][11:] == username):
             row = (username,start_date,start_time,event['id'],patient)
             table_info.append(row)
@@ -146,6 +136,8 @@ def get_open_volunteer_slots_table_info(username, volunteer_service, clinic_serv
     table_info = []
     ninty_min_slots = [('08:30', '10:00'), ('10:00', '11:30'), ('11:30', '13:00'), ('13:00', '14:30'), ('14:30', '16:00'), ('16:00', '17:30')]
     for slot in ninty_min_slots:
+        if utils.date_has_passed(date, slot[0]):
+            continue
         start_datetime, end_datetime = utils.convert_date_and_time_to_rfc_format(date, slot[0], slot[1])
         if volunteer.is_slot_available(volunteer_service, username, start_datetime, end_datetime):
             row = ('-', date, slot[0], '-', 'Open slot.')
@@ -188,7 +180,7 @@ def print_volunteered_slots_table(events, username):
     if table_info:
         print_table(table_info, 'Volunteered slots for the next 7 days:')
     else:
-        utils.print_output('ERROR: You have no volunteer slots in the next 7 days.')
+        utils.error_handling('ERROR: You have no volunteer slots in the next 7 days.')
 
 
 def print_open_volunteer_slots_table(username, volunteer_service, clinic_service, date):
@@ -196,7 +188,7 @@ def print_open_volunteer_slots_table(username, volunteer_service, clinic_service
     if table_info:
         print_table(table_info, 'Open volunteer slots for '+str(date)+':')
     else:
-        utils.print_output('ERROR: There are no open volunteer slots on '+str(date)+':')
+        utils.error_handling('ERROR: There are no open volunteer slots on '+str(date)+':')
 
 
 def print_booked_slots_table(events, username):
@@ -204,7 +196,7 @@ def print_booked_slots_table(events, username):
     if table_info:
         print_table(table_info, 'Your booked slots for the next 7 days:')
     else:
-        utils.print_output('ERROR: You have no booked slots for the next 7 days.')
+        utils.error_handling('ERROR: You have no booked slots for the next 7 days.')
 
 
 def print_all_booked_slots_table(events, username):
@@ -212,7 +204,7 @@ def print_all_booked_slots_table(events, username):
     if table_info:
         print_table(table_info, 'Your booked slots for the next 7 days:')
     else:
-        utils.print_output('ERROR: You have no booked slots for the next 7 days.')
+        utils.error_handling('ERROR: You have no booked slots for the next 7 days.')
 
 
 def print_available_booking_slots_table(events):
@@ -220,7 +212,7 @@ def print_available_booking_slots_table(events):
     if table_info:
         print_table(table_info, 'Volunteer slots available for bookings:')
     else:
-        utils.print_output('ERROR: There are no volunteer slots available to book.')
+        utils.error_handling('ERROR: There are no volunteer slots available to book.')
 
 
 def print_all_available_booking_slots_table(events, username):
@@ -228,5 +220,4 @@ def print_all_available_booking_slots_table(events, username):
     if table_info:
         print_table(table_info, 'Volunteer slots available for bookings:')
     else:
-        utils.print_output('ERROR: There are no volunteer slots available to book.')
-    
+        utils.error_handling('ERROR: There are no volunteer slots available to book.')

@@ -1,3 +1,60 @@
 {
-    "open_slots": []
+    "open_slots": [
+        {
+            "sv7916fq8au1a83okijifnffto": {
+                "attendees": [
+                    {
+                        "email": "ayano@student.wethinkcode.co.za",
+                        "responseStatus": "accepted"
+                    }
+                ],
+                "end": {
+                    "dateTime": "2020-12-08T17:00:00+02:00",
+                    "timeZone": "Africa/Johannesburg"
+                },
+                "id": "sv7916fq8au1a83okijifnffto",
+                "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+                "organizer": {
+                    "email": "code.clinic.test@gmail.com",
+                    "self": true
+                },
+                "reminders": {
+                    "useDefault": true
+                },
+                "start": {
+                    "dateTime": "2020-12-08T16:30:00+02:00",
+                    "timeZone": "Africa/Johannesburg"
+                },
+                "summary": "VOLUNTEER: ayano"
+            }
+        },
+        {
+            "ate1go2o0gpss1oila6r5ubnfs": {
+                "attendees": [
+                    {
+                        "email": "ayano@student.wethinkcode.co.za",
+                        "responseStatus": "accepted"
+                    }
+                ],
+                "end": {
+                    "dateTime": "2020-12-08T17:30:00+02:00",
+                    "timeZone": "Africa/Johannesburg"
+                },
+                "id": "ate1go2o0gpss1oila6r5ubnfs",
+                "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+                "organizer": {
+                    "email": "code.clinic.test@gmail.com",
+                    "self": true
+                },
+                "reminders": {
+                    "useDefault": true
+                },
+                "start": {
+                    "dateTime": "2020-12-08T17:00:00+02:00",
+                    "timeZone": "Africa/Johannesburg"
+                },
+                "summary": "VOLUNTEER: ayano"
+            }
+        }
+    ]
 }

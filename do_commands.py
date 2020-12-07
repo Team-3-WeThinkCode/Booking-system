@@ -18,7 +18,7 @@ def do_patient_commands(student, clinic):
         try:
             created = booking.make_booking(student.username, student.info['UD'], student.service, clinic.service, student.info)
         except(KeyError):
-            utils.print_output("ERROR: Please include the correct uid when booking a slot.")
+            utils.print_output('ERROR: Please enter a description in enclosed quotes.\ne.g. "Recursion"')
         if not created:
             listings.print_correlating_table(False, True, student, clinic, False, False)
     elif student.info['command'] == 'cancel':

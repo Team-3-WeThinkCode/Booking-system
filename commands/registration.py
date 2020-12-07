@@ -29,15 +29,13 @@ def add_registration_info_to_json(user_info):
             student_data['student_info'].append(required_info)
             with open('data_files/.student.json', 'w') as f:
                 json.dump(student_data, f, sort_keys=True, indent=4)
-            utils.print_output("Registration successful! Welcome to Code Clinic "+ user_info['username']+".")
         else:
             with open('data_files/.student.json') as json_file: 
                 student_data = json.load(json_file)
                 if is_student_registered(student_data['student_info'], user_info['username']):
-                    utils.print_output("ERROR: You are already registered.")
-                    return False
+                    utils.error_handling("ERROR: You are already registered.")
                 student_data['student_info'].append(required_info)
             write_json(student_data)
-            utils.print_output("Registration successful. Welcome to Code Clinic "+ user_info['username']+"!")
+        utils.print_output("Registration successful. Welcome to Code Clinic "+ user_info['username']+"!")
     except:
-        utils.print_output('ERROR: Something went wrong! Try again.')
+        utils.error_handling('ERROR: Something went wrong! Try again.')
