@@ -22,7 +22,6 @@ def get_chosen_slot(events, username, uid):
     return False, {}
 
 
-
 def update_booking_body(event, volunteer):
     """
     Function will take a event object and sort the relevant data to create a body for the new booking.
@@ -49,6 +48,9 @@ def cancel_attendee(username, volunteer_service, codeclinic_service, uid):
     deletion = False
     slots = utilities.get_events(codeclinic_service,now, end_date)
     deletion, event = get_chosen_slot(slots, username, uid)
+    if not is_user_valid(event, username):
+        utilities.print_output("ERROR: You cannot cancel another users booking")
+        return False
     if deletion == True:
         try:
             updated_event = update_booking_body(event, username)
@@ -59,4 +61,11 @@ def cancel_attendee(username, volunteer_service, codeclinic_service, uid):
         return True
     else:
         utilities.print_output("ERROR: You cannot cancel selected booking.\nUse the help command (-h) for more infromation.")
+        return False
+
+
+def is_user_valid(slot, username):
+    if utilities.split_username(slot['attendees'][1]['email']) == username:
+        return True
+    else:
         return False

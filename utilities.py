@@ -269,3 +269,11 @@ def store_slot_data(events, user):
                 new_data['events'].append({event['id'] : event})
         with open('data_files/.student_events.json', 'w') as f:
             json.dump(new_data, f, sort_keys=True, indent=4)
+
+    
+def split_username(email):
+    """
+    Function will split the users email address to grab the username before the 
+    @ symbol.
+    """
+    return email.split(sep='@', maxsplit=1)[0]

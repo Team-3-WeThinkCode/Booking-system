@@ -14,14 +14,6 @@ import utilities as utils
 console = Console()
 
 
-def split_username(email):
-    """
-    Function will split the users email address to grab the username before the 
-    @ symbol.
-    """
-    return email.split(sep='@', maxsplit=1)[0]
-
-
 def print_correlating_table(volunteer, create, student, clinic, created, event_list):
     now = datetime.datetime.utcnow().isoformat() + 'Z'
     end_date = ((datetime.datetime.utcnow()) + datetime.timedelta(days=7)).isoformat() + 'Z'
@@ -91,7 +83,7 @@ def get_volunteered_slots_table_info(events, username):
         start_time = start[11:16]
         patient = 'Open slot.'
         if len(event['attendees']) > 1:
-            patient = split_username(event['attendees'][1]['email'])
+            patient = utils.split_username(event['attendees'][1]['email'])
         if (start_time in start_times) and (event['summary'][11:] == username):
             row = (username,start_date,start_time,event['id'],patient)
             table_info.append(row)
@@ -106,7 +98,7 @@ def get_booked_slots_table_info(events, username):
         start_date = (start[0:10])
         start_time = (start[11:16]+' - '+end[11:16])
         if len(event['attendees']) > 1:
-            patient = split_username(event['attendees'][1]['email'])
+            patient = utils.split_username(event['attendees'][1]['email'])
             if patient == username:
                 row = (event['summary'][10:],start_date,start_time,event['id'],patient)
                 table_info.append(row)
@@ -122,10 +114,10 @@ def get_all_booked_slots_table_info(events, username):
         start_time = (start[11:16]+' - '+end[11:16])
         if len(event['attendees']) >= 1:
             if len(event['attendees']) > 1:
-                patient = split_username(event['attendees'][1]['email'])
+                patient = utils.split_username(event['attendees'][1]['email'])
             else:
                 patient = "Open-slot"
-            volunteer = split_username(event['attendees'][0]['email'])
+            volunteer = utils.split_username(event['attendees'][0]['email'])
             if patient == username or volunteer == username:
                 row = (event['summary'][10:],start_date,start_time,event['id'],patient)
                 table_info.append(row)
@@ -165,7 +157,7 @@ def get_all_open_booking_slots_table_info(events, username):
         end = event['end'].get('dateTime', event['end'].get('date'))
         start_date = (start[0:10])
         start_time = (start[11:16]+' - '+end[11:16])
-        if not len(event['attendees']) > 1 and split_username(event['attendees'][0]['email']) != username:
+        if not len(event['attendees']) > 1 and utils.split_username(event['attendees'][0]['email']) != username:
             row = (event['summary'][10:],start_date,start_time,event['id'],'Open slot.')
             table_info.append(row)
     return table_info
