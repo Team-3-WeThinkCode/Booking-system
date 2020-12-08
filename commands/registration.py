@@ -22,6 +22,8 @@ def is_student_registered(json_data, username):
 
 
 def add_registration_info_to_json(user_info):
+    if user_info['username'] == 'codeclinic':
+        utils.error_handling('ERROR: Invalid username.')
     required_info = {'username': user_info['username'], 'password': user_info['password']}
     try:
         if os.stat('data_files/.student.json').st_size == 0:

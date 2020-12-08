@@ -41,18 +41,18 @@ def get_username(info):
     :return: Empty dictionary if username was not in command line arguments
     '''
 
-    valid_args = ['create', 'cancel', 'register','volunteer', 'patient', 'list-bookings', 'list-open', 'list-slots', 'help', '-h']
+    valid_args = ['create', 'cancel', 'register','volunteer', 'patient', 'list-bookings', 'list-open', 'list-slots', 'help', '-h', 'login']
     lst_not_args = list(filter(lambda x: x not in valid_args, sys.argv))
     if lst_not_args:
         lst_command_arg = list(filter(lambda y: 'main.py' not in y, lst_not_args))
         for item in lst_command_arg:
             if is_username(item):
                 if (is_registered(item)) or 'register' in sys.argv:
-                    info['username'] = item
-                    return info
+                        info['username'] = item
+                        return info
                 else:
                     utils.error_handling('INVALID: You are not registered.')
-        utils.error_handling('INVALID: Username not provided.')
+        utils.error_handling('INVALID: Username not provided or invalid.')
 
 
 def get_user_type(info):
@@ -89,6 +89,9 @@ def get_command(info, criteria):
         criteria[0] = True
     if sys.argv[1] == 'register':
         info['command'] = 'register'
+        criteria[3] = True
+    if sys.argv[1] == 'login':
+        info['command'] = 'login'
         criteria[3] = True
     if '-h' in sys.argv or 'help' in sys.argv:
         info['command'] = 'help'
@@ -164,6 +167,10 @@ def check_if_support_info_is_present(info):
                 if 'password' in info and 'username' in info:
                     return True
             utils.error_handling('INVALID: Enter command in format: register <username> <password>')
+        if info['command'] == 'login':
+            if 'password' in info and 'username' in info:
+                return True
+            utils.error_handling('INVALID: Enter command in format: login <username> <password>') 
         if not (info['command'] == 'cancel' or info['command'] == 'create'):
             return True
     return False
