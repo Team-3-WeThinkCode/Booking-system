@@ -14,8 +14,11 @@ import utilities as utils
 def log_in_expired(username):
     timestamp = ''
     now = datetime.now().strftime('%H:%M:%S')
-    with open('data_files/.login_time.json', 'r') as json_file:
-        info = json.load(json_file)
+    try:
+        with open('data_files/.login_time.json', 'r') as json_file:
+            info = json.load(json_file)
+    except:
+        utils.error_handling("ERROR: Please log-in with username and password.")
     if info:
         for student in info['expiration']:
             if student['username'] == username:

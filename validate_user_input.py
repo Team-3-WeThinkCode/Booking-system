@@ -41,7 +41,7 @@ def get_username(info):
     :return: Empty dictionary if username was not in command line arguments
     '''
 
-    valid_args = ['create', 'cancel', 'register','volunteer', 'patient', 'list-bookings', 'list-open', 'list-slots', 'help', '-h', 'login']
+    valid_args = ['create', 'cancel', 'register','volunteer', 'patient', 'list-bookings', 'list-open', 'list-slots', 'help', '-h', 'login', 'format']
     lst_not_args = list(filter(lambda x: x not in valid_args, sys.argv))
     if lst_not_args:
         lst_command_arg = list(filter(lambda y: 'main.py' not in y, lst_not_args))
@@ -95,6 +95,8 @@ def get_command(info, criteria):
         criteria[3] = True
     if '-h' in sys.argv or 'help' in sys.argv:
         info['command'] = 'help'
+        if 'format' in sys.argv:
+            info['command'] = 'format-help'
     return info
 
 

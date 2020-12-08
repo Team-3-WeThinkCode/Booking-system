@@ -49,7 +49,7 @@ if __name__ == "__main__":
             utils.error_handling('ERROR: Event files could not be updated.')
     else:
         utils.error_handling('INVALID: Input invalid. Use the help command for further information.\nHelp command: -h')
-    if not student.info['command'] == 'login':
+    if not (student.info['command'] == 'login' or student.info['command'] == 'register'):
         login.log_in_expired(student.username)
     if not sys.stdin.isatty():
         data = sys.stdin.readlines()
@@ -64,5 +64,7 @@ if __name__ == "__main__":
         login.login_details(student.info['username'], student.info['password'])
     elif 'command' in student.info and student.info['command'] == 'help':
         help_command.print_help_command()
+    elif 'command' in student.info and student.info['command'] == 'format-help':
+        help_command.print_help_format_command()
     else:
         do_commands.do_event_listing_commands(student, codeclinic)
