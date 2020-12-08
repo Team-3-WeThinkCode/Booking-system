@@ -2,6 +2,7 @@ import sys
 from quickstart import create_service
 from validate_user_input import get_user_commands
 from commands import registration as register
+from commands import help as help_command
 import utilities as utils
 import do_commands
   
@@ -56,5 +57,7 @@ if __name__ == "__main__":
             do_commands.do_patient_commands(student, codeclinic)
     elif 'command' in student.info and student.info['command'] == 'register':
         register.add_registration_info_to_json(student.info)
+    elif 'command' in student.info and student.info['command'] == 'help':
+        help_command.print_help_command()
     else:
         do_commands.do_event_listing_commands(student, codeclinic)
