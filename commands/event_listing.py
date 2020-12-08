@@ -14,61 +14,6 @@ import utilities as utils
 console = Console()
 
 
-def print_correlating_table(volunteer, create, student, clinic, created, event_list):
-    now = datetime.datetime.utcnow().isoformat() + 'Z'
-    end_date = ((datetime.datetime.utcnow()) + datetime.timedelta(days=7)).isoformat() + 'Z'
-    events = utils.get_events(clinic.service, now, end_date)
-    if created:
-        return
-    if event_list and volunteer:
-        # user list-bookings: print table with all booked slots (volunteer & patient)
-        print_all_booked_slots_table(events, student.username)
-    elif event_list and not volunteer:
-        # user list-slots: print table with all open slots besides the user requesting
-        print_all_available_booking_slots_table(events, student.username)
-    elif volunteer and create:
-        #volunteer create slot: print table with open slot times where can volunteer
-        print_open_volunteer_slots_table(student.username, student.service, clinic.service, student.info['date'])
-    elif volunteer and not create:
-        #volunteer delete slot: print table with volunteered slots
-        print_volunteered_slots_table(events, student.username)
-    elif create and not volunteer:
-        #patient create booking: print table with open volunteer slots to book
-        print_available_booking_slots_table(events)
-    elif not (volunteer and create):
-        #patient delete booking: print table with volunteer slots booked by user
-        print_booked_slots_table(events, student.username)
-
-
-def print_table(table_info, heading):
-    '''
-    Prints table with event information
-    Table headings: #, Volunteer name, Date, Time, ID, Patient
-    table_info : list of tuples; correlates with table headings
-    heading : heading displayed above table
-    '''
-
-    nums = 1
-    index = 0
-    table_headings = ['Volunteer username', 'Date', 'Time', 'ID', 'Patient']
-    table = Table(title=heading, show_header=True, header_style="bold tan")
-    table.add_column('#.', style="dim", width=12)
-    for heading in table_headings:
-        table.add_column(heading)
-    for row in table_info:
-        table.add_row(
-            str(nums),
-            row[0],
-            row[1],
-            row[2],
-            row[3],
-            row[4]
-        )
-        index += 1
-        nums += 1
-    console.print(table)
-
-
 def get_volunteered_slots_table_info(events, username):
     '''
     Gets data for table to be displayed
@@ -163,53 +108,84 @@ def get_all_open_booking_slots_table_info(events, username):
     return table_info
 
 
-def print_volunteered_slots_table(events, username):
+def print_table(table_info, heading):
     '''
-    Gets and displays volunteer's slot data in table form
+    Prints table with event information
+    Table headings: #, Volunteer name, Date, Time, ID, Patient
+    table_info : list of tuples; correlates with table headings
+    heading : heading displayed above table
     '''
+
+    nums = 1
+    index = 0
+    table_headings = ['Volunteer username', 'Date', 'Time', 'ID', 'Patient']
+    table = Table(title=heading, show_header=True, header_style="bold tan")
+    table.add_column('#.', style="dim", width=12)
+    for heading in table_headings:
+        table.add_column(heading)
+    for row in table_info:
+        table.add_row(
+            str(nums),
+            row[0],
+            row[1],
+            row[2],
+            row[3],
+            row[4]
+        )
+        index += 1
+        nums += 1
+    console.print(table)
+
+
+def print_correct_table(table_info, heading, error_message):
+    if table_info:
+        print_table(table_info, heading)
+    else:
+        utils.error_handling(error_message)
+
+
+def get_seven_day_events(service):
+    now = datetime.datetime.utcnow().isoformat() + 'Z'
+    end_date = ((datetime.datetime.utcnow()) + datetime.timedelta(days=7)).isoformat() + 'Z'
+    events = utils.get_events(service, now, end_date)
+    return events
+
+
+def print_correlating_table(volunteer, create, student, clinic, created, event_list):
     
-    table_info = get_volunteered_slots_table_info(events, username)
-    if table_info:
-        print_table(table_info, 'Volunteered slots for the next 7 days:')
-    else:
-        utils.error_handling('ERROR: You have no volunteer slots in the next 7 days.')
-
-
-def print_open_volunteer_slots_table(username, volunteer_service, clinic_service, date):
-    table_info = get_open_volunteer_slots_table_info(username, volunteer_service, clinic_service, date)
-    if table_info:
-        print_table(table_info, 'Open volunteer slots for '+str(date)+':')
-    else:
-        utils.error_handling('ERROR: There are no open volunteer slots on '+str(date)+':')
-
-
-def print_booked_slots_table(events, username):
-    table_info = get_booked_slots_table_info(events, username)
-    if table_info:
-        print_table(table_info, 'Your booked slots for the next 7 days:')
-    else:
-        utils.error_handling('ERROR: You have no booked slots for the next 7 days.')
-
-
-def print_all_booked_slots_table(events, username):
-    table_info = get_all_booked_slots_table_info(events, username)
-    if table_info:
-        print_table(table_info, 'Your booked slots for the next 7 days:')
-    else:
-        utils.error_handling('ERROR: You have no booked slots for the next 7 days.')
-
-
-def print_available_booking_slots_table(events):
-    table_info = get_open_booking_slots_table_info(events)
-    if table_info:
-        print_table(table_info, 'Volunteer slots available for bookings:')
-    else:
-        utils.error_handling('ERROR: There are no volunteer slots available to book.')
-
-
-def print_all_available_booking_slots_table(events, username):
-    table_info = get_all_open_booking_slots_table_info(events, username)
-    if table_info:
-        print_table(table_info, 'Volunteer slots available for bookings:')
-    else:
-        utils.error_handling('ERROR: There are no volunteer slots available to book.')
+    table_info = []
+    heading, error_message = '', ''
+    events = get_seven_day_events(clinic.service)
+    if created:
+        return
+    if event_list and volunteer:
+        # user list-bookings: print table with all booked slots (volunteer & patient)
+        table_info = get_all_booked_slots_table_info(events, student.username)
+        heading = 'Your booked slots for the next 7 days:'
+        error_message = 'ERROR: You have no booked slots for the next 7 days.'
+    elif event_list and not volunteer:
+        # user list-slots: print table with all open slots besides the user requesting
+        table_info = get_all_open_booking_slots_table_info(events, student.username)
+        heading = 'Volunteer slots available for bookings:'
+        error_message = 'ERROR: There are no volunteer slots available to book.'
+    elif volunteer and create:
+        #volunteer create slot: print table with open slot times where can volunteer
+        table_info = get_open_volunteer_slots_table_info(student.username, student.service, clinic.service, student.info['date'])
+        heading = 'Open volunteer slots for '+student.info['date']+':'
+        error_message = 'ERROR: There are no open volunteer slots on '+student.info['date']+'.'
+    elif volunteer and not create:
+        #volunteer delete slot: print table with volunteered slots
+        table_info = get_volunteered_slots_table_info(events, student.username)
+        heading = 'Volunteered slots for the next 7 days:'
+        error_message = 'ERROR: You have no volunteer slots in the next 7 days.'
+    elif create and not volunteer:
+        #patient create booking: print table with open volunteer slots to book
+        table_info = get_open_booking_slots_table_info(events)
+        heading = 'Volunteer slots available for bookings:'
+        error_message = 'ERROR: There are no volunteer slots available to book.'
+    elif not (volunteer and create):
+        #patient delete booking: print table with volunteer slots booked by user
+        table_info = get_booked_slots_table_info(events, student.username)
+        heading = 'Your booked slots for the next 7 days:'
+        error_message = 'ERROR: You have no booked slots for the next 7 days.'
+    print_correct_table(table_info, heading, error_message)
