@@ -1,25 +1,28 @@
 import json
-from datetime import datetime
+import os
+import sys
 
-# user_info= open('data_files/.student.json', 'r')
-# user_data = json.load(user_info)
+USER_PATHS = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../'))
+sys.path.insert(0, USER_PATHS)
+import utilities as utils
 
-# def write_json(data, filename= '.timestamp.json'):
-#     with open(filename, 'w') as f:
-#         json.dump(data, f, sort_keys= True, indent=4)
+# from datetime import datetime
 
-# def user_login(user_info):
-#     with open('data_files/.student.json') as json_file:
-#         student_data = json.load(json_file)
-#         for student in student_data:
-#             if student['username'] == user_info['username'] and student['password'] == user_info['password']:
+# [login] [username] [password]
+# password : 8 characters long
 
-def get_username():
-    return input("Enter your username: ")
 
-def get_password():
-    return input("Enter your password: ")
+def is_valid_student_info(json_data, username, password):
+    for student in json_data:
+        if student['username'] == username and student['password'] == password:
+            return True
+    return False
 
-# def login_details():
-#     with open('data_files/.student.json') as json_file:
-#         student_data = json.lo
+
+def login_details(user_info):
+    with open('data_files/.student.json') as json_file:
+        student_data = json.load(json_file)
+        if is_valid_student_info(student_data['student_info'], user_info['username'], user_info['password']):
+            utils.print_output("Login successful. Welcome to Code Clinic "+ user_info['username']+"!")
+        else:
+            utils.error_handling("Login details are not accurrate. Try again")
