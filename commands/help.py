@@ -50,6 +50,7 @@ def print_help_functionality():
     table_info.append(['List open volunteer slots', 'Print table with all open volunteer slots for specified date\n', '<username> list-open <date>', '-'])
     table_info.append(['List slots open for booking', 'Print table with all open slots for booking\n', '<username> list-slots', '<username> list-slots <#days>'])
     table_info.append(['List format information', 'Describes each command\n', '<username> help format', '<username> -h format'])
+    table_info.append(['Export Code Clinic calendar', 'Exports the calendar as an iCal file, allows import to desktop calendar app.\n', '<username> export','-'])
     print_table(table_info, 'Functionality:')
     print()
 
