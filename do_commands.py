@@ -1,6 +1,23 @@
-from commands import volunteer, booking, cancellation
+from commands import volunteer, booking, cancellation, login
 from commands import event_listing as listings
+from commands import registration as register
+from commands import help as help_command
 import utilities as utils
+
+
+def do_register_command(student_info):
+    register.add_registration_info_to_json(student_info)
+
+
+def do_login_command(username, password):
+    login.login_details(username, password)
+
+
+def do_help_command(format):
+    if format:
+        help_command.print_help_format_command()
+    else:
+        help_command.print_help_command()
 
 
 def do_volunteer_commands(student, clinic):

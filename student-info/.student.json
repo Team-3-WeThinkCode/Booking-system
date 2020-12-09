@@ -5,8 +5,13 @@
             "username": "cprinsloo"
         },
         {
+<<<<<<< HEAD
             "password": "12345678",
             "username": "sgerber"
+=======
+            "password": "password",
+            "username": "student"
+>>>>>>> 01e8432f892e919613434f61eecc573343de797b
         }
     ]
 }

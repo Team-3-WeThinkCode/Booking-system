@@ -1,9 +1,12 @@
 import sys
 from quickstart import create_service
 from validate_user_input import get_user_commands
+<<<<<<< HEAD
 from commands import registration as register
 from commands import export_calendar as export
 from commands import help as help_command
+=======
+>>>>>>> 01e8432f892e919613434f61eecc573343de797b
 from commands import login
 import utilities as utils
 import do_commands
@@ -39,26 +42,32 @@ class CodeClinic:
             self.service = None
 
 
-if __name__ == "__main__":
+def run_program():
+    '''
+    Executes program
+    '''
+
     student = Student()
     codeclinic = CodeClinic()
     data = ''
-    if student.info:
-        try:
-            utils.update_files(student.service, codeclinic.service, student.username)
-        except:
-            utils.error_handling('ERROR: Event files could not be updated.')
-    else:
+    #check if input entered is invalid
+    if not student.info:
         utils.error_handling('INVALID: Input invalid. Use the help command for further information.\nHelp command: -h')
+    #check if student's login token has expired
     if not (student.info['command'] == 'login' or student.info['command'] == 'register'):
         login.log_in_expired(student.username)
+    #update data files
+    utils.update_files(student.service, codeclinic.service, student.username)
+    #ensures piping input accepted
     if not sys.stdin.isatty():
         data = sys.stdin.readlines()
+    #execute commands
     if 'user_type' in student.info:
         if student.info['user_type'] == 'volunteer':
             do_commands.do_volunteer_commands(student, codeclinic)
         elif student.info['user_type'] == 'patient':
             do_commands.do_patient_commands(student, codeclinic)
+<<<<<<< HEAD
     elif 'command' in student.info and student.info['command'] == 'register':
         register.add_registration_info_to_json(student.info)
     elif 'command' in student.info and student.info['command'] == 'login':
@@ -71,3 +80,20 @@ if __name__ == "__main__":
         export.export_calendar()
     else:
         do_commands.do_event_listing_commands(student, codeclinic)
+=======
+    elif 'command' in student.info:
+        if student.info['command'] == 'register':
+            do_commands.do_register_command(student.info)
+        elif student.info['command'] == 'login':
+            do_commands.do_login_command(student.info['username'], student.info['password'])
+        elif student.info['command'] == 'help':
+            do_commands.do_help_command(False)
+        elif student.info['command'] == 'format-help':
+            do_commands.do_help_command(True)
+        else:
+            do_commands.do_event_listing_commands(student, codeclinic)
+
+
+if __name__ == "__main__":
+    run_program()
+>>>>>>> 01e8432f892e919613434f61eecc573343de797b

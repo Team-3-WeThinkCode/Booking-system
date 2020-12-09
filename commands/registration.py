@@ -25,19 +25,16 @@ def add_registration_info_to_json(user_info):
     if user_info['username'] == 'codeclinic':
         utils.error_handling('ERROR: Invalid username.')
     required_info = {'username': user_info['username'], 'password': user_info['password']}
-    try:
-        if os.stat('student-info/.student.json').st_size == 0:
-            student_data = {'student_info' : []}
+    if os.stat('student-info/.student.json').st_size == 0:
+        student_data = {'student_info' : []}
+        student_data['student_info'].append(required_info)
+        with open('student-info/.student.json', 'w') as f:
+            json.dump(student_data, f, sort_keys=True, indent=4)
+    else:
+        with open('student-info/.student.json') as json_file: 
+            student_data = json.load(json_file)
+            if is_student_registered(student_data['student_info'], user_info['username']):
+                utils.error_handling("ERROR: You are already registered.")
             student_data['student_info'].append(required_info)
-            with open('student-info/.student.json', 'w') as f:
-                json.dump(student_data, f, sort_keys=True, indent=4)
-        else:
-            with open('student-info/.student.json') as json_file: 
-                student_data = json.load(json_file)
-                if is_student_registered(student_data['student_info'], user_info['username']):
-                    utils.error_handling("ERROR: You are already registered.")
-                student_data['student_info'].append(required_info)
-            write_json(student_data)
-        utils.print_output("Registration successful. Welcome to Code Clinic "+ user_info['username']+"!")
-    except:
-        utils.error_handling('ERROR: Something went wrong! Try again.')
+        write_json(student_data)
+    utils.print_output("Registration successful. Welcome to Code Clinic "+ user_info['username']+"!")
