@@ -18,6 +18,7 @@ class test_events_listings(unittest.TestCase):
         new_list = event_listing.sort_open_slots(test_events_listings.test_obj, username="student")
         self.assertEqual(new_list, [self.test_obj[0]])
 
+
     def test_sort_booked_slots_false(self):
         new_list = event_listing.sort_booked_slots(test_events_listings.test_obj, username="jdoe")
         self.assertEqual(new_list, [])
@@ -31,10 +32,7 @@ class test_events_listings(unittest.TestCase):
     def test_sort_open_slots_false(self):
         new_list = event_listing.sort_open_slots([{"key": "value"}], username="jroy")
         self.assertEqual(new_list, [])
-    
-    def test_split_username(self):
-        username = event_listing.split_username("jdoe@student.wethinkcode.co.za")
-        self.assertEqual(username, "jdoe")
+
 
 
 
