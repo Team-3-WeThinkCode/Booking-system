@@ -10,18 +10,52 @@ import utilities as utils
 # password : 8 characters long
 
 def write_json(data, filename='student-info/.student.json'): 
+    '''
+    Write given data to json file with specified filename. If
+    filename isn't specified, data added to default json file,
+    student.json
+
+            Parameters:
+                    data      (N/A): Data to be added to file
+                    filename  (str): Json file's filename
+    '''
+
     with open(filename,'w') as f: 
         json.dump(data, f, sort_keys=True, indent=4) 
 
 
-def is_student_registered(json_data, username):
-    for student in json_data:
+def is_student_registered(registered_students, username):
+    #TODO: write one function for login/register
+    '''
+    Checks whether student with specified username is registered by sorting through
+    the given registered_students list
+
+            Parameters:
+                    registered_students (list of dict): List of registered students
+                    username                     (str): Student's username
+
+            Returns:
+                    True  (boolean): Student's username and password exists in
+                                     the registered_students list
+                    False (boolean): Student's username and password does not 
+                                     exist in the registered_students list
+    '''
+
+    for student in registered_students:
         if student['username'] == username:
             return True
     return False
 
 
 def add_registration_info_to_json(user_info):
+    #TODO: pass through username and password instead of whole dictionary
+    '''
+    Writes student's information (username and password) to the student.json file.
+
+                Parameters:
+                    user_info (dict): Information on student and given command
+    '''
+
     if user_info['username'] == 'codeclinic':
         utils.error_handling('ERROR: Invalid username.')
     required_info = {'username': user_info['username'], 'password': user_info['password']}

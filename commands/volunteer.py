@@ -1,7 +1,6 @@
 import os
 import sys
-import datetime
-from utils.TableIt import TableIt as tabulate
+
 USER_PATHS = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../'))
 sys.path.insert(0, USER_PATHS)
 import utilities as utils
@@ -9,9 +8,18 @@ import utilities as utils
 
 def is_volunteering_at_specified_time(clinic_service, username, start_datetime, end_datetime):
     '''
-    Checks if volunteer is volunteering at specified date/time
-    :return: True if the volunteer has a volunteer slot in 
-    specified date/time
+    Sorts through events, occuring within specified datetimes, on the Code clinic's calendar
+    to confirm whether student with specified username is volunteering during specified date/time.
+
+            Parameters:
+                    clinic_service  (obj): Code clinic's Google calendar API service
+                    username        (str): Student's username
+                    start_datetime  (str): Datetime (in rfc format) that volunteer event starts
+                    end_datetime    (str): Datetime (in rfc format) that volunteer event ends
+
+            Returns:
+                    True        (boolean): Student is volunteering at specified datetime
+                    False       (boolean): Student is not volunteering at specified datetime
     '''
 
     events = utils.get_events(clinic_service, start_datetime, end_datetime)
@@ -24,9 +32,19 @@ def is_volunteering_at_specified_time(clinic_service, username, start_datetime, 
 
 
 def get_open_volunteer_slots_of_the_day(date, username, clinic_service):
+    #TODO add where student busy with other event in own personal calendar
     '''
-    Checks events in clinic calendar for open slots to add volunteer events
-    :return: list (of tuples) of open volunteer slots
+    Sorts through volunteer slot times and confirms whether student is volunteering during 
+    the slot time. If student is not volunteering during the slot time, the slot time is 
+    added to the list, open_slots. List of available volunteer slots are returned.
+
+            Parameters:
+                    date                   (str): Date in format yyyy-mm-dd
+                    username               (str): Student's username
+                    clinic_service         (obj): Code clinic's Google calendar API service
+
+            Returns:
+                    open_slots  (list of tuples): Volunteer slot times user is not volunteering in
     '''
 
     slots = [('08:30', '10:00'), ('10:00', '11:30'), ('11:30', '13:00'), ('13:00', '14:30'), ('14:30', '16:00'), ('16:00', '17:30')]
@@ -50,23 +68,6 @@ def convert_90_min_slot_into_30_min_slots(slot):
     elif start_minute == 0:
         return [(slot[0], str(start_hour)+':'+'30'), (str(start_hour)+':'+'30', str(start_hour+1)+':'+'00'), (str(start_hour+1)+':'+'00', str(start_hour+1)+':'+'30') ]
     return []
-
-
-def print_open_slots_table(list_slots, date, title):
-    """
-    Prints table with information on the date, start time and end time of events
-    """
-
-    table = [
-        ['#.', 'date.', 'start time.', 'end time.']
-    ]
-    nums = 1
-    print('\n'+title)
-    for slot in list_slots:
-        table.append(['', '-------------------------', '-------------------------', '-------------------------', '-------------------------'])
-        table.append([nums, date, slot[0], slot[1]])
-        nums += 1
-    tabulate.printTable(table, useFieldNames=True, color=(255, 0, 255))
 
 
 def is_slot_available(service, username, start_datetime, end_datetime):

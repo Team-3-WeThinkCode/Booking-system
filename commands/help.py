@@ -10,6 +10,14 @@ import utilities as utils
 console = Console()
 
 def print_table(table_info, heading):
+    '''
+    Prints table with information from the table_info list and heading string
+    as the table heading
+
+            Parameters:
+                    table_info  (2D-list): List of information per table row
+                    heading         (str): Heading to be printed above table
+    '''
 
     table_headings = ['Command type', 'Definition', 'Format', 'Optional format']
     table = Table(title=heading, show_header=True, header_style="bold green")
@@ -26,6 +34,15 @@ def print_table(table_info, heading):
 
 
 def print_support_commands_table(table_info, heading):
+    '''
+    Prints table with information from the table_info list and heading string
+    as the table heading.
+
+            Parameters:
+                    table_info  (2D-list): List of information per table row
+                    heading         (str): Heading to be printed above table
+    '''
+
     table_headings = ['Command', 'Definition']
     table = Table(title=heading, show_header=True, header_style="bold green")
     for heading in table_headings:
@@ -39,6 +56,11 @@ def print_support_commands_table(table_info, heading):
 
 
 def print_help_functionality():
+    '''
+    Information on commands added to table_info list and printed to the 
+    terminal in a table format
+    '''
+
     table_info = []
     table_info.append(['Register user', 'Registers user with username and password\n', 'register <username> <password>', '-'])
     table_info.append(['Login user', 'User logs-in to computer system with username and password\n', 'login <username> <password>', '-'])
@@ -56,6 +78,11 @@ def print_help_functionality():
 
 
 def print_user_type():
+    '''
+    Information on user type added to table_info list and printed to the 
+    terminal in a table format
+    '''
+
     table_info = []
     heading = 'User type:'
     table_info.append(['volunteer', 'User offering code clinic service'])
@@ -65,6 +92,11 @@ def print_user_type():
 
 
 def print_commands_type(): 
+    '''
+    Information on command types added to table_info list and printed to the 
+    terminal in a table format
+    '''
+
     table_info = []
     heading = 'Commands:'
     table_info.append(['register', 'Registration functionality'])
@@ -79,6 +111,11 @@ def print_commands_type():
 
 
 def print_support_type():
+    '''
+    Information on support arguments added to table_info list and printed to the 
+    terminal in a table format
+    '''
+
     table_info = []
     heading = 'Support:'
     table_info.append(['username', 'Name to uniquely identify student'])
@@ -91,11 +128,11 @@ def print_support_type():
     print()
 
 
-def print_help_command():
-    print_help_functionality()
-
-
 def print_help_format_command():
+    '''
+    Format information printed to the terminal in table format
+    '''
+    
     print_user_type()
     print_commands_type()
     print_support_type()

@@ -12,6 +12,16 @@ import utilities as utils
 
 
 def log_in_expired(username):
+    '''
+    Confirms whether student's, with specified username, log-in time has expired 
+    by retrieving the expiry date and time from the login_time.json file. This 
+    date and time is compared to the current date and time. If log-in time has 
+    expired, an error message is displayed.
+
+            Parameters:
+                    username  (str): Student's username
+    '''
+
     timestamp, date = '', ''
     date_now = datetime.now().strftime('%y-%m-%d')
     time_now = time_now = datetime.now().strftime('%H:%M:%S')
@@ -38,6 +48,15 @@ def log_in_expired(username):
 
 
 def add_timestamps_to_json(username):
+    '''
+    Adds student's username, log-in expiry date and time to the login_time.json file
+    as a list containing a dictionary. The expiry date/time is set to 4 hours from the
+    current date/time.
+
+            Parameters:
+                    username  (str): Student's username
+    '''
+
     expiry_date = (datetime.now() + timedelta(hours=4)).strftime('%y-%m-%d')
     expiry_time = (datetime.now() + timedelta(hours=4)).strftime('%H:%M:%S')
     with open('student-info/.login_time.json', 'w') as json_file:
@@ -64,14 +83,41 @@ def add_timestamps_to_json(username):
         return False
     
 
-def is_valid_student_info(json_data, username, password):
-    for student in json_data:
+def is_valid_student_info(registered_students, username, password):
+    '''
+    Sorts through the registered_students list of registered students to confirm
+    whether any student's information correlates with given information
+
+            Parameters:
+                    registered_students (list of dict): List of registered students
+                    username                     (str): Student's username
+                    password                     (str): Student's password
+
+            Returns:
+                    True  (boolean): Student's username and password exists in
+                                     the registered_students list
+                    False (boolean): Student's username and password does not 
+                                     exist in the registered_students list
+    '''
+
+    for student in registered_students:
         if student['username'] == username and student['password'] == password:
             return True
     return False
 
 
 def login_details(username, password):
+    '''
+    Sorts through registered students from the student.json file and confirms
+    whether student username and password is registered. If student is registered,
+    student log-in expiry date and time is updated. If student is not registered,
+    an error message is returned and program exits
+
+            Parameters:
+                    username  (str): Student's username
+                    password  (str): Student's password
+    '''
+
     student_data = []
     if not os.stat('student-info/.student.json').st_size == 0:
         with open('student-info/.student.json') as json_file:

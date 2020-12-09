@@ -239,7 +239,7 @@ def print_correct_table(table_info, heading, error_message):
     then an error message will be printed and the program will exit
 
             Parameters:
-                    table_info     (2D-list): List of information per row
+                    table_info     (2D-list): List of information per table row
                     heading            (str): Heading to be printed above table
                     error_message      (str): Message to output if no information 
                                               provided

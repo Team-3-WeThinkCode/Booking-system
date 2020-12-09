@@ -17,7 +17,7 @@ def do_help_command(format):
     if format:
         help_command.print_help_format_command()
     else:
-        help_command.print_help_command()
+        help_command.print_help_functionality()
 
 
 def do_volunteer_commands(student, clinic):
