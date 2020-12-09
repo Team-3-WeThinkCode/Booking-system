@@ -234,6 +234,17 @@ def print_table(table_info, heading):
 
 
 def print_correct_table(table_info, heading, error_message):
+    '''
+    Prints table from information provided. If there is no information provided
+    then an error message will be printed and the program will exit
+
+            Parameters:
+                    table_info     (2D-list): List of information per row
+                    heading            (str): Heading to be printed above table
+                    error_message      (str): Message to output if no information 
+                                              provided
+    '''
+
     if table_info:
         print_table(table_info, heading)
     else:
@@ -241,6 +252,19 @@ def print_correct_table(table_info, heading, error_message):
 
 
 def get_events_for_n_days(service):
+    '''
+    Returns events occuring withing the given amount of days on the user's calendar
+    by using the Google calendar API service. If the number of days are not specified,
+    the default amount of days to return is 7 days.
+
+            Parameters:
+                    service  (obj): Google calendar API service
+
+            Returns:
+                    n_days   (int): Number of days
+                    events  (list): Events occuring in specified amount of days
+    '''
+
     n_days = 7
     now = datetime.datetime.utcnow().isoformat() + 'Z'
     if sys.argv[-1].isdigit():
@@ -251,7 +275,21 @@ def get_events_for_n_days(service):
 
 
 def print_correlating_table(volunteer, create, student, clinic, created, event_list):
-    
+    #TODO: Change up params -> too many given
+    '''
+    Outputs correct table for specific command and information given by user. If, the boolean,
+    created is True - no table needs to be printed as output and the program will exit the 
+    function and continue with the remainder steps
+
+            Parameters:
+                    volunteer  (boolean): True if user is a volunteer
+                    create     (boolean): True if user is creating a booking/volunteer slot
+                    student        (obj): Object with information on logged-in student
+                    clinic         (obj): Object with information on Code clinic
+                    created    (boolean): True if user's given command was executed succesfully
+                    event_list    (list): List of events occuring in the Code clinic's calendar
+    '''
+
     table_info = []
     heading, error_message = '', ''
     days, events = get_events_for_n_days(clinic.service)
