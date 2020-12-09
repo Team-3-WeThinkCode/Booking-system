@@ -31,7 +31,7 @@ def log_in_expired(username):
 
 
 def add_timestamps_to_json(username):
-    half_an_hour_from_now = (datetime.now() + timedelta(hours=0.5)).strftime('%H:%M:%S')
+    half_an_hour_from_now = (datetime.now() + timedelta(hours=1)).strftime('%H:%M:%S')
     with open('data_files/.login_time.json', 'w') as json_file:
         pass
     try:
@@ -70,8 +70,10 @@ def login_details(username, password):
             student_data = json.load(json_file)
     if not student_data:
         utils.error_handling("INVALID: You are not registered! Register before logging in.")
-    added = add_timestamps_to_json(username)
-    if is_valid_student_info(student_data['student_info'], username, password) and added:
-        utils.print_output("Login successful. Welcome to Code Clinic "+username+"!")
+    if is_valid_student_info(student_data['student_info'], username, password):
+        if add_timestamps_to_json(username):
+            utils.print_output("Login successful. Welcome to Code Clinic "+username+"!")
+        else:
+            utils.error_handling("Something went wrong!")
     else:
         utils.error_handling("ERROR: Incorrect username or password. Try again!")
