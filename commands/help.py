@@ -40,15 +40,16 @@ def print_support_commands_table(table_info, heading):
 
 def print_help_functionality():
     table_info = []
-    table_info.append(['Register user', 'Registers user with username and password', 'register <username> <password>', '-'])
-    table_info.append(['Login user', 'User logs-in to computer system with username and password', 'login <username> <password>', '-'])
-    table_info.append(['Create a volunteer slot', 'Create a 90 minute volunteer slot as a volunteer', '<username> volunteer create <date> <time>', '-'])
-    table_info.append(['Cancel a volunteer slot', 'Cancel existing volunteer slots; only if patient has not booked any slot', '<username> volunteer cancel <date> <time>', '-'])
-    table_info.append(['Book a slot', 'Book an open 30 minute volunteer slot as a patient', '<username> patient create <event ID> <description>', '-'])
-    table_info.append(['Cancel a booking', 'Cancel previous 30 minute booked slot as a patient', '<username> patient cancel <event ID>', '-'])
-    table_info.append(['List booked slots', 'Print table with all booked slots', '<username> list-bookings', '<username> list-bookings <#days>'])
-    table_info.append(['List open volunteer slots', 'Print table with all open volunteer slots for specified date', '<username> list-open <date>', '-'])
-    table_info.append(['List slots open for booking', 'Print table with all open slots for booking', '<username> list-slots', '<username> list-slots <#days>'])
+    table_info.append(['Register user', 'Registers user with username and password\n', 'register <username> <password>', '-'])
+    table_info.append(['Login user', 'User logs-in to computer system with username and password\n', 'login <username> <password>', '-'])
+    table_info.append(['Create a volunteer slot', 'Create a 90 minute volunteer slot as a volunteer\n', '<username> volunteer create <date> <time>', '-'])
+    table_info.append(['Cancel a volunteer slot', 'Cancel existing volunteer slots; only if patient has not booked any slot\n', '<username> volunteer cancel <date> <time>', '-'])
+    table_info.append(['Book a slot', 'Book an open 30 minute volunteer slot as a patient\n', '<username> patient create <event ID> <description>', '-'])
+    table_info.append(['Cancel a booking', 'Cancel previous 30 minute booked slot as a patient\n', '<username> patient cancel <event ID>', '-'])
+    table_info.append(['List booked slots', 'Print table with all booked slots\n', '<username> list-bookings', '<username> list-bookings <#days>'])
+    table_info.append(['List open volunteer slots', 'Print table with all open volunteer slots for specified date\n', '<username> list-open <date>', '-'])
+    table_info.append(['List slots open for booking', 'Print table with all open slots for booking\n', '<username> list-slots', '<username> list-slots <#days>'])
+    table_info.append(['List format information', 'Describes each command\n', '<username> help format', '<username> -h format'])
     print_table(table_info, 'Functionality:')
     print()
 
@@ -91,6 +92,9 @@ def print_support_type():
 
 def print_help_command():
     print_help_functionality()
+
+
+def print_help_format_command():
     print_user_type()
     print_commands_type()
     print_support_type()

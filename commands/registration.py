@@ -9,7 +9,7 @@ import utilities as utils
 # [register] [username] [password]
 # password : 8 characters long
 
-def write_json(data, filename='data_files/.student.json'): 
+def write_json(data, filename='student-info/.student.json'): 
     with open(filename,'w') as f: 
         json.dump(data, f, sort_keys=True, indent=4) 
 
@@ -26,13 +26,13 @@ def add_registration_info_to_json(user_info):
         utils.error_handling('ERROR: Invalid username.')
     required_info = {'username': user_info['username'], 'password': user_info['password']}
     try:
-        if os.stat('data_files/.student.json').st_size == 0:
+        if os.stat('student-info/.student.json').st_size == 0:
             student_data = {'student_info' : []}
             student_data['student_info'].append(required_info)
-            with open('data_files/.student.json', 'w') as f:
+            with open('student-info/.student.json', 'w') as f:
                 json.dump(student_data, f, sort_keys=True, indent=4)
         else:
-            with open('data_files/.student.json') as json_file: 
+            with open('student-info/.student.json') as json_file: 
                 student_data = json.load(json_file)
                 if is_student_registered(student_data['student_info'], user_info['username']):
                     utils.error_handling("ERROR: You are already registered.")
