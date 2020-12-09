@@ -42,7 +42,7 @@ def make_booking(username, uid, service_student, clinic_service, student_info):
             Parameters:
                     username       (str): Patient's (student) username
                     uid            (str): Unique event id of event
-                    clinic_service (obj): Code clinic's service
+                    clinic_service (obj): Code clinic's Google calendar API service
                     student_info  (dict): Information on student and given command
 
             Returns:
@@ -76,7 +76,7 @@ def booker_accept_invite(clinic_service, uid, username, event):
     event body accordingly.
 
             Parameters:
-                    clinic_service (obj): Code clinic's service
+                    clinic_service (obj): Code clinic's Google calendar API service
                     uid            (str): Unique event id of event
                     username       (str): Patient's (student) username
                     event         (dict): Event body

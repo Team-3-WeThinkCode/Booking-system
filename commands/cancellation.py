@@ -70,7 +70,7 @@ def cancel_attendee(username, volunteer_service, clinic_service, uid):
 
             Parameters:
                     username       (str): Patient's (student) username
-                    clinic_service (obj): Code clinic's service
+                    clinic_service (obj): Code clinic's Google calendar API service
                     uid            (str): Unique event id of event
 
             Returns:

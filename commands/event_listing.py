@@ -16,8 +16,19 @@ console = Console()
 
 def get_volunteered_slots_table_info(events, username):
     '''
-    Gets data for table to be displayed
-    Data on volunteer's slots
+    The date, start time, event UID and patient username information is gathered
+    from the events list if the event is a slot with the user as a volunteer.
+    This information is then stored in a list called table_info.
+
+            Parameters:
+                    events        (list): Events from the clinic calendar
+                    username       (str): Student's username
+
+            Returns:
+                    table_info (2D-list): Information on username of the volunteer, 
+                                          event date, start time, event UID and 
+                                          patient's username for events the user 
+                                          volunteered for.
     '''
 
     table_info = []
@@ -36,6 +47,23 @@ def get_volunteered_slots_table_info(events, username):
 
 
 def get_booked_slots_table_info(events, username):
+    '''
+    The volunteer username, date, start time, event UID and patient username
+    information gathered from the events list if the event is a slot the user has
+    booked (listed as an attendee). This information is then stored in a list called
+    table_info.
+
+            Parameters:
+                    events        (list): Events from the clinic calendar
+                    username       (str): Student's username
+
+            Returns:
+                    table_info (2D-list): Information on username of the volunteer, 
+                                          event date, start time, event UID and 
+                                          patient's username for events the user 
+                                          is listed as an attendee for.
+    '''
+
     table_info = []
     for event in events:
         start = event['start'].get('dateTime', event['start'].get('date'))
@@ -51,6 +79,23 @@ def get_booked_slots_table_info(events, username):
 
 
 def get_all_booked_slots_table_info(events, username):
+    '''
+    The volunteer username, date, start time, event UID and patient username
+    information gathered from the events list if the event is a slot the user is
+    a patient/volunteer for. This information is then stored in a list called 
+    table_info.
+
+            Parameters:
+                    events        (list): Events from the clinic calendar
+                    username       (str): Student's username
+
+            Returns:
+                    table_info (2D-list): Information on username of the volunteer, 
+                                          event date, start time, event UID and 
+                                          patient's username for events the user 
+                                          is listed as an attendee/volunteer for.
+    '''
+
     table_info = []
     for event in events:
         start = event['start'].get('dateTime', event['start'].get('date'))
@@ -70,6 +115,24 @@ def get_all_booked_slots_table_info(events, username):
 
 
 def get_open_volunteer_slots_table_info(username, volunteer_service, clinic_service, date):
+    #TODO: remove clinic_service as a param -> not being used
+    #TODO: remove '-' and replace in docstring
+    '''
+    Returns a list of dates and times where the student has no events in their calendar
+    and therefore can create a volunteer slot in. This information is stored in a 2D-list
+    called table_info consisting of each 90 min slot's date, start time, and "-"-operand
+    for open fields (e.g. volunteer username and patient username).
+
+            Parameters:
+                    username          (str): Student's username
+                    volunteer_service (obj): Student's Google calendar API service
+                    events           (list): Events from the clinic calendar
+
+            Returns:
+                    table_info    (2D-list): Information on date and start time, for 90 minute
+                                             slot times the student is available in the next 7 days.
+    '''
+
     table_info = []
     ninty_min_slots = [('08:30', '10:00'), ('10:00', '11:30'), ('11:30', '13:00'), ('13:00', '14:30'), ('14:30', '16:00'), ('16:00', '17:30')]
     for slot in ninty_min_slots:
@@ -83,6 +146,21 @@ def get_open_volunteer_slots_table_info(username, volunteer_service, clinic_serv
 
 
 def get_open_booking_slots_table_info(events):
+    '''
+    Returns a list of volunteer usernames, dates, start times and event UIDs of 
+    volunteer events that are still open to book by students (patients). This 
+    information is gathered by looping through the events list and stored in 
+    a 2D-list called table_info.
+
+            Parameters:
+                    events           (list): Events from the clinic calendar
+
+            Returns:
+                    table_info    (2D-list): Information on volunteer usernames, dates, 
+                                             start times and event UIDs of volunteer events
+                                             that are still open to book by students (patients)
+    '''
+
     table_info = []
     for event in events:
         start = event['start'].get('dateTime', event['start'].get('date'))
@@ -96,6 +174,21 @@ def get_open_booking_slots_table_info(events):
 
 
 def get_all_open_booking_slots_table_info(events, username):
+    '''
+    Returns a list of volunteer usernames, dates, start times and event UIDs of 
+    volunteer events that are still open to book by user. This information is 
+    gathered by looping through the events list and stored in a 2D-list called table_info.
+
+            Parameters:
+                    events           (list): Events from the clinic calendar
+                    username          (str): Student's username
+
+            Returns:
+                    table_info    (2D-list): Information on volunteer usernames, dates, 
+                                             start times and event UIDs of volunteer events
+                                             that are still open to book by students (patients)
+    '''
+
     table_info = []
     for event in events:
         start = event['start'].get('dateTime', event['start'].get('date'))
@@ -110,10 +203,13 @@ def get_all_open_booking_slots_table_info(events, username):
 
 def print_table(table_info, heading):
     '''
-    Prints table with event information
-    Table headings: #, Volunteer name, Date, Time, ID, Patient
-    table_info : list of tuples; correlates with table headings
-    heading : heading displayed above table
+    Prints table with the specified tabe heading and information from the table_info list.
+    Table headings: [#, Volunteer name, Date, Time, ID, Patient]
+
+            Parameters:
+                    table_info      (list): Information on events correlating with 
+                                            the table headings
+                    heading          (str): Heading to be displayed above table
     '''
 
     nums = 1
