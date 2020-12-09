@@ -19,6 +19,10 @@ class Test(unittest.TestCase):
                 result = False
         self.assertEqual(result, True)
 
+    def test_split_username(self):
+        username = utilities.split_username("jdoe@student.wethinkcode.co.za")
+        self.assertEqual(username, "jdoe")
+        
 
     # def test_is_leap_year_with_leap_year(self):
     #     result = utilities.is_leap_year(2020)
