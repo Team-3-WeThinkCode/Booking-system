@@ -2,6 +2,7 @@ import sys
 from quickstart import create_service
 from validate_user_input import get_user_commands
 from commands import login
+from commands import export_calendar as export
 import utilities as utils
 import do_commands
   
@@ -70,6 +71,8 @@ def run_program():
             do_commands.do_help_command(False)
         elif student.info['command'] == 'format-help':
             do_commands.do_help_command(True)
+        elif student.info['command'] == 'export':
+            export.export_calendar()
         else:
             do_commands.do_event_listing_commands(student, codeclinic)
 
