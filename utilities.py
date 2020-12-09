@@ -173,16 +173,19 @@ def update_files(student_service, codeclinic_service, username):
     Function will update the json file .student_events.json with the new events data for the students events involving Code Clinic.
     Function will update the json file .open_slots.json with the open slots data from the Code Clinic calendar.
     '''
-    now = datetime.datetime.utcnow().isoformat() + 'Z'
-    end_date = ((datetime.datetime.utcnow()) + datetime.timedelta(days=7)).isoformat() + 'Z'
-    events = get_events(codeclinic_service, now, end_date)
-    personal_data = sort_booked_slots(events, username)
-    code_clinic_data = sort_open_slots(events, username)
+    try:
+        now = datetime.datetime.utcnow().isoformat() + 'Z'
+        end_date = ((datetime.datetime.utcnow()) + datetime.timedelta(days=7)).isoformat() + 'Z'
+        events = get_events(codeclinic_service, now, end_date)
+        personal_data = sort_booked_slots(events, username)
+        code_clinic_data = sort_open_slots(events, username)
 
-    personal_data, code_clinic_data = event_data_compactor(personal_data), event_data_compactor(code_clinic_data)
+        personal_data, code_clinic_data = event_data_compactor(personal_data), event_data_compactor(code_clinic_data)
 
-    store_slot_data(personal_data, True)
-    store_slot_data(code_clinic_data, False)
+        store_slot_data(personal_data, True)
+        store_slot_data(code_clinic_data, False)
+    except:
+        error_handling('ERROR: Event files could not be updated.')       
 
 
 

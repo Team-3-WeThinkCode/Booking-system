@@ -25,9 +25,9 @@ def log_in_expired(username):
             if student['username'] == username:
                 timestamp = student['time']
                 date = student['date']
-        if date and date <= date_now:
+        if date and date < date_now:
             utils.error_handling("ERROR: Log-in time expired. Please log-in again!")
-        if timestamp and timestamp < time_now:
+        elif timestamp and timestamp < time_now:
             try:
                 os.remove('tokens/.'+username+'.pickle')
             except:
