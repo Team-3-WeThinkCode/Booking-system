@@ -3,6 +3,10 @@
         {
             "password": "password",
             "username": "cprinsloo"
+        },
+        {
+            "password": "12345678",
+            "username": "sgerber"
         }
     ]
 }

@@ -2,6 +2,7 @@ import sys
 from quickstart import create_service
 from validate_user_input import get_user_commands
 from commands import registration as register
+from commands import export_calendar as export
 from commands import help as help_command
 from commands import login
 import utilities as utils
@@ -66,5 +67,7 @@ if __name__ == "__main__":
         help_command.print_help_command()
     elif 'command' in student.info and student.info['command'] == 'format-help':
         help_command.print_help_format_command()
+    elif 'command' in student.info and student.info['command'] == 'export':
+        export.export_calendar()
     else:
         do_commands.do_event_listing_commands(student, codeclinic)
