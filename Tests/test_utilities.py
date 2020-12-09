@@ -9,10 +9,7 @@ import utilities
 
 class Test(unittest.TestCase):
 
-    def test_list_slots(self):
-        pass
-
-
+    #tests the create makeshift function
     def test_create_makeshift_event(self):
         result = True
         event = utilities.create_makeshift_event('', '', '', '', '', [])
@@ -22,43 +19,47 @@ class Test(unittest.TestCase):
                 result = False
         self.assertEqual(result, True)
 
+    def test_split_username(self):
+        username = utilities.split_username("jdoe@student.wethinkcode.co.za")
+        self.assertEqual(username, "jdoe")
+        
 
-    def test_is_leap_year_with_leap_year(self):
-        result = utilities.is_leap_year(2020)
+    # def test_is_leap_year_with_leap_year(self):
+    #     result = utilities.is_leap_year(2020)
+    #     self.assertTrue(result)
+
+    
+    # def test_is_leap_year_with_year_that_is_not_leap_year(self):
+    #     result = utilities.is_leap_year(2019)
+    #     self.assertFalse(result)
+
+    #tests the check date and time function
+    def test_date_fomat_correct_with_correct_format(self):
+        result = utilities.check_date_and_time_format('2030-11-14', '16:00')
         self.assertTrue(result)
 
     
-    def test_is_leap_year_with_year_that_is_not_leap_year(self):
-        result = utilities.is_leap_year(2019)
-        self.assertFalse(result)
-
-
-    def test_date_fomat_correct_with_correct_format(self):
-        result = utilities.date_fomat_correct('2020-11-14')
-        self.assertTrue(result)
-
-
     def test_date_fomat_correct_with_incorrect_format_1(self):
-        result = utilities.date_fomat_correct('202-11-14')
+        result = utilities.check_date_format('202-11-14')
         self.assertFalse(result)
 
 
     def test_date_fomat_correct_with_incorrect_format_2(self):
-        result = utilities.date_fomat_correct('20k0-11-')
+        result = utilities.check_date_format('20k0-11-')
         self.assertFalse(result)
 
 
-    def test_get_date_with_valid_input(self):
-        original_input = mock.builtins.input
-        mock.builtins.input = lambda _: '2020-11-14'
-        self.assertEqual(utilities.get_date(), '2020-11-14')
+    # def test_get_date_with_valid_input(self):
+    #     original_input = mock.builtins.input
+    #     mock.builtins.input = lambda _: '2020-11-14'
+    #     self.assertEqual(utilities.get_date(), '2020-11-14')
 
 
-    def test_get_date_with_invalid_then_valid_input(self):
-        original_input = mock.builtins.input
-        mock.builtins.input = lambda _: '20k0-11-'
-        mock.builtins.input = lambda _: '2020-11-14'
-        self.assertEqual(utilities.get_date(), '2020-11-14')
+    # def test_get_date_with_invalid_then_valid_input(self):
+    #     original_input = mock.builtins.input
+    #     mock.builtins.input = lambda _: '20k0-11-'
+    #     mock.builtins.input = lambda _: '2020-11-14'
+    #     self.assertEqual(utilities.get_date(), '2020-11-14')
 
 
     def test_convert_date_and_time_to_rfc_format(self):
