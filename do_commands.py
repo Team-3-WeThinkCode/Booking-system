@@ -74,14 +74,14 @@ def do_patient_commands(student, clinic):
     created = False
     if student.info['command'] == 'create':
         try:
-            created = booking.make_booking(student.username, student.info['UD'], student.service, clinic.service, student.info)
+            created = booking.make_booking(student.username, student.info['UD'], clinic, student.info)
         except(KeyError):
             utils.print_output('ERROR: Please enter a description in enclosed quotes.\ne.g. "Recursion"')
         if not created:
             listings.print_correlating_table(False, True, student, clinic, False, False)
     elif student.info['command'] == 'cancel':
         try:    
-            created = cancellation.cancel_attendee(student.username, student.service, clinic.service,student.info['UD'])
+            created = cancellation.cancel_attendee(student.username, clinic ,student.info['UD'])
         except(KeyError):
             utils.print_output("ERROR: Please include the correct uid when cancelling a booking.")
         if not created:    
