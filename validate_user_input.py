@@ -6,10 +6,16 @@ import utilities as utils
 
 def is_registered(username):
     '''
-    Checks whether student is registered by reviewing the information in the
-    student json file
-    :return: True if student is registered
-    :return: False if student is not registered
+    Checks whether student is registered by retrieving information from the
+    ".student_info.json" and sorting through it to find the student's username.
+    If username is not found, student is not registered.
+
+            Parameters:
+                    username  (str): Student's username
+
+            Returns:
+                    True  (boolean): Student is registered
+                    False (boolean): Student is not registered             
     '''
 
     try:
@@ -27,11 +33,22 @@ def is_registered(username):
     return False
 
 
-def is_username(arg):
+def contains_digit(arg):
+    '''
+    Confirms whether given argument contains a digit.  
+
+            Parameters:
+                    arg       (str): String to check
+ 
+            Returns:
+                    True  (boolean): String contains a digit 
+                    False (boolean): String does not contain a digit        
+    '''
+
     for letter in arg:
         if letter.isdigit():
-            return False
-    return True
+            return True
+    return False
 
 
 def get_username(info):
@@ -46,7 +63,7 @@ def get_username(info):
     if lst_not_args:
         lst_command_arg = list(filter(lambda y: 'main.py' not in y, lst_not_args))
         for item in lst_command_arg:
-            if is_username(item):
+            if not contains_digit(item):
                 if (is_registered(item)) or 'register' in sys.argv:
                         info['username'] = item
                         return info
