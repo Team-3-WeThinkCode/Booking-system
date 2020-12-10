@@ -53,9 +53,15 @@ def contains_digit(arg):
 
 def get_username(info):
     '''
-    Gets username from command line arguments and adds it to the given dictionary
-    :return: Dictionary with username if username in command line arguments
-    :return: Empty dictionary if username was not in command line arguments
+    Sorts through the command-line arguments and finds username by filtering
+    out commands and "main.py". The filtered list is iterated over to find
+    the item of the list without a digit. This item is the username.
+
+            Parameters:
+                    info  (dict): Student information
+ 
+            Returns:
+                    info  (dict): Student information (includes username)      
     '''
 
     valid_args = ['create', 'cancel', 'register','volunteer', 'patient', 'list-bookings', 'list-open', 'list-slots', 'help', '-h', 'login', 'format','export']
@@ -73,6 +79,20 @@ def get_username(info):
 
 
 def get_user_type(info):
+    '''
+    Sorts through the command-line arguments and checks whether user type
+    (volunteer/patient) was specified. If user type is present, user type
+    is added to the info dictionary
+
+            Parameters:
+                    info  (dict): Student information
+ 
+            Returns:
+                    info  (dict): Student information (includes user type) 
+                    *     (list): Booleans that help to clarify which support 
+                                  infomation is needed to execute command     
+    '''
+
     get_date, get_time = False, False
     get_id, get_password = False, False
     if 'volunteer' in sys.argv:
@@ -87,10 +107,17 @@ def get_user_type(info):
 
 def get_command(info, criteria):
     '''
-    Gets command type (create/cancel/list-bookings/list-open/list-slots) from command line
-    arguments and adds it to the given dictionary
-    :return: Dictionary with command if command specified in command line arguments
-    :return: Given dictionary if command was not specified in command line arguments
+    Sorts through the command-line arguments and finds command type 
+    (create/cancel/list-bookings/list-open/list-slots/help/export) and 
+    adds it to the info dictionary.
+
+            Parameters:
+                        info  (dict): Student information
+                    criteria  (list): Booleans that help to clarify which support 
+                                      infomation is needed to execute command 
+ 
+            Returns:
+                    info  (dict): Student information (includes command type)   
     '''
 
     if 'create' in sys.argv:
@@ -120,11 +147,21 @@ def get_command(info, criteria):
 
 
 def get_support(info, criteria):
+    #TODO: Remove True return -> not needed
     '''
-    Collects required information for given command to allow the command 
-    to be executed by the program
-    :return: True if required information was given; Dictionary with required information
-    :return: False if required information was not given; Dictionary with required information
+    Sorts through the command-line arguments and looks for support information
+    (date/start time/UD/description/password) if program needs it to execute
+    the given command. The list of booleans, criteria, is used to decide which
+    support infomation is required.
+
+            Parameters:
+                        info  (dict): Student information
+                    criteria  (list): Booleans that help to clarify which support 
+                                      infomation is needed to execute command 
+ 
+            Returns:
+                    True    (boolean): Required support information was given
+                    info       (dict): Student information (includes support information)
     '''
 
     get_date, get_time, get_id, get_password = criteria[0], criteria[1], criteria[2], criteria[3]
@@ -159,9 +196,15 @@ def get_support(info, criteria):
 
 def check_if_support_info_is_present(info):
     '''
-    Confirms whether required information was given for the program to execute command
-    :return: True if required information present in dictionary
-    :return: False if required information present in dictionary
+    Sorts through the info dictionary and checks if all the information needed
+    to execute command is present.
+
+            Parameters:
+                    info     (dict): Student information
+ 
+            Returns:
+                    True  (boolean): All required information is present in info dictionary
+                    False (boolean): All required information is not present in info dictionary
     '''
 
     if 'user_type' in info:
@@ -199,9 +242,16 @@ def check_if_support_info_is_present(info):
 
 def get_user_commands():
     '''
-    Collects required information for the program to execute expected command
-    :return: True if valid information was collected; Dictionary with required information
-    :return: False if invalid information was collected; Empty Dictionary
+    Collects required information from the command-line. If all required information
+    is not present - the program will either print an error message to the terminal and exit
+    or return an empty dictionary.
+ 
+            Returns:
+                    True     (boolean): All required information is present in info dictionary
+                    False    (boolean): All required information is not present in info dictionary
+
+                    info        (dict): Student information
+                    *     (empty dict): Incorrect information provided by user
     '''
 
     info = get_username({})
