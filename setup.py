@@ -1,3 +1,4 @@
+#TODO: Remove module???
 from setuptools import setup
 setup(
     name = 'booking-system',
