@@ -20,7 +20,6 @@ class Test(unittest.TestCase):
       
     
     def test_student_not_registered(self):
-
         filename = 'student-info/.student.json'
         with open(filename) as json_file:
             data = json.load(json_file)
