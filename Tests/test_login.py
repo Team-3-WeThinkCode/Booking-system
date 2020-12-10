@@ -9,7 +9,8 @@ sys.path.insert(0, USER_PATHS)
 from commands import login
 
 class Test(unittest.TestCase):
-    def test_login(self):
+    def test_student_info(self):
+        
         pass
 
 if __name__ == "__main__":
