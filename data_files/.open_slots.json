@@ -1,34 +1,6 @@
 {
     "open_slots": [
         {
-            "f1cnomuojl5egem1bbri45r4no": {
-                "attendees": [
-                    {
-                        "email": "rowen@student.wethinkcode.co.za",
-                        "responseStatus": "accepted"
-                    }
-                ],
-                "end": {
-                    "dateTime": "2020-12-10T13:30:00+02:00",
-                    "timeZone": "Africa/Johannesburg"
-                },
-                "id": "f1cnomuojl5egem1bbri45r4no",
-                "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
-                "organizer": {
-                    "email": "code.clinic.test@gmail.com",
-                    "self": true
-                },
-                "reminders": {
-                    "useDefault": true
-                },
-                "start": {
-                    "dateTime": "2020-12-10T13:00:00+02:00",
-                    "timeZone": "Africa/Johannesburg"
-                },
-                "summary": "VOLUNTEER: rowen"
-            }
-        },
-        {
             "kcmq991l68epi2ojrgvabv8ao4": {
                 "attendees": [
                     {
@@ -138,6 +110,34 @@
                     "timeZone": "Africa/Johannesburg"
                 },
                 "summary": "VOLUNTEER: rowen"
+            }
+        },
+        {
+            "0otiibbo8q5fvh102qlohqfc04": {
+                "attendees": [
+                    {
+                        "email": "jroy@student.wethinkcode.co.za",
+                        "responseStatus": "accepted"
+                    }
+                ],
+                "end": {
+                    "dateTime": "2020-12-10T17:00:00+02:00",
+                    "timeZone": "Africa/Johannesburg"
+                },
+                "id": "0otiibbo8q5fvh102qlohqfc04",
+                "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+                "organizer": {
+                    "email": "code.clinic.test@gmail.com",
+                    "self": true
+                },
+                "reminders": {
+                    "useDefault": true
+                },
+                "start": {
+                    "dateTime": "2020-12-10T16:30:00+02:00",
+                    "timeZone": "Africa/Johannesburg"
+                },
+                "summary": "VOLUNTEER: jroy"
             }
         },
         {
