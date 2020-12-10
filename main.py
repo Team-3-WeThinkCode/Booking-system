@@ -1,5 +1,6 @@
 import sys
 from quickstart import create_service
+from gmail_api import create_email_service
 from validate_user_input import get_user_commands
 from commands import login
 from commands import export_calendar as export
@@ -32,6 +33,7 @@ class CodeClinic:
         self.username = "codeclinic"
         try:
             self.service = create_service(self.username)
+            self.email_service = create_email_service()
         except:
             print("Clinic calendar could not connect.")
             self.service = None

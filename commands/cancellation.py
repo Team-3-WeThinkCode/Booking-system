@@ -4,35 +4,7 @@ from commands import event_listing as listings
 USER_PATHS = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../'))
 sys.path.insert(0, USER_PATHS)
 import utilities
-
-
-def get_chosen_slot(events, username, uid):
-    #TODO: Add to utils -> used in create booking and cancel booking
-    '''
-    Sorts through list of events on clinic calendar and looks for the specified
-    event UID so that it can return event with specified event UID.
-
-            Parameters:
-                    events   (list): List of events from clinic calendar
-                    username  (str): Patient's (student) username
-                    uid       (str): Unique event id of event
-
-            Returns:
-                    True  (boolean): Event with specified event UID exists
-                    False (boolean): Event with specified event UID does not exist
-                    
-                    event    (dict): Dictionary with event information
-                    *        (dict): Empty dictionary (event was not found)
-    '''
-
-    if events == []:
-        return False, {}
-    for event in events:
-        if event['id'] == uid and len(event['attendees']) == 2:
-            if "VOLUNTEER: " + str(username) in event['summary']:
-                return False, {}
-            return True, event
-    return False, {}
+import gmail_api as email
 
 
 def update_booking_body(event, volunteer):
@@ -62,8 +34,7 @@ def update_booking_body(event, volunteer):
     return blueprint
 
 
-def cancel_attendee(username, volunteer_service, clinic_service, uid):
-    #TODO: Remove volunteer service as param -> not being used
+def cancel_attendee(username, clinic, uid):
     '''
     Cancels booking slot by using the unique event ID and removing student as an attendee to the event. 
     If event cannot be cancelled, then the program outputs an error message with the reason for failure.
@@ -81,15 +52,16 @@ def cancel_attendee(username, volunteer_service, clinic_service, uid):
     now = datetime.datetime.utcnow().isoformat() + 'Z'
     end_date = ((datetime.datetime.utcnow()) + datetime.timedelta(days=7)).isoformat() + 'Z'
     deletion = False
-    slots = utilities.get_events(clinic_service,now, end_date)
-    deletion, event = get_chosen_slot(slots, username, uid)
+    slots = utilities.get_events(clinic.service,now, end_date)
+    deletion, event = utilities.get_chosen_slot(slots, username, uid)
     if not is_user_valid(event, username):
         utilities.print_output("ERROR: You cannot cancel another users booking")
         return False
     if deletion == True:
         try:
             updated_event = update_booking_body(event, username)
-            clinic_service.events().update(calendarId='primary', eventId=event['id'], body=updated_event).execute()
+            event = clinic.service.events().update(calendarId='primary', eventId=event['id'], body=updated_event).execute()
+            email.send_message('me', email.patient_cancel_text(username, event), clinic.email_service)
         except:
             utilities.error_handling("ERROR: Could not cancel booking.")
         utilities.print_output("Booking successfully deleted.")

@@ -4,6 +4,7 @@ from commands import event_listing as listings
 USER_PATHS = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../'))
 sys.path.insert(0, USER_PATHS)
 import utilities as utils
+import gmail_api as email
         
 
 def get_chosen_slot(events, username, uid):
@@ -32,8 +33,7 @@ def get_chosen_slot(events, username, uid):
     return False, {}
 
 
-def make_booking(username, uid, service_student, clinic_service, student_info):
-    #TODO: Remove service_student -> not used in function
+def make_booking(username, uid, clinic, student_info):
     '''
     Function will handle the logic for booking an empty slot. Sorts through events occuring in the
     next 7 days to find specified volunteer slot to book. If event is found - the student is added
@@ -42,7 +42,7 @@ def make_booking(username, uid, service_student, clinic_service, student_info):
             Parameters:
                     username       (str): Patient's (student) username
                     uid            (str): Unique event id of event
-                    clinic_service (obj): Code clinic's Google calendar API service
+                    clinic.service (obj): Code clinic's Google calendar API service
                     student_info  (dict): Information on student and given command
 
             Returns:
@@ -52,7 +52,7 @@ def make_booking(username, uid, service_student, clinic_service, student_info):
 
     now = datetime.datetime.utcnow().isoformat() + 'Z'
     end_date = ((datetime.datetime.utcnow()) + datetime.timedelta(days=7)).isoformat() + 'Z'
-    slots = utils.get_events(clinic_service, now, end_date)
+    slots = utils.get_events(clinic.service, now, end_date)
     if slots == []:
         utils.print_output('ERROR: This slot is unavailable')
         return False
@@ -60,33 +60,34 @@ def make_booking(username, uid, service_student, clinic_service, student_info):
     if not available:
         utils.print_output('ERROR: Choose a valid event id.')
         return False
-    updated_event, unique_id = create_booking_body(volunteered_event, username, student_info)
+    updated_event, unique_id = create_booking_body(volunteered_event, username, student_info['description'])
     try:
-        updated_event_response = clinic_service.events().update(calendarId='primary', eventId=unique_id, body=updated_event).execute()
-        booker_accept_invite(clinic_service, unique_id, username, updated_event_response)
+        updated_event_response = clinic.service.events().update(calendarId='primary', eventId=unique_id, body=updated_event).execute()
+        booker_accept_invite(clinic.service, unique_id, username, updated_event_response)
+        email.send_message('me', email.patient_create_text(username, updated_event_response), clinic.email_service)
         utils.print_output("Booking succesfully made! You're unique id is: "+ str(updated_event_response['id']))
         return True
     except:
         utils.error_handling("ERROR: An error has stopped the booking from being made.\nPlease try again.")
 
 
-def booker_accept_invite(clinic_service, uid, username, event):
+def booker_accept_invite(service, uid, username, event):
     '''
     Accepts student's invite to event, with specified event UID, and updates 
     event body accordingly.
 
             Parameters:
-                    clinic_service (obj): Code clinic's Google calendar API service
+                    service (obj): Code clinic's Google calendar API service
                     uid            (str): Unique event id of event
                     username       (str): Patient's (student) username
                     event         (dict): Event body
     '''
 
     event['attendees'][1]['responseStatus'] = 'accepted'
-    clinic_service.events().update(calendarId='primary', eventId=uid, body=event).execute()
+    service.events().update(calendarId='primary', eventId=uid, body=event).execute()
 
 
-def create_booking_body(event, username, student_info):
+def create_booking_body(event, username, description="General code"):
     #TODO: Just pass through description not student_info
     '''
     Function will take an event object and sort the relevant data to create a body (for the new booking).
@@ -96,7 +97,7 @@ def create_booking_body(event, username, student_info):
             Parameters:
                     event         (dict): Event body
                     username       (str): Patient's (student) username
-                    student_info  (dict): Information on student and given command
+                    description  (str): Information on topic
 
             Returns:
                     blueprint     (dict): Updated event body
@@ -104,13 +105,12 @@ def create_booking_body(event, username, student_info):
     '''
 
     event['attendees'].append({'email': username+'@student.wethinkcode.co.za'})
-    event['description'] = student_info['description']
 
     blueprint = {
             'summary': event['summary'],
             'location': event['location'],
             'start': event['start'],
-            'description': event['description'],
+            'description': description,
             'end': event['end'],
             'attendees':event['attendees'],
             'reminders': {

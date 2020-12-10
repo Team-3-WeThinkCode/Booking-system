@@ -280,3 +280,31 @@ def split_username(email):
     @ symbol.
     """
     return email.split(sep='@', maxsplit=1)[0]
+
+
+def get_chosen_slot(events, username, uid):
+    '''
+    Sorts through list of events on clinic calendar and looks for the specified
+    event UID so that it can return event with specified event UID.
+
+            Parameters:
+                    events   (list): List of events from clinic calendar
+                    username  (str): Patient's (student) username
+                    uid       (str): Unique event id of event
+
+            Returns:
+                    True  (boolean): Event with specified event UID exists
+                    False (boolean): Event with specified event UID does not exist
+                    
+                    event    (dict): Dictionary with event information
+                    *        (dict): Empty dictionary (event was not found)
+    '''
+
+    if events == []:
+        return False, {}
+    for event in events:
+        if event['id'] == uid and len(event['attendees']) == 2:
+            if "VOLUNTEER: " + str(username) in event['summary']:
+                return False, {}
+            return True, event
+    return False, {}
