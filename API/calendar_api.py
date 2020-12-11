@@ -44,10 +44,8 @@ def create_service(username):
             except:
                 print("ERROR: Major Error!")
         else:
-            flow = InstalledAppFlow.from_client_secrets_file(
-                'credentials/client_secret.json', SCOPES)
-            creds = flow.run_local_server(port=0,
-              success_message='You now have access to the codeclinic system!')
+            flow = InstalledAppFlow.from_client_secrets_file('credentials/client_secret.json', SCOPES)
+            creds = flow.run_local_server(port=0, success_message='You now have access to the codeclinic system!')
         # Save the credentials for the next run
         with open(directory, 'wb') as token:
             pickle.dump(creds, token)

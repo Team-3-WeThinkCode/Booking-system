@@ -6,18 +6,24 @@ import utilities as utils
 
 def is_volunteering_at_specified_time(clinic_service, username, start_datetime, end_datetime):
     '''
-    Sorts through events, occuring within specified datetimes, on the Code clinic's calendar
-    to confirm whether student with specified username is volunteering during specified date/time.
+    Sorts through events, occuring within specified datetimes, on the Code
+    clinic's calendar to confirm whether student with specified username is
+    volunteering during specified date/time.
 
             Parameters:
-                    clinic_service  (obj): Code clinic's Google calendar API service
+                    clinic_service  (obj): Code clinic's Google calendar API
+                                           service
                     username        (str): Student's username
-                    start_datetime  (str): Datetime (in rfc format) that volunteer event starts
-                    end_datetime    (str): Datetime (in rfc format) that volunteer event ends
+                    start_datetime  (str): Datetime (in rfc format) that
+                                           volunteer event starts
+                    end_datetime    (str): Datetime (in rfc format) that
+                                           volunteer event ends
 
             Returns:
-                    True        (boolean): Student is volunteering at specified datetime
-                    False       (boolean): Student is not volunteering at specified datetime
+                    True        (boolean): Student is volunteering at
+                                           specified datetime
+                    False       (boolean): Student is not volunteering at
+                                           specified datetime
     '''
 
     events = utils.get_events(clinic_service, start_datetime, end_datetime)
@@ -32,64 +38,79 @@ def is_volunteering_at_specified_time(clinic_service, username, start_datetime, 
 def get_open_volunteer_slots_of_the_day(date, username, clinic_service):
     #TODO add where student busy with other event in own personal calendar
     '''
-    Sorts through volunteer slot times and confirms whether student is volunteering during 
-    the slot time. If student is not volunteering during the slot time, the slot time is 
-    added to the list, open_slots. List of available volunteer slots are returned.
+    Sorts through volunteer slot times and confirms whether student is
+    volunteering during the slot time. If student is not volunteering
+    during the slot time, the slot time is added to the list, open_slots.
+    List of available volunteer slots are returned.
 
             Parameters:
                     date                   (str): Date in format yyyy-mm-dd
                     username               (str): Student's username
-                    clinic_service         (obj): Code clinic's Google calendar API service
+                    clinic_service         (obj): Code clinic's Google calendar
+                                                  API service
 
             Returns:
-                    open_slots  (list of tuples): Volunteer slot times user is not volunteering in
+                    open_slots  (list of tuples): Volunteer slot times user is
+                                                  not volunteering in
     '''
 
-    slots = [('08:30', '10:00'), ('10:00', '11:30'), ('11:30', '13:00'), ('13:00', '14:30'), ('14:30', '16:00'), ('16:00', '17:30')]
+    slots = [('08:30', '10:00'), ('10:00', '11:30'),('11:30', '13:00'),
+             ('13:00', '14:30'), ('14:30', '16:00'), ('16:00', '17:30')]
     open_slots = []
     for slot in slots:
         start_datetime, end_datetime = utils.convert_date_and_time_to_rfc_format(date, slot[0], slot[1])
-        if not is_volunteering_at_specified_time(clinic_service, username, start_datetime, end_datetime):
+        busy = is_volunteering_at_specified_time(clinic_service, username, start_datetime, end_datetime)
+        if not busy:
             open_slots.append(slot)
     return open_slots
 
 
 def convert_90_min_slot_into_30_min_slots(slot):
     '''
-    Converts a 90 minute slot to a list of 30 minute slots. The list consists out of
-    tuples with the first tuple value being the start time and the second value being
-    the end time of the 30 minute slot.
+    Converts a 90 minute slot to a list of 30 minute slots. The list consists
+    out of tuples with the first tuple value being the start time and the
+    second value being the end time of the 30 minute slot.
 
             Parameters:
                     slot              (tuple): 90 minute time slot
 
             Returns:
                     *        (list of tuples): 3 x 30 minute slots
-                    *            (empty list): if time is not a multiple of 30 minutes
+                    *            (empty list): if time is not a multiple of
+                                               30 minutes
     '''
 
     start_hour, start_minute = int(slot[0][:2]), int(slot[0][3:])
     if start_minute == 30:
-        return [(slot[0], str(start_hour+1)+':'+'00'), (str(start_hour+1)+':'+'00', str(start_hour+1)+':'+'30'), (str(start_hour+1)+':'+'30', str(start_hour+2)+':'+'00') ]
+        return [(slot[0], str(start_hour+1)+':'+'00'),
+                (str(start_hour+1)+':'+'00', str(start_hour+1)+':'+'30'),
+                (str(start_hour+1)+':'+'30', str(start_hour+2)+':'+'00')]
     elif start_minute == 0:
-        return [(slot[0], str(start_hour)+':'+'30'), (str(start_hour)+':'+'30', str(start_hour+1)+':'+'00'), (str(start_hour+1)+':'+'00', str(start_hour+1)+':'+'30') ]
+        return [(slot[0], str(start_hour)+':'+'30'),
+                (str(start_hour)+':'+'30', str(start_hour+1)+':'+'00'),
+                (str(start_hour+1)+':'+'00', str(start_hour+1)+':'+'30')]
     return []
 
 
 def is_slot_available(service, username, start_datetime, end_datetime):
     '''
-    Confirms whether student with specified username has an open slot, at the specified
-    datetime, in their calendar.
+    Confirms whether student with specified username has an open slot, at the
+    specified datetime, in their calendar.
 
             Parameters:
-                    service         (obj): Student's Google calendar API service
+                    service         (obj): Student's Google calendar API
+                                           service
                     username        (str): Student's username
-                    start_datetime  (str): Datetime (in rfc format) of when slot time starts
-                    end_datetime    (str): Datetime (in rfc format) of when slot time ends
+                    start_datetime  (str): Datetime (in rfc format) of when
+                                           slot time starts
+                    end_datetime    (str): Datetime (in rfc format) of when
+                                           slot time ends
 
             Returns:
-                    True        (boolean): Student has an open slot in their calendar
-                    False       (boolean): Student does not have an open slot in their calendar
+                    True        (boolean): Student has an open slot in their
+                                           calendar
+                    False       (boolean): Student does not have an open slot
+                                           in their calendar
                     
     '''
     
@@ -112,24 +133,29 @@ def is_slot_available(service, username, start_datetime, end_datetime):
 def create_volunteer_slot(username, date, time, volunteer_service, clinic_service):
     #TODO: Simplify checking both calendars -> is it necessary?
     '''
-    Creates a 90 minute volunteer slot if the student has an open slot in their personal
-    calendar during the specified slot time and the student does not have a volunteer slot
-    created at the specified slot time in the clinic calendar.
+    Creates a 90 minute volunteer slot if the student has an open slot in
+    their personal calendar during the specified slot time and the student
+    does not have a volunteer slot created at the specified slot time in the
+    clinic calendar.
 
             Parameters:
-                    username            (str): Student's username
-                    date                (str): Slot date in format <yyyy-mm-dd>
-                    time                (str): Slot start time in format <hh:mm>
-                    volunteer_service   (str): Student's (volunteer) Google calendar API service
-                    clinic_service      (str): Code clinic's Google calendar API service
+                    username          (str): Student's username
+                    date              (str): Slot date in format <yyyy-mm-dd>
+                    time              (str): Slot start time in format <hh:mm>
+                    volunteer_service (str): Student's (volunteer) Google
+                                             calendar API service
+                    clinic_service    (str): Code clinic's Google calendar
+                                             API service
 
             Returns:
-                    True        (boolean): Volunteer slot succesfully created
-                    False       (boolean): Volunteer slot not created
+                    True          (boolean): Volunteer slot succesfully
+                                             created
+                    False         (boolean): Volunteer slot not created
                     
     '''
 
-    open_slots = get_open_volunteer_slots_of_the_day(date, username, clinic_service)
+    open_slots = get_open_volunteer_slots_of_the_day(date,\
+                                             username, clinic_service)
     if not open_slots:
         return False, 'ERROR: There are no open slots on this day.'
     time_slot_lst = list(filter(lambda x : x[0] == time, open_slots))
@@ -137,28 +163,39 @@ def create_volunteer_slot(username, date, time, volunteer_service, clinic_servic
         utils.print_output('ERROR: Choose a valid/open slot start time.')
         return False
     time_slot = time_slot_lst[0]
-    start_datetime, end_datetime = utils.convert_date_and_time_to_rfc_format(date, time_slot[0], time_slot[1])
-    if is_slot_available(volunteer_service, username, start_datetime, end_datetime):
+    start_datetime, end_datetime = utils\
+        .convert_date_and_time_to_rfc_format(date, time_slot[0], time_slot[1])
+    open = is_slot_available(volunteer_service, username,\
+                                 start_datetime, end_datetime)
+    if open:
         thirty_minute_slots = convert_90_min_slot_into_30_min_slots(time_slot)
         for slot in thirty_minute_slots:
-            start_datetime, end_datetime = utils.convert_date_and_time_to_rfc_format(date, slot[0], slot[1])
-            event_info = {'summary': 'VOLUNTEER: ' + str(username), 'start_datetime': start_datetime, 'end_datetime': end_datetime, 'attendees': []}
-            response = utils.add_event_to_calendar(event_info, clinic_service, True, username)
-            utils.volunteer_accept_invite(clinic_service, response['id'], username, response)
+            start_datetime, end_datetime = utils\
+                .convert_date_and_time_to_rfc_format(date, slot[0], slot[1])
+            event_info = {'summary': 'VOLUNTEER: ' + str(username),
+                          'start_datetime': start_datetime,
+                          'end_datetime': end_datetime,
+                          'attendees': []}
+            response = utils.add_event_to_calendar(event_info,\
+                                     clinic_service, True, username)
+            utils.volunteer_accept_invite(clinic_service, response['id'],\
+                                                         username, response)
         utils.print_output('Volunteer slots created!')
         return True
-    utils.print_output('ERROR: You do not have an open slot in your calendar at the selected time.')
+    utils.print_output('ERROR: You do not have an open slot in'\
+                                +' your calendar at the selected time.')
     return False
 
 
 def get_volunteered_slot(clinic_service, username, date, time):
     '''
-    Sorts through events occuring between 08:30 and 17:30, as this is the first and last
-    volunteer slot start times of each day, and checks whether student is volunteering
-    at the specified date and time.
+    Sorts through events occuring between 08:30 and 17:30, as this is the
+    first and last volunteer slot start times of each day, and checks 
+    whether student is volunteering at the specified date and time.
 
             Parameters:
-                    clinic_service  (str): Code clinic's Google calendar API service
+                    clinic_service  (str): Code clinic's Google calendar
+                                           API service
                     username        (str): Student's username
                     date            (str): Slot date in format <yyyy-mm-dd>
                     time            (str): Slot start time in format <hh:mm>
@@ -167,8 +204,11 @@ def get_volunteered_slot(clinic_service, username, date, time):
                     slot           (tuple): Start and end time of 90 min slot                        
     '''
 
-    slots = [('08:30', '10:00'), ('10:00', '11:30'), ('11:30', '13:00'), ('13:00', '14:30'), ('14:30', '16:00'), ('16:00', '17:30')]
-    start_datetime, end_datetime = utils.convert_date_and_time_to_rfc_format(date, '08:30', '17:30')
+    slots = [('08:30', '10:00'), ('10:00', '11:30'),
+             ('11:30', '13:00'), ('13:00', '14:30'),
+             ('14:30', '16:00'), ('16:00', '17:30')]
+    start_datetime, end_datetime = utils\
+        .convert_date_and_time_to_rfc_format(date, '08:30', '17:30')
     events = utils.get_events(clinic_service, start_datetime, end_datetime)
     for event in events:
         if event['summary'][11:] == username and len(event['attendees']) == 1:
@@ -180,18 +220,27 @@ def get_volunteered_slot(clinic_service, username, date, time):
 
 def get_event_id(start_datetime, end_datetime, username, clinic_service):
     '''
-    Sorts through events, occuring between specified datetimes, to find the event UID
-    of the student's volunteered slot.
+    Sorts through events, occuring between specified datetimes, to find the
+    event UID of the student's volunteered slot.
 
             Parameters:
-                    start_datetime                 (str): Datetime (in rfc format) of when slot time starts
-                    end_datetime                   (str): Datetime (in rfc format) of when slot time ends
+                    start_datetime                 (str): Datetime 
+                                                          (in rfc format) of
+                                                          when slot time starts
+                    end_datetime                   (str): Datetime
+                                                          (in rfc format) of
+                                                          when slot time ends
                     username                       (str): Student's username
-                    clinic_service                 (str): Code clinic's Google calendar API service
+                    clinic_service                 (str): Code clinic's Google
+                                                          calendar API service
 
             Returns:
-                    volunteered_event[0]['id']     (str): Event UID of volunteered event at specified datetime 
-                    ''                       (empty str): If student did not volunteer at specified datetime                  
+                    volunteered_event[0]['id']     (str): Event UID of
+                                                          volunteered event at
+                                                          specified datetime
+                    ''                       (empty str): If student did not
+                                                          volunteer at
+                                                          specified datetime                  
     '''
 
     events = utils.get_events(clinic_service, start_datetime, end_datetime)

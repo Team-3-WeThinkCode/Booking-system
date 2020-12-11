@@ -37,8 +37,7 @@ def create_email_service():
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
-            flow = InstalledAppFlow.from_client_secrets_file(
-                'credentials/client_secret.json', SCOPES)
+            flow = InstalledAppFlow.from_client_secrets_file('credentials/client_secret.json', SCOPES)
             creds = flow.run_local_server(port=0)
         # Save the credentials for the next run
         with open('tokens/.code_gmail.pickle', 'wb') as token:
@@ -68,8 +67,7 @@ def create_message(sender, to, subject, message_text):
     message['to'] = to
     message['from'] = sender
     message['subject'] = subject
-    raw_message = base64.urlsafe_b64encode(message.as_string().\
-                                                    encode("utf-8"))
+    raw_message = base64.urlsafe_b64encode(message.as_string().encode("utf-8"))
     return {
       'raw': raw_message.decode("utf-8")
     }

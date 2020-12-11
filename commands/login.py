@@ -25,34 +25,27 @@ def log_in_expired(username):
     timestamp, date = '', ''
     date_now = datetime.now().strftime('%y-%m-%d')
     time_now = time_now = datetime.now().strftime('%H:%M:%S')
-    executed, info = file_utils\
-            .read_data_from_json_file('student-info/.login_time.json')
+    executed, info = file_utils.read_data_from_json_file('student-info/.login_time.json')
     if not executed:
-        utils\
-        .error_handling("ERROR: Please log-in with username and password.")
+        utils.error_handling("ERROR: Please log-in with username and password.")
     if info:
         for student in info['expiration']:
             if student['username'] == username:
                 timestamp = student['time']
                 date = student['date']
         if date and date < date_now:
-            utils\
-           .error_handling("ERROR: Log-in time expired. Please log-in again!")
+            utils.error_handling("ERROR: Log-in time expired. Please log-in again!")
         elif timestamp and timestamp < time_now:
             try:
-                filepath = file_utils.find_home_directory()+'/.'+username\
-                           +'.pickle'
+                filepath = file_utils.find_home_directory()+'/.'+username+'.pickle'
                 os.remove(filepath)
             except:
                 utils.error_handling("Something went wrong.")
-            utils\
-           .error_handling("ERROR: Log-in time expired. Please log-in again!")
+            utils.error_handling("ERROR: Log-in time expired. Please log-in again!")
         elif not (date and timestamp):
-            utils\
-           .error_handling("ERROR: Please log-in with username and password.")
+            utils.error_handling("ERROR: Please log-in with username and password.")
     else:
-        utils\
-       .error_handling("ERROR: Please log-in with username and password.")
+        utils.error_handling("ERROR: Please log-in with username and password.")
 
 
 def add_timestamps_to_json(username):
@@ -65,24 +58,16 @@ def add_timestamps_to_json(username):
                     username  (str): Student's username
     '''
 
-    expiry_date = (datetime.now() + timedelta(hours=4))\
-                                            .strftime('%y-%m-%d')
-    expiry_time = (datetime.now() + timedelta(hours=4))\
-                                            .strftime('%H:%M:%S')
+    expiry_date = (datetime.now() + timedelta(hours=4)).strftime('%y-%m-%d')
+    expiry_time = (datetime.now() + timedelta(hours=4)).strftime('%H:%M:%S')
     try:
         if not file_utils.is_non_zero_file('student-info/.login_time.json'):
             with open('student-info/.login_time.json', 'w') as json_file:
                 pass
-            info = {
-                    'expiration':
-                        [{'username': username,
-                          'date': expiry_date, 
-                          'time': expiry_time}]
-                    }
+            info = {'expiration':[{'username': username, 'date': expiry_date, 'time': expiry_time}]}
         else:
             index = -1
-            executed, info = file_utils\
-                .read_data_from_json_file('student-info/.login_time.json')
+            executed, info = file_utils.read_data_from_json_file('student-info/.login_time.json')
             if not executed:
                 return False
             for i in range(len(info['expiration'])):
@@ -90,10 +75,8 @@ def add_timestamps_to_json(username):
                     index = i
             if index > -1:
                 info['expiration'].pop(index)
-            info['expiration'].append({'username': username,
-                     'date': expiry_date, 'time': expiry_time})
-        file_utils\
-            .write_data_to_json_file('student-info/.login_time.json', info)
+            info['expiration'].append({'username': username, 'date': expiry_date, 'time': expiry_time})
+        file_utils.write_data_to_json_file('student-info/.login_time.json', info)
         return True
     except:
         return False
@@ -137,17 +120,13 @@ def login_details(username, password):
                     password  (str): Student's password
     '''
 
-    executed, student_data = file_utils\
-        .read_data_from_json_file('student-info/.student.json')
+    executed, student_data = file_utils.read_data_from_json_file('student-info/.student.json')
     if not executed:
-        utils.error_handling("INVALID: You are not registered!"\
-                                    +" Register before logging in.")
+        utils.error_handling("INVALID: You are not registered! Register before logging in.")
     if is_valid_student_info(student_data['student_info'], username, password):
         if add_timestamps_to_json(username):
-            utils.print_output("Login successful."\
-                    +" Welcome to Code Clinic "+username+"!")
+            utils.print_output("Login successful. Welcome to Code Clinic "+username+"!")
         else:
             utils.error_handling("Something went wrong!")
     else:
-        utils.error_handling("ERROR: Incorrect username or password."\
-            +" Try again!")
+        utils.error_handling("ERROR: Incorrect username or password. Try again!")

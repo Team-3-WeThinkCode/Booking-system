@@ -56,8 +56,7 @@ def make_booking(username, uid, clinic, student_info):
     '''
 
     now = datetime.datetime.utcnow().isoformat() + 'Z'
-    end_date = ((datetime.datetime.utcnow()) + datetime.timedelta(days=7))\
-                                                        .isoformat() + 'Z'
+    end_date = ((datetime.datetime.utcnow()) + datetime.timedelta(days=7)).isoformat() + 'Z'
     slots = utils.get_events(clinic.service, now, end_date)
     if slots == []:
         utils.print_output('ERROR: This slot is unavailable')
@@ -66,23 +65,16 @@ def make_booking(username, uid, clinic, student_info):
     if not available:
         utils.print_output('ERROR: Choose a valid event id.')
         return False
-    updated_event, unique_id = create_booking_body(volunteered_event, username, \
-                                                      student_info['description'])
+    updated_event, unique_id = create_booking_body(volunteered_event, username, student_info['description'])
     try:
-        updated_event_response = clinic.service.events()\
-        .update(calendarId='primary',eventId=unique_id,\
-        body=updated_event).execute()
+        updated_event_response = clinic.service.events().update(calendarId='primary',eventId=unique_id, body=updated_event).execute()
 
-        booker_accept_invite(clinic.service, unique_id, username,\
-                                                updated_event_response)
-        email.send_message('me', email.patient_create_text(username,\
-                            updated_event_response), clinic.email_service)
-        utils.print_output("Booking succesfully made! You're unique id is: "\
-                                        + str(updated_event_response['id']))
+        booker_accept_invite(clinic.service, unique_id, username, updated_event_response)
+        email.send_message('me', email.patient_create_text(username, updated_event_response), clinic.email_service)
+        utils.print_output("Booking succesfully made! You're unique id is: "+ str(updated_event_response['id']))
         return True
     except:
-        error_message = '''ERROR: An error has stopped the booking from being 
-                                                made.\nPlease try again.'''
+        error_message = 'ERROR: An error has stopped the booking from being made.\nPlease try again.'
         utils.error_handling(error_message)
 
 
@@ -99,8 +91,7 @@ def booker_accept_invite(service, uid, username, event):
     '''
 
     event['attendees'][1]['responseStatus'] = 'accepted'
-    service.events().update(calendarId='primary', eventId=uid, body=event)\
-                                                                .execute()
+    service.events().update(calendarId='primary', eventId=uid, body=event).execute()
 
 
 def create_booking_body(event, username, description="General code"):
@@ -120,8 +111,7 @@ def create_booking_body(event, username, description="General code"):
                     event['id']    (str): Unique event of updated event
     '''
 
-    event['attendees'].\
-                    append({'email': username+'@student.wethinkcode.co.za'})
+    event['attendees'].append({'email': username+'@student.wethinkcode.co.za'})
     blueprint = {
             'summary': event['summary'],
             'location': event['location'],
@@ -184,8 +174,7 @@ def cancel_attendee(username, clinic, uid):
     '''
 
     now = datetime.datetime.utcnow().isoformat()+'Z'
-    end_date = ((datetime.datetime.utcnow()) + datetime.timedelta(days=7))\
-                                                            .isoformat()+'Z'
+    end_date = ((datetime.datetime.utcnow()) + datetime.timedelta(days=7)).isoformat()+'Z'
     deletion = False
     slots = utils.get_events(clinic.service,now, end_date)
     deletion, event = utils.get_chosen_slot(slots, username, uid)
@@ -195,17 +184,14 @@ def cancel_attendee(username, clinic, uid):
     if deletion == True:
         try:
             updated_event = update_booking_body(event, username)
-            event = clinic.service.events().update(calendarId='primary',\
-                            eventId=event['id'], body=updated_event).execute()
-            email.send_message('me', email.patient_cancel_text(username,\
-                                                event), clinic.email_service)
+            event = clinic.service.events().update(calendarId='primary', eventId=event['id'], body=updated_event).execute()
+            email.send_message('me', email.patient_cancel_text(username,event), clinic.email_service)
         except:
             utils.error_handling("ERROR: Could not cancel booking.")
         utils.print_output("Booking successfully deleted.")
         return True
     else:
-        utils.print_output('''ERROR: You cannot cancel selected booking.
-        \nUse the help command (-h) for more infromation.''')
+        utils.print_output('ERROR: You cannot cancel selected booking.\nUse the help command (-h) for more infromation.')
         return False
 
 
