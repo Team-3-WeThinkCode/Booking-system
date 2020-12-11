@@ -27,6 +27,90 @@
                 },
                 "summary": "VOLUNTEER: jroy"
             }
+        },
+        {
+            "eoauibc3rrp9vvmu65s3m1tf90": {
+                "attendees": [
+                    {
+                        "email": "rowen@student.wethinkcode.co.za",
+                        "responseStatus": "accepted"
+                    }
+                ],
+                "end": {
+                    "dateTime": "2020-12-17T16:30:00+02:00",
+                    "timeZone": "Africa/Johannesburg"
+                },
+                "id": "eoauibc3rrp9vvmu65s3m1tf90",
+                "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+                "organizer": {
+                    "email": "code.clinic.test@gmail.com",
+                    "self": true
+                },
+                "reminders": {
+                    "useDefault": true
+                },
+                "start": {
+                    "dateTime": "2020-12-17T16:00:00+02:00",
+                    "timeZone": "Africa/Johannesburg"
+                },
+                "summary": "VOLUNTEER: rowen"
+            }
+        },
+        {
+            "fek5h5t4nkap6bim6ff77hd8m4": {
+                "attendees": [
+                    {
+                        "email": "rowen@student.wethinkcode.co.za",
+                        "responseStatus": "accepted"
+                    }
+                ],
+                "end": {
+                    "dateTime": "2020-12-17T17:00:00+02:00",
+                    "timeZone": "Africa/Johannesburg"
+                },
+                "id": "fek5h5t4nkap6bim6ff77hd8m4",
+                "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+                "organizer": {
+                    "email": "code.clinic.test@gmail.com",
+                    "self": true
+                },
+                "reminders": {
+                    "useDefault": true
+                },
+                "start": {
+                    "dateTime": "2020-12-17T16:30:00+02:00",
+                    "timeZone": "Africa/Johannesburg"
+                },
+                "summary": "VOLUNTEER: rowen"
+            }
+        },
+        {
+            "krrpo7ev7d5tjia2nem96t7nmc": {
+                "attendees": [
+                    {
+                        "email": "rowen@student.wethinkcode.co.za",
+                        "responseStatus": "accepted"
+                    }
+                ],
+                "end": {
+                    "dateTime": "2020-12-17T17:30:00+02:00",
+                    "timeZone": "Africa/Johannesburg"
+                },
+                "id": "krrpo7ev7d5tjia2nem96t7nmc",
+                "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
+                "organizer": {
+                    "email": "code.clinic.test@gmail.com",
+                    "self": true
+                },
+                "reminders": {
+                    "useDefault": true
+                },
+                "start": {
+                    "dateTime": "2020-12-17T17:00:00+02:00",
+                    "timeZone": "Africa/Johannesburg"
+                },
+                "summary": "VOLUNTEER: rowen"
+            }
         }
     ]
 }

@@ -1,19 +1,19 @@
 {
     "expiration": [
         {
-            "username": "student",
             "date": "20-12-11",
-            "time": "13:23:22"
+            "time": "13:23:22",
+            "username": "student"
         },
         {
-            "username": "jroy",
             "date": "20-12-11",
-            "time": "13:44:35"
+            "time": "13:44:35",
+            "username": "jroy"
         },
         {
-            "username": "cprinsloo",
             "date": "20-12-11",
-            "time": "15:12:37"
+            "time": "16:06:33",
+            "username": "cprinsloo"
         }
     ]
 }

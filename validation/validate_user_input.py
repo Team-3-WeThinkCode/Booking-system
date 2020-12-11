@@ -1,7 +1,9 @@
 import os, sys, json
 
+
 USER_PATHS = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../'))
 sys.path.insert(0, USER_PATHS)
+import file_utils
 import utilities as utils
 
 
@@ -21,13 +23,12 @@ def is_registered(username):
 
     try:
         if not os.stat('student-info/.student.json').st_size == 0:
-            with open('student-info/.student.json') as json_file:
-                data = json.load(json_file)
-                if data != []:
-                    students = data['student_info']
-                    for student in students:
-                        if student['username'] == username:
-                            return True
+            executed, data = file_utils.read_data_from_json_file('student-info/.student.json')
+            if executed:
+                students = data['student_info']
+                for student in students:
+                    if student['username'] == username:
+                        return True
     except FileNotFoundError:
         with open('student-info/.student.json', 'w') as json_file:
             pass

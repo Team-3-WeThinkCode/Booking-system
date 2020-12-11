@@ -1,18 +1,13 @@
-import json
-import os
-import sys
+import os, sys, json
 from datetime import datetime, timedelta
 
 USER_PATHS = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../'))
 sys.path.insert(0, USER_PATHS)
 import utilities as utils
+import file_utils
 
 # [login] [username] [password]
 # password : 8 characters long
-
-
-def is_non_zero_file(fpath):  
-    return os.path.isfile(fpath) and os.path.getsize(fpath) > 0
 
 
 def log_in_expired(username):
@@ -29,10 +24,8 @@ def log_in_expired(username):
     timestamp, date = '', ''
     date_now = datetime.now().strftime('%y-%m-%d')
     time_now = time_now = datetime.now().strftime('%H:%M:%S')
-    try:
-        with open('student-info/.login_time.json', 'r') as json_file:
-            info = json.load(json_file)
-    except:
+    executed, info = file_utils.read_data_from_json_file('student-info/.login_time.json')
+    if not executed:
         utils.error_handling("ERROR: Please log-in with username and password.")
     if info:
         for student in info['expiration']:
@@ -48,9 +41,9 @@ def log_in_expired(username):
                 utils.error_handling("Something went wrong.")
             utils.error_handling("ERROR: Log-in time expired. Please log-in again!")
         elif not (date and timestamp):
-            utils.error_handling("ERROR: Please log-in before continuing!")
+            utils.error_handling("ERROR: Please log-in with username and password.")
     else:
-        utils.error_handling("ERROR: Please log-in before continuing!")
+        utils.error_handling("ERROR: Please log-in with username and password.")
 
 
 def add_timestamps_to_json(username):
@@ -70,20 +63,18 @@ def add_timestamps_to_json(username):
             with open('student-info/.login_time.json', 'w') as json_file:
                 pass
             info = {'expiration': [{'username': username, 'date': expiry_date, 'time': expiry_time}]}
-            with open('student-info/.login_time.json', 'w') as f:
-                json.dump(info, f, sort_keys=False, indent=4)
         else:
             index = -1
-            with open('student-info/.login_time.json', 'r') as json_file:
-                info = json.load(json_file)
+            executed, info = file_utils.read_data_from_json_file('student-info/.login_time.json')
+            if not executed:
+                return False
             for i in range(len(info['expiration'])):
                 if info['expiration'][i]['username'] == username:
                     index = i
             if index > -1:
                 info['expiration'].pop(index)
             info['expiration'].append({'username': username, 'date': expiry_date, 'time': expiry_time})
-            with open('student-info/.login_time.json', 'w') as f:
-                json.dump(info, f, sort_keys=False, indent=4)
+        file_utils.write_data_to_json_file('student-info/.login_time.json', info)
         return True
     except:
         return False
@@ -124,11 +115,8 @@ def login_details(username, password):
                     password  (str): Student's password
     '''
 
-    student_data = []
-    if not os.stat('student-info/.student.json').st_size == 0:
-        with open('student-info/.student.json') as json_file:
-            student_data = json.load(json_file)
-    if not student_data:
+    executed, student_data = file_utils.read_data_from_json_file('student-info/.student.json')
+    if not executed:
         utils.error_handling("INVALID: You are not registered! Register before logging in.")
     if is_valid_student_info(student_data['student_info'], username, password):
         if add_timestamps_to_json(username):

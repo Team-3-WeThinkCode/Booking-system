@@ -1,6 +1,7 @@
 import datetime, json
 import pytz
 from commands import event_listing as listings
+import file_utils
 from rich.console import Console
 
 console = Console()
@@ -437,15 +438,13 @@ def store_slot_data(events, user):
         new_data = {"open_slots" : []}
         for event in events:
             new_data['open_slots'].append({event['id'] : event})
-        with open('data_files/.open_slots.json', 'w') as f:
-            json.dump(new_data, f, sort_keys=True, indent=4)
+        file_utils.write_data_to_json_file('data_files/.open_slots.json', new_data)
     elif user == True:
         new_data = {"events" : []}
         for event in events:
             if event["organizer"]["email"] ==  "code.clinic.test@gmail.com":
                 new_data['events'].append({event['id'] : event})
-        with open('data_files/.student_events.json', 'w') as f:
-            json.dump(new_data, f, sort_keys=True, indent=4)
+        file_utils.write_data_to_json_file('data_files/.student_events.json', new_data)
 
     
 def split_username(email):
