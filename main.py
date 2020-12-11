@@ -1,14 +1,21 @@
 import sys, utilities
 from validation import do_commands, validate_user_input
-from API.calendar_api import create_service
 from API.gmail_api import create_email_service
-from commands import login
+from API.calendar_api import create_service
 from commands import export_calendar as export
+from commands import login
 
-  
-        
+       
 class Student:
-    """ Setup student profile """
+    '''
+    The Student object contains information on the user.
+
+    Attributes:
+        info     (dict): Information needed to execute 
+                         command.
+        username  (str): Student's username
+        service   (obj): User's Google Calendar API service
+    '''
 
     def __init__(self):
         valid, self.info = validate_user_input.get_user_commands()
@@ -26,7 +33,14 @@ class Student:
 
 
 class CodeClinic:
-    """ Setup Code Clinic profile """
+    '''
+    The CodeClinic object contains information on the Code Clinic.
+
+    Attributes:
+        username       (str): Code clinic's username
+        service        (obj): Code clinic's Google Calendar API service
+        email_service  (obj): Code clinic's Gmail API service
+    '''
 
     def __init__(self):
         self.username = "codeclinic"
@@ -43,13 +57,13 @@ def run_program():
     Executes program
     '''
 
+    data = ''
     student = Student()
     codeclinic = CodeClinic()
-    data = ''
-    #check if input entered is invalid
+    #checks if input entered is invalid
     if not student.info:
         utilities.error_handling('INVALID: Input invalid. Use the help command for further information.\nHelp command: -h')
-    #check if student's login token has expired
+    #checks if student's login token has expired
     if not (student.info['command'] == 'login' or student.info['command'] == 'register'):
         login.log_in_expired(student.username)
     #update data files

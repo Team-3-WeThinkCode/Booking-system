@@ -1,10 +1,9 @@
-import os, datetime
-import sys
+import os, sys, datetime
 from commands import event_listing as listings
 USER_PATHS = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../'))
 sys.path.insert(0, USER_PATHS)
-import utilities as utils
 import API.gmail_api as email
+import utilities as utils
         
 
 def get_chosen_slot(events, username, uid):
@@ -19,7 +18,8 @@ def get_chosen_slot(events, username, uid):
 
             Returns:
                     True  (boolean): Event with specified event UID exists
-                    False (boolean): Event with specified event UID does not exist
+                    False (boolean): Event with specified event UID does not
+                                     exist
                     
                     event    (dict): Dictionary with event information
                     *        (dict): Empty dictionary (event was not found)
@@ -35,23 +35,29 @@ def get_chosen_slot(events, username, uid):
 
 def make_booking(username, uid, clinic, student_info):
     '''
-    Function will handle the logic for booking an empty slot. Sorts through events occuring in the
-    next 7 days to find specified volunteer slot to book. If event is found - the student is added
+    Function will handle the logic for booking an empty slot. Sorts through
+    events occuring in the next 7 days to find specified volunteer slot to
+    book. If event is found - the student is added
     as an attendee to volunteered slot.
 
             Parameters:
                     username       (str): Patient's (student) username
                     uid            (str): Unique event id of event
-                    clinic.service (obj): Code clinic's Google calendar API service
-                    student_info  (dict): Information on student and given command
+                    clinic.service (obj): Code clinic's Google calendar API
+                                          service
+                    student_info  (dict): Information on student and given
+                                          command
 
             Returns:
-                    True       (boolean): Student added as an attendee to specified event (booked slot)
-                    False      (boolean): Student not added as an attendee to specified event (slot not booked)
+                    True       (boolean): Student added as an attendee to
+                                          specified event (booked slot)
+                    False      (boolean): Student not added as an attendee
+                                          to specified event (slot not booked)
     '''
 
     now = datetime.datetime.utcnow().isoformat() + 'Z'
-    end_date = ((datetime.datetime.utcnow()) + datetime.timedelta(days=7)).isoformat() + 'Z'
+    end_date = ((datetime.datetime.utcnow()) + datetime.timedelta(days=7))\
+                                                        .isoformat() + 'Z'
     slots = utils.get_events(clinic.service, now, end_date)
     if slots == []:
         utils.print_output('ERROR: This slot is unavailable')
@@ -60,15 +66,24 @@ def make_booking(username, uid, clinic, student_info):
     if not available:
         utils.print_output('ERROR: Choose a valid event id.')
         return False
-    updated_event, unique_id = create_booking_body(volunteered_event, username, student_info['description'])
+    updated_event, unique_id = create_booking_body(volunteered_event, username, \
+                                                      student_info['description'])
     try:
-        updated_event_response = clinic.service.events().update(calendarId='primary', eventId=unique_id, body=updated_event).execute()
-        booker_accept_invite(clinic.service, unique_id, username, updated_event_response)
-        email.send_message('me', email.patient_create_text(username, updated_event_response), clinic.email_service)
-        utils.print_output("Booking succesfully made! You're unique id is: "+ str(updated_event_response['id']))
+        updated_event_response = clinic.service.events()\
+        .update(calendarId='primary',eventId=unique_id,\
+        body=updated_event).execute()
+
+        booker_accept_invite(clinic.service, unique_id, username,\
+                                                updated_event_response)
+        email.send_message('me', email.patient_create_text(username,\
+                            updated_event_response), clinic.email_service)
+        utils.print_output("Booking succesfully made! You're unique id is: "\
+                                        + str(updated_event_response['id']))
         return True
     except:
-        utils.error_handling("ERROR: An error has stopped the booking from being made.\nPlease try again.")
+        error_message = '''ERROR: An error has stopped the booking from being 
+                                                made.\nPlease try again.'''
+        utils.error_handling(error_message)
 
 
 def booker_accept_invite(service, uid, username, event):
@@ -84,14 +99,16 @@ def booker_accept_invite(service, uid, username, event):
     '''
 
     event['attendees'][1]['responseStatus'] = 'accepted'
-    service.events().update(calendarId='primary', eventId=uid, body=event).execute()
+    service.events().update(calendarId='primary', eventId=uid, body=event)\
+                                                                .execute()
 
 
 def create_booking_body(event, username, description="General code"):
     '''
-    Function will take an event object and sort the relevant data to create a body (for the new booking).
-    Student (patient) will be added as an attendee and relevant data will be taken from the event object 
-    to update the event body.
+    Function will take an event object and sort the relevant data to create a
+    body (for the new booking). Student (patient) will be added as an attendee
+    and relevant data will be taken from the event object to update the event
+    body.
 
             Parameters:
                     event         (dict): Event body
@@ -103,8 +120,8 @@ def create_booking_body(event, username, description="General code"):
                     event['id']    (str): Unique event of updated event
     '''
 
-    event['attendees'].append({'email': username+'@student.wethinkcode.co.za'})
-
+    event['attendees'].\
+                    append({'email': username+'@student.wethinkcode.co.za'})
     blueprint = {
             'summary': event['summary'],
             'location': event['location'],
@@ -121,9 +138,10 @@ def create_booking_body(event, username, description="General code"):
 
 def update_booking_body(event, volunteer):
     '''
-    Function will take an event object and sort the relevant data to create a body (for open booking).
-    Student (patient) will be added as an attendee and relevant data will be taken from the event object 
-    to update the event body.
+    Function will take an event object and sort the relevant data to create a
+    body (for open booking). Student (patient) will be added as an attendee
+    and relevant data will be taken from the event object to update the event
+    body.
 
             Parameters:
                     event         (dict): Event body
@@ -148,21 +166,26 @@ def update_booking_body(event, volunteer):
 
 def cancel_attendee(username, clinic, uid):
     '''
-    Cancels booking slot by using the unique event ID and removing student as an attendee to the event. 
-    If event cannot be cancelled, then the program outputs an error message with the reason for failure.
+    Cancels booking slot by using the unique event ID and removing student as
+    an attendee to the event. If event cannot be cancelled, then the program
+    outputs an error message with the reason for failure.
 
             Parameters:
                     username       (str): Patient's (student) username
-                    clinic_service (obj): Code clinic's Google calendar API service
+                    clinic_service (obj): Code clinic's Google calendar API
+                                          service
                     uid            (str): Unique event id of event
 
             Returns:
-                    True       (boolean): Student removed as an attendee from event (cancelled booked slot)
-                    False      (boolean): Student not removed as an attendee from event (events left unchanged)
+                    True       (boolean): Student removed as an attendee from
+                                          event (cancelled booked slot)
+                    False      (boolean): Student not removed as an attendee
+                                          from event (events left unchanged)
     '''
 
-    now = datetime.datetime.utcnow().isoformat() + 'Z'
-    end_date = ((datetime.datetime.utcnow()) + datetime.timedelta(days=7)).isoformat() + 'Z'
+    now = datetime.datetime.utcnow().isoformat()+'Z'
+    end_date = ((datetime.datetime.utcnow()) + datetime.timedelta(days=7))\
+                                                            .isoformat()+'Z'
     deletion = False
     slots = utils.get_events(clinic.service,now, end_date)
     deletion, event = utils.get_chosen_slot(slots, username, uid)
@@ -172,29 +195,34 @@ def cancel_attendee(username, clinic, uid):
     if deletion == True:
         try:
             updated_event = update_booking_body(event, username)
-            event = clinic.service.events().update(calendarId='primary', eventId=event['id'], body=updated_event).execute()
-            email.send_message('me', email.patient_cancel_text(username, event), clinic.email_service)
+            event = clinic.service.events().update(calendarId='primary',\
+                            eventId=event['id'], body=updated_event).execute()
+            email.send_message('me', email.patient_cancel_text(username,\
+                                                event), clinic.email_service)
         except:
             utils.error_handling("ERROR: Could not cancel booking.")
         utils.print_output("Booking successfully deleted.")
         return True
     else:
-        utils.print_output("ERROR: You cannot cancel selected booking.\nUse the help command (-h) for more infromation.")
+        utils.print_output('''ERROR: You cannot cancel selected booking.
+        \nUse the help command (-h) for more infromation.''')
         return False
 
 
 def is_user_valid(event, username):
     '''
-    Checks if user has booked specified event by checking if the user's username is listed in
-    the list of attendees in the event body.
+    Checks if user has booked specified event by checking if the user's
+    username is listed in the list of attendees in the event body.
 
             Parameters:
                     event         (dict): Event body
                     username       (str): Patient's (student) username
 
             Returns:
-                    True       (boolean): Student is listed as an attendee to specified event
-                    False      (boolean): Student is not listed as an attendee to specified event
+                    True       (boolean): Student is listed as an attendee
+                                          to specified event
+                    False      (boolean): Student is not listed as an 
+                                          attendee to specified event
     '''
 
     if utils.split_username(event['attendees'][1]['email']) == username:

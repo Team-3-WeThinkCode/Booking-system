@@ -1,11 +1,10 @@
 import os, sys
+USER_PATHS = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../'))
+sys.path.insert(0, USER_PATHS)
 from commands import volunteer, booking, login
 from commands import event_listing as listings
 from commands import registration as register
 from commands import help as help_command
-
-USER_PATHS = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../'))
-sys.path.insert(0, USER_PATHS)
 import utilities as utils
 
 

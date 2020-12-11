@@ -1,24 +1,22 @@
-import pickle
-import os, sys
-import os.path
-from googleapiclient.discovery import build
+import os, sys, pickle, os.path
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
-import base64
+from googleapiclient.discovery import build
 from email.mime.text import MIMEText
-
-# If modifying these scopes, delete the file token.pickle.
-SCOPES = ['https://www.googleapis.com/auth/gmail.send']
-
+import base64
 USER_PATHS = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../'))
 sys.path.insert(0, USER_PATHS)
 from utilities import split_username
 
 
+# If modifying these scopes, delete the file token.pickle.
+SCOPES = ['https://www.googleapis.com/auth/gmail.send']
+
+
 def create_email_service():
     '''
-    Contacts google api services to create a service instance of the Gmail api.
-    This will be used to send emails from the code clinic Gmail account.
+    Contacts google api services to create a service instance of the Gmail
+    api. This will be used to send emails from the code clinic Gmail account.
 
             Parameters:
                     NONE
@@ -26,10 +24,11 @@ def create_email_service():
             Returns:
                     Service (obj): service object of Gmail instance
     '''
+
     creds = None
-    # The file token.pickle stores the user's access and refresh tokens, and is
-    # created automatically when the authorization flow completes for the first
-    # time.
+    # The file token.pickle stores the user's access and refresh tokens, and 
+    # is created automatically when the authorization flow completes for the 
+    # first time.
     if os.path.exists('tokens/.code_gmail.pickle'):
         with open('tokens/.code_gmail.pickle', 'rb') as token:
             creds = pickle.load(token)
@@ -64,11 +63,13 @@ def create_message(sender, to, subject, message_text):
             Returns:
                     Email_body     (dict): Encoded bit file of email body
     '''
+
     message = MIMEText(message_text)
     message['to'] = to
     message['from'] = sender
     message['subject'] = subject
-    raw_message = base64.urlsafe_b64encode(message.as_string().encode("utf-8"))
+    raw_message = base64.urlsafe_b64encode(message.as_string().\
+                                                    encode("utf-8"))
     return {
       'raw': raw_message.decode("utf-8")
     }
@@ -86,6 +87,7 @@ def patient_create_text(username, event):
             Returns:
                     Email_body     (dict): Encoded bit file of email body
     '''
+
     message = f"""
 Hello {split_username(event['attendees'][0]['email'])},
     
@@ -106,7 +108,6 @@ WeThinkCode_ Code-clinic.
     return create_message("code.clinic.test@gmail.com",
                          event['attendees'][0]['email'],
                         "Code_Clinic booking made", message)
- 
 
 
 def patient_cancel_text(username, event):
@@ -121,6 +122,7 @@ def patient_cancel_text(username, event):
             Returns:
                     Email_body     (dict): Encoded bit file of email body
     '''
+
     message = f"""
 Hello {split_username(event['attendees'][0]['email'])},
     
@@ -145,16 +147,13 @@ def send_message(user_id, message, service):
 
             Parameters:
                     service: (obj): Authorized Gmail API service instance.
-                    user_id: (str): User's email address. The special value "me"
-                                    can be used to indicate the authenticated user.
+                    user_id: (str): User's email address. The special value
+                                    "me" can be used to indicate the 
+                                    authenticated user.
                     message: (obj): Message to be sent.        
-
-            Returns:
-                    NONE
     '''
 
     try:
         message = (service.users().messages().send(userId=user_id, body=message).execute())
     except:
         print('An error occurred:')
-

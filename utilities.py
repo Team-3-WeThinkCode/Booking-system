@@ -1,10 +1,7 @@
-import datetime, json, sys
-import pytz
+import datetime, json, sys, pytz
 from commands import event_listing as listings
-import file_utils
 from rich.console import Console
-
-console = Console()
+import file_utils
 
 
 def print_output(output):
@@ -18,7 +15,8 @@ def print_output(output):
                     output  (str): Sentence to be printed to the 
                                    terminal as output
     '''
-
+    
+    console = Console()
     output = output + '\n'
     if 'INVALID' in output:
         console.print(output, style="bold red")

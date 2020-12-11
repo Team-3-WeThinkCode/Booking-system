@@ -1,10 +1,8 @@
 import os, sys, json
-
-
 USER_PATHS = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../'))
 sys.path.insert(0, USER_PATHS)
-import file_utils
 import utilities as utils
+import file_utils
 
 
 def is_registered(username):
