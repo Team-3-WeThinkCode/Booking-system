@@ -36,7 +36,7 @@ def log_in_expired(username):
             utils.error_handling("ERROR: Log-in time expired. Please log-in again!")
         elif timestamp and timestamp < time_now:
             try:
-                os.remove('tokens/.'+username+'.pickle')
+                os.remove(file_utils.find_home_directory()+'/.'+username+'.pickle')
             except:
                 utils.error_handling("Something went wrong.")
             utils.error_handling("ERROR: Log-in time expired. Please log-in again!")
@@ -59,7 +59,7 @@ def add_timestamps_to_json(username):
     expiry_date = (datetime.now() + timedelta(hours=4)).strftime('%y-%m-%d')
     expiry_time = (datetime.now() + timedelta(hours=4)).strftime('%H:%M:%S')
     try:
-        if not is_non_zero_file('student-info/.login_time.json'):
+        if not file_utils.is_non_zero_file('student-info/.login_time.json'):
             with open('student-info/.login_time.json', 'w') as json_file:
                 pass
             info = {'expiration': [{'username': username, 'date': expiry_date, 'time': expiry_time}]}

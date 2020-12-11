@@ -1,15 +1,19 @@
 import pickle
+import os, sys
 import os.path
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from urllib.request import urlopen
-import utilities as utils
-from validation.file_utils import find_home_directory
+
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar.events', 'https://www.googleapis.com/auth/calendar']
 
-#TODO: Rename module
+USER_PATHS = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../'))
+sys.path.insert(0, USER_PATHS)
+
+import utilities as utils
+from file_utils import find_home_directory
 
 def create_service(username):
     '''
@@ -36,7 +40,7 @@ def create_service(username):
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
             try:
-                creds.refresh(Request()) # TODO #1: Add exception handling here (and really the entire block) to capture authentication/authorization issues
+                creds.refresh(Request())
             except:
                 print("ERROR: Major Error!")
         else:

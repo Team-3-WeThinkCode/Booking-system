@@ -114,9 +114,7 @@ def get_all_booked_slots_table_info(events, username):
     return table_info
 
 
-def get_open_volunteer_slots_table_info(username, volunteer_service, clinic_service, date):
-    #TODO: remove clinic_service as a param -> not being used
-    #TODO: remove '-' and replace in docstring
+def get_open_volunteer_slots_table_info(username, volunteer_service, date):
     '''
     Returns a list of dates and times where the student has no events in their calendar
     and therefore can create a volunteer slot in. This information is stored in a 2D-list
@@ -275,7 +273,6 @@ def get_events_for_n_days(service):
 
 
 def print_correlating_table(volunteer, create, student, clinic, created, event_list):
-    #TODO: Change up params -> too many given
     '''
     Outputs correct table for specific command and information given by user. If, the boolean,
     created is True - no table needs to be printed as output and the program will exit the 
@@ -307,7 +304,7 @@ def print_correlating_table(volunteer, create, student, clinic, created, event_l
         error_message = 'ERROR: There are no volunteer slots available to book.'
     elif volunteer and create:
         #volunteer create slot: print table with open slot times where can volunteer
-        table_info = get_open_volunteer_slots_table_info(student.username, student.service, clinic.service, student.info['date'])
+        table_info = get_open_volunteer_slots_table_info(student.username, student.service, student.info['date'])
         heading = 'Open volunteer slots for '+student.info['date']+':'
         error_message = 'ERROR: There are no open volunteer slots on '+student.info['date']+'.'
     elif volunteer and not create:

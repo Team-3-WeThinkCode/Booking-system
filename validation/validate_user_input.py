@@ -149,7 +149,6 @@ def get_command(info, criteria):
 
 
 def get_support(info, criteria):
-    #TODO: Remove True return -> not needed
     '''
     Sorts through the command-line arguments and looks for support information
     (date/start time/UD/description/password) if program needs it to execute
@@ -184,16 +183,16 @@ def get_support(info, criteria):
             if len(sys.argv[-2]) == 26:
                 info['UD'] = sys.argv[-2]
                 info['description'] = sys.argv[-1]
-                return True, info
+                return info
         if len(sys.argv[len(sys.argv)-1]) == 26:
             info['UD'] = sys.argv[len(sys.argv)-1]
-        return True, info
+        return info
     if get_password:
         if len(sys.argv) == 4 and len(sys.argv[3]) == 8 and 'username' in info:
             info['password'] = sys.argv[3]
         else:
             utils.error_handling('INVALID: Password needs to be at exactly 8 characters long.')
-    return True, info
+    return info
 
 
 def check_if_support_info_is_present(info):
@@ -260,8 +259,8 @@ def get_user_commands():
     if info:
         info, criteria = get_user_type(info)
         info = get_command(info, criteria)
-        valid_format, info = get_support(info, criteria)
-        if valid_format and check_if_support_info_is_present(info):
+        info = get_support(info, criteria)
+        if check_if_support_info_is_present(info):
             return True, info
         else:
             return False, {}

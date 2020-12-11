@@ -9,17 +9,16 @@ sys.path.insert(0, USER_PATHS)
 import utilities as utils
 
 
-def do_register_command(student):
-    #TODO: Params -> username and password; not whole dictionary
+def do_register_command(username, password):
     '''
     Executes register command.
 
             Parameters:
-                    student (obj): Object with information on logged-in
-                                   student
+                    username (str): Student's username
+                    password (str): Student's password
     '''
 
-    register.add_registration_info_to_json(student)
+    register.add_registration_info_to_json(username, password)
 
 
 def do_login_command(username, password):
@@ -93,7 +92,6 @@ def do_patient_commands(student, clinic):
 
 
 def do_event_listing_commands(student, clinic):
-    #TODO: remove validation date -> should be done in validate user input already
     '''
     Executes specified event listing command, namely list booking, list slots or list open.
 
@@ -107,5 +105,4 @@ def do_event_listing_commands(student, clinic):
     elif 'command' in student.info and student.info['command'] == 'list-slots':
         output = listings.print_correlating_table(False, True, student, clinic, False, True)
     elif 'command' in student.info and student.info['command'] == 'list-open':
-        if 'date' in student.info and utils.check_date_format(student.info['date']):
-            output = listings.print_correlating_table(True, True, student, clinic, False, False)
+        output = listings.print_correlating_table(True, True, student, clinic, False, False)

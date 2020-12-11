@@ -154,7 +154,6 @@ def create_volunteer_slot(username, date, time, volunteer_service, clinic_servic
 
 
 def get_volunteered_slot(clinic_service, username, date, time):
-    #TODO simplify function
     '''
     Sorts through events occuring between 08:30 and 17:30, as this is the first and last
     volunteer slot start times of each day, and checks whether student is volunteering

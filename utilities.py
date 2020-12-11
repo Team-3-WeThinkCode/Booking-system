@@ -1,4 +1,4 @@
-import datetime, json
+import datetime, json, sys
 import pytz
 from commands import event_listing as listings
 import file_utils
@@ -39,7 +39,7 @@ def error_handling(output):
     '''
 
     print_output(output)
-    exit()
+    sys.exit()
 
 
 def date_has_passed(date, time):
@@ -164,7 +164,6 @@ def get_events(service, start_datetime, end_datetime):
 
 
 def slot_is_available(service, start_datetime, end_datetime):
-    #TODO change name of function to something more descriptive
     '''
     Confirms whether service's Google calendar has any events occuring in the 
     duration of specified datetimes.
@@ -188,7 +187,6 @@ def slot_is_available(service, start_datetime, end_datetime):
 
     
 def create_makeshift_event(summary, location, description, start_datetime, end_datetime, people):
-    #TODO: Another duplicate of this function?
     '''
     Creates body of event similiar to ones used in the Google Calendar API.
 

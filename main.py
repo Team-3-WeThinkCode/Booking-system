@@ -65,7 +65,7 @@ def run_program():
             do_commands.do_patient_commands(student, codeclinic)
     elif 'command' in student.info:
         if student.info['command'] == 'register':
-            do_commands.do_register_command(student.info)
+            do_commands.do_register_command(student.info['username'], student.info['password'])
         elif student.info['command'] == 'login':
             do_commands.do_login_command(student.info['username'], student.info['password'])
         elif student.info['command'] == 'help':
