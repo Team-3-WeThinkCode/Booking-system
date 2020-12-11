@@ -1,34 +1,6 @@
 {
     "open_slots": [
         {
-            "0k2uqku5kgm6f5tb0sstjeans4": {
-                "attendees": [
-                    {
-                        "email": "jroy@student.wethinkcode.co.za",
-                        "responseStatus": "accepted"
-                    }
-                ],
-                "end": {
-                    "dateTime": "2020-12-11T16:30:00+02:00",
-                    "timeZone": "Africa/Johannesburg"
-                },
-                "id": "0k2uqku5kgm6f5tb0sstjeans4",
-                "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
-                "organizer": {
-                    "email": "code.clinic.test@gmail.com",
-                    "self": true
-                },
-                "reminders": {
-                    "useDefault": true
-                },
-                "start": {
-                    "dateTime": "2020-12-11T16:00:00+02:00",
-                    "timeZone": "Africa/Johannesburg"
-                },
-                "summary": "VOLUNTEER: jroy"
-            }
-        },
-        {
             "vutekihkou4smer4clcqo2acrc": {
                 "attendees": [
                     {
@@ -51,34 +23,6 @@
                 },
                 "start": {
                     "dateTime": "2020-12-11T16:30:00+02:00",
-                    "timeZone": "Africa/Johannesburg"
-                },
-                "summary": "VOLUNTEER: jroy"
-            }
-        },
-        {
-            "njoqgfop1h4e88usmoki249fis": {
-                "attendees": [
-                    {
-                        "email": "jroy@student.wethinkcode.co.za",
-                        "responseStatus": "accepted"
-                    }
-                ],
-                "end": {
-                    "dateTime": "2020-12-11T17:30:00+02:00",
-                    "timeZone": "Africa/Johannesburg"
-                },
-                "id": "njoqgfop1h4e88usmoki249fis",
-                "location": "WeThinkCode, Victoria & Alfred Waterfront, Cape Town",
-                "organizer": {
-                    "email": "code.clinic.test@gmail.com",
-                    "self": true
-                },
-                "reminders": {
-                    "useDefault": true
-                },
-                "start": {
-                    "dateTime": "2020-12-11T17:00:00+02:00",
                     "timeZone": "Africa/Johannesburg"
                 },
                 "summary": "VOLUNTEER: jroy"
