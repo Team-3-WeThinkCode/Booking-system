@@ -1,11 +1,10 @@
-import sys
-from quickstart import create_service
+import sys, utilities, do_commands
+from calendar_api import create_service
 from gmail_api import create_email_service
 from validate_user_input import get_user_commands
 from commands import login
 from commands import export_calendar as export
-import utilities as utils
-import do_commands
+
   
         
 class Student:
@@ -49,12 +48,12 @@ def run_program():
     data = ''
     #check if input entered is invalid
     if not student.info:
-        utils.error_handling('INVALID: Input invalid. Use the help command for further information.\nHelp command: -h')
+        utilities.error_handling('INVALID: Input invalid. Use the help command for further information.\nHelp command: -h')
     #check if student's login token has expired
     if not (student.info['command'] == 'login' or student.info['command'] == 'register'):
         login.log_in_expired(student.username)
     #update data files
-    utils.update_files(student.service, codeclinic.service, student.username)
+    utilities.update_files(student.service, codeclinic.service, student.username)
     #ensures piping input accepted
     if not sys.stdin.isatty():
         data = sys.stdin.readlines()

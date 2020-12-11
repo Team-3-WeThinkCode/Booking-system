@@ -88,7 +88,6 @@ def booker_accept_invite(service, uid, username, event):
 
 
 def create_booking_body(event, username, description="General code"):
-    #TODO: Just pass through description not student_info
     '''
     Function will take an event object and sort the relevant data to create a body (for the new booking).
     Student (patient) will be added as an attendee and relevant data will be taken from the event object 
