@@ -21,6 +21,10 @@ def add_data_to_json_file_with_dict(fpath, data, key):
         return False
 
 
-def find_home_directory()
+def find_home_directory():
     home = expanduser("~")
     return home
+
+
+if __name__ == "__main__":
+    print(find_home_directory())
