@@ -7,17 +7,22 @@ from urllib.request import urlopen
 import utilities as utils
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar.events', 'https://www.googleapis.com/auth/calendar']
-#service = None
 
+#TODO: Rename module
 
 def create_service(username):
-    """
-    Shows basic usage of the Google Calendar API.
-    Prints the start and name of the next 10 events on the user's calendar.
-    """
+    '''
+    Creates Google calendar API service and stores this information in pickle file.
+    This pickle file is user specific, username used to name file, and made secret.
+
+            Parameters:
+                    username (str): User specific username
+
+            Returns:
+                    service  (obj): Google calendar API service
+    '''
+
     creds = None
-    
-    
     check_calendar_connected()
     if os.path.exists('tokens/.'+username+'.pickle'):
         with open('tokens/.'+username+'.pickle', 'rb') as token:
@@ -36,28 +41,24 @@ def create_service(username):
         # Save the credentials for the next run
         with open('tokens/.'+username+'.pickle', 'wb') as token:
             pickle.dump(creds, token)
-
     try:
-        service = build('calendar', 'v3', credentials=creds) #Add exception handling here to capture client side issues
+        service = build('calendar', 'v3', credentials=creds)
     except Exception:
-        utils.print_output("ERROR: Calendar could not connect.")
+        utils.error_handling("ERROR: Calendar could not connect.")
     return service
 
-def internet_on():
+
+def check_calendar_connected():
     '''
-    Function checks if internet is connected and returns False if it isn't.
+    Checks if internet is connected.
+
+            Parameters:
+                    username (str): User specific username
     '''
     try:
         response = urlopen('https://calendar.google.com/', timeout=10)
-        return True
-    except: 
-        return False
-
-'''TODO Check connection to Google Calendar succesfull (maybe check pickle file)'''
-def check_calendar_connected():
-    '''
-    Calls the internet_on() function and then prints "no internet" if check equals False.
-    '''
-    check = internet_on()
-    if check == False:
-        utils.print_output("ERROR: No internet connection!")
+        connected = True
+    except:
+        connected = False
+    if not connected:
+        utils.error_handling("ERROR: No internet connection!")
