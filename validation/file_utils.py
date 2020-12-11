@@ -1,4 +1,5 @@
 import os
+from os.path import expanduser
 
 def is_non_zero_file(fpath):  
     return os.path.isfile(fpath) and os.path.getsize(fpath) > 0
@@ -18,3 +19,8 @@ def add_data_to_json_file_with_dict(fpath, data, key):
         return True
     except:
         return False
+
+
+def find_home_directory()
+    home = expanduser("~")
+    return home
