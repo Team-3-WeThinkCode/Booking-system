@@ -1,4 +1,4 @@
-from commands import volunteer, booking, cancellation, login
+from commands import volunteer, booking, login
 from commands import event_listing as listings
 from commands import registration as register
 from commands import help as help_command
@@ -81,7 +81,7 @@ def do_patient_commands(student, clinic):
             listings.print_correlating_table(False, True, student, clinic, False, False)
     elif student.info['command'] == 'cancel':
         try:    
-            created = cancellation.cancel_attendee(student.username, clinic ,student.info['UD'])
+            created = booking.cancel_attendee(student.username, clinic ,student.info['UD'])
         except(KeyError):
             utils.print_output("ERROR: Please include the correct uid when cancelling a booking.")
         if not created:    
