@@ -5,6 +5,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from urllib.request import urlopen
 import utilities as utils
+from validation.file_utils import find_home_directory
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar.events', 'https://www.googleapis.com/auth/calendar']
 
@@ -22,10 +23,14 @@ def create_service(username):
                     service  (obj): Google calendar API service
     '''
 
+    if username == 'codeclinic':
+        directory = 'tokens/.'+username+'.pickle'
+    else:
+        directory = find_home_directory()+'/.'+username+'.pickle'
     creds = None
     check_calendar_connected()
-    if os.path.exists('tokens/.'+username+'.pickle'):
-        with open('tokens/.'+username+'.pickle', 'rb') as token:
+    if os.path.exists(directory):
+        with open(directory, 'rb') as token:
             creds = pickle.load(token)
     # If there are no (valid) credentials available, let the user log in.
     if not creds or not creds.valid:
@@ -39,7 +44,7 @@ def create_service(username):
                 'credentials/client_secret.json', SCOPES)
             creds = flow.run_local_server(port=0, success_message='You now have access to the codeclinic system!')
         # Save the credentials for the next run
-        with open('tokens/.'+username+'.pickle', 'wb') as token:
+        with open(directory, 'wb') as token:
             pickle.dump(creds, token)
     try:
         service = build('calendar', 'v3', credentials=creds)

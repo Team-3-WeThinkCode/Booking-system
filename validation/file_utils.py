@@ -1,4 +1,4 @@
-import os
+import os, json
 from os.path import expanduser
 
 def is_non_zero_file(fpath):  
@@ -21,6 +21,6 @@ def add_data_to_json_file_with_dict(fpath, data, key):
         return False
 
 
-def find_home_directory()
+def find_home_directory():
     home = expanduser("~")
     return home
