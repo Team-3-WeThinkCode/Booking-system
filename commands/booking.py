@@ -4,7 +4,7 @@ from commands import event_listing as listings
 USER_PATHS = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../'))
 sys.path.insert(0, USER_PATHS)
 import utilities as utils
-import gmail_api as email
+import API.gmail_api as email
         
 
 def get_chosen_slot(events, username, uid):

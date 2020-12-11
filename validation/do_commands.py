@@ -1,7 +1,11 @@
+import os, sys
 from commands import volunteer, booking, login
 from commands import event_listing as listings
 from commands import registration as register
 from commands import help as help_command
+
+USER_PATHS = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../'))
+sys.path.insert(0, USER_PATHS)
 import utilities as utils
 
 
@@ -83,7 +87,7 @@ def do_patient_commands(student, clinic):
         try:    
             created = booking.cancel_attendee(student.username, clinic ,student.info['UD'])
         except(KeyError):
-            utils.print_output("ERROR: Please include the correct uid when cancelling a booking.")
+            utils.print_output("ERROR: Please include the correct uid when cancelling a booking.\nFormat: <username> cancel patient <uid>.")
         if not created:    
             listings.print_correlating_table(False, False, student, clinic, False, False)
 

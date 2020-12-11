@@ -92,7 +92,7 @@ def add_timestamps_to_json(username):
 def is_valid_student_info(registered_students, username, password):
     '''
     Sorts through the registered_students list of registered students to confirm
-    whether any student's information correlates with given information
+    whether any student's information correlates with given information.
 
             Parameters:
                     registered_students (list of dict): List of registered students
@@ -117,7 +117,7 @@ def login_details(username, password):
     Sorts through registered students from the student.json file and confirms
     whether student username and password is registered. If student is registered,
     student log-in expiry date and time is updated. If student is not registered,
-    an error message is returned and program exits
+    an error message is returned and program exits.
 
             Parameters:
                     username  (str): Student's username

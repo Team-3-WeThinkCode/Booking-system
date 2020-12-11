@@ -1,7 +1,7 @@
-import sys, utilities, do_commands
-from calendar_api import create_service
-from gmail_api import create_email_service
-from validate_user_input import get_user_commands
+import sys, utilities
+from validation import do_commands, validate_user_input
+from API.calendar_api import create_service
+from API.gmail_api import create_email_service
 from commands import login
 from commands import export_calendar as export
 
@@ -11,7 +11,7 @@ class Student:
     """ Setup student profile """
 
     def __init__(self):
-        valid, self.info = get_user_commands()
+        valid, self.info = validate_user_input.get_user_commands()
         self.username, self.service = '', ''
         if valid:
             self.username = self.info['username'].strip()
