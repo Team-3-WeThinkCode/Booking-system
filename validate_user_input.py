@@ -178,7 +178,7 @@ def get_support(info, criteria):
             info['start_time'] = sys.argv[5]
     if get_id:
         info['UD'] = ''
-        if info['command'] == 'create':
+        if 'command' in info and info['command'] == 'create':
             if len(sys.argv[-2]) == 26:
                 info['UD'] = sys.argv[-2]
                 info['description'] = sys.argv[-1]
