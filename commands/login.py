@@ -43,8 +43,10 @@ def log_in_expired(username):
             except:
                 utils.error_handling("Something went wrong.")
             utils.error_handling("ERROR: Log-in time expired. Please log-in again!")
+        elif not (date and timestamp):
+            utils.error_handling("ERROR: Log-in time expired. Please log-in again!")
     else:
-        utils.error_handling("ERROR: Log-in time expired. Please log-in again!")
+        utils.error_handling("ERROR: Please log-in before continuing!")
 
 
 def add_timestamps_to_json(username):
