@@ -11,6 +11,10 @@ import utilities as utils
 # password : 8 characters long
 
 
+def is_non_zero_file(fpath):  
+    return os.path.isfile(fpath) and os.path.getsize(fpath) > 0
+
+
 def log_in_expired(username):
     '''
     Confirms whether student's, with specified username, log-in time has expired 
@@ -44,7 +48,7 @@ def log_in_expired(username):
                 utils.error_handling("Something went wrong.")
             utils.error_handling("ERROR: Log-in time expired. Please log-in again!")
         elif not (date and timestamp):
-            utils.error_handling("ERROR: Log-in time expired. Please log-in again!")
+            utils.error_handling("ERROR: Please log-in before continuing!")
     else:
         utils.error_handling("ERROR: Please log-in before continuing!")
 
@@ -61,10 +65,10 @@ def add_timestamps_to_json(username):
 
     expiry_date = (datetime.now() + timedelta(hours=4)).strftime('%y-%m-%d')
     expiry_time = (datetime.now() + timedelta(hours=4)).strftime('%H:%M:%S')
-    with open('student-info/.login_time.json', 'w') as json_file:
-        pass
     try:
-        if os.stat('student-info/.login_time.json').st_size == 0:
+        if not is_non_zero_file('student-info/.login_time.json'):
+            with open('student-info/.login_time.json', 'w') as json_file:
+                pass
             info = {'expiration': [{'username': username, 'date': expiry_date, 'time': expiry_time}]}
             with open('student-info/.login_time.json', 'w') as f:
                 json.dump(info, f, sort_keys=False, indent=4)
