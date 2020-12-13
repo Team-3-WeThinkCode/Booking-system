@@ -26,16 +26,7 @@ class Test(unittest.TestCase):
         username = utilities.split_username("jdoe@student.wethinkcode.co.za")
         self.assertEqual(username, "jdoe")
         
-
-    # def test_is_leap_year_with_leap_year(self):
-    #     result = utilities.is_leap_year(2020)
-    #     self.assertTrue(result)
-
-    
-    # def test_is_leap_year_with_year_that_is_not_leap_year(self):
-    #     result = utilities.is_leap_year(2019)
-    #     self.assertFalse(result)
-
+        
     #tests the check date and time function
     def test_date_fomat_correct_with_correct_format(self):
         result = utilities.check_date_and_time_format('2030-11-14', '16:00')
@@ -52,32 +43,10 @@ class Test(unittest.TestCase):
         self.assertFalse(result)
 
 
-    # def test_get_date_with_valid_input(self):
-    #     original_input = mock.builtins.input
-    #     mock.builtins.input = lambda _: '2020-11-14'
-    #     self.assertEqual(utilities.get_date(), '2020-11-14')
-
-
-    # def test_get_date_with_invalid_then_valid_input(self):
-    #     original_input = mock.builtins.input
-    #     mock.builtins.input = lambda _: '20k0-11-'
-    #     mock.builtins.input = lambda _: '2020-11-14'
-    #     self.assertEqual(utilities.get_date(), '2020-11-14')
-
-    # def test_sort_open_slots(self):
-        
-    #     new_list = utilities.sort_open_slots(test_obj, username="student")
-    #     self.assertEqual(new_list, [self.test_obj[0]])
-
-
     def test_sort_booked_slots_false(self):
         new_list = utilities.sort_booked_slots(test_obj, username="jdoe")
         self.assertEqual(new_list, [])
 
-
-    # def test_sort_booked_slots(self):
-    #     new_list = utilities.sort_booked_slots(test_obj, username="jroy")
-    #     self.assertEqual(new_list, [self.test_obj[0], self.test_obj[1]])
 
     def test_sort_open_slots_false(self):
         new_list = utilities.sort_open_slots([{"key": "value"}], username="jroy")

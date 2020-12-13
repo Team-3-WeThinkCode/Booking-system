@@ -10,20 +10,12 @@ from utilities import file_utilities as file_utils
 class Test(unittest.TestCase):
 
     def test_if_student_registered(self):
-        filename='student-info/.student.json'
-        executed, data = file_utils.read_data_from_json_file(filename)
-        self.assertTrue(registration.is_student_registered(data['student_info'], 'jroy'))
-
-    def if_student_registered2(self):
         student_data = {'student_info': [{'password': 'password', 'username': 'cprinsloo'}, {'password': 'password', 'username': 'student'}, {'password': '12345678', 'username': 'sgerber'}, {'password': 'password', 'username': 'jroy'}, {'username': 'bnkala', 'password': 'Ad3laide'}]}
-
-        result = registration.is_student_registered(student_data, 'cprinsloo')
-        self.assertEqual(result, True)  
+        self.assertTrue(registration.is_student_registered(student_data['student_info'], 'jroy'))
     
     def test_student_not_registered(self):
-        filename = 'student-info/.student.json'
-        executed, data = file_utils.read_data_from_json_file(filename)
-        self.assertFalse(registration.is_student_registered(data['student_info'], 'bnkala'))
+        student_data = {'student_info': [{'password': 'password', 'username': 'cprinsloo'}, {'password': 'password', 'username': 'student'}, {'password': '12345678', 'username': 'sgerber'}]}
+        self.assertFalse(registration.is_student_registered(student_data['student_info'], 'bnkala'))
 
 if __name__ == "__main__":
     unittest.main()

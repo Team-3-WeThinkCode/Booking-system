@@ -43,18 +43,18 @@ class test_events_listings(unittest.TestCase):
         self.assertEqual(result, [(' rowen', '2020-12-11', '13:00 - 13:30', 'bi9heprfrg5r2smri2mju16p38', 'rhys'), (' rowen', '2020-12-11', '13:30 - 14:00', 'e6mvh4crkd77qskg5ebhponfc8', 'rhys'), (' rowen', '2020-12-11', '14:00 - 14:30', '1bneuds2su1fof321apct652d8', 'rhys'), (' jroy', '2020-12-11', '17:00 - 17:30', 'njoqgfop1h4e88usmoki249fis', 'rowen')])
 
 
-    def test_step1_then_off(self):
-        console = Console(file=StringIO())
-        console.print(event_listing.print_table([(' jroy', '2020-12-11', '16:30 - 17:00', 'vutekihkou4smer4clcqo2acrc', 'Open slot.')], 'Volunteer slots for the next 7 days available for booking:'))
-        str_output = console.file.getvalue()
+#     def test_step1_then_off(self):
+#         console = Console(file=StringIO())
+#         console.print(event_listing.print_table([(' jroy', '2020-12-11', '16:30 - 17:00', 'vutekihkou4smer4clcqo2acrc', 'Open slot.')], 'Volunteer slots for the next 7 days available for booking:'))
+#         str_output = console.file.getvalue()
 
-        self.assertEqual(str_output, '''                         Volunteer slots for the next 7 days available for booking:                         
-┏━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┓
-┃ #.           ┃ Volunteer username ┃ Date       ┃ Time          ┃ ID                         ┃ Patient    ┃
-┡━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━┩
-│ 1            │  jroy              │ 2020-12-11 │ 16:30 - 17:00 │ vutekihkou4smer4clcqo2acrc │ Open slot. │
-└──────────────┴────────────────────┴────────────┴───────────────┴────────────────────────────┴────────────┘
-''')
+#         self.assertEqual(str_output, '''                         Volunteer slots for the next 7 days available for booking:                         
+# ┏━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┓
+# ┃ #.           ┃ Volunteer username ┃ Date       ┃ Time          ┃ ID                         ┃ Patient    ┃
+# ┡━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━┩
+# │ 1            │  jroy              │ 2020-12-11 │ 16:30 - 17:00 │ vutekihkou4smer4clcqo2acrc │ Open slot. │
+# └──────────────┴────────────────────┴────────────┴───────────────┴────────────────────────────┴────────────┘
+# ''')
     
 
 
