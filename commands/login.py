@@ -20,7 +20,7 @@ def log_in_expired(username):
 
     timestamp, date, msg = '', '', ''
     date_now = datetime.now().strftime('%y-%m-%d')
-    time_now = time_now = datetime.now().strftime('%H:%M:%S')
+    time_now = datetime.now().strftime('%H:%M:%S')
     filename = 'student-info/.login_time.json'
     executed, info = file_utils.read_data_from_json_file(filename)
     if not executed:
@@ -34,7 +34,7 @@ def log_in_expired(username):
         if date and date < date_now:
             msg = "ERROR: Log-in time expired. Please log-in again!"
             utils.error_handling(msg)
-        elif timestamp and timestamp < time_now:
+        elif (timestamp and timestamp < time_now) and (date and date <= date_now):
             msg = "ERROR: Log-in time expired. Please log-in again!"
             filepath = file_utils.find_home_directory()+'/.'+username+'.pickle'
             os.remove(filepath)

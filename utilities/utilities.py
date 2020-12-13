@@ -331,7 +331,6 @@ def convert_date_and_time_to_rfc_format(date, start_time, end_time):
                     start_datetime  (str): Start date/time in rfc format
                     end_datetime    (str): End date/time in rfc format
     '''
-    
     year, month, day = int(date[:4]), int(date[5:7]), int(date[8:])
     start_hr, start_min = int(start_time[:2]), int(start_time[3:])
     end_hr, end_min = int(end_time[:2]), int(end_time[3:])

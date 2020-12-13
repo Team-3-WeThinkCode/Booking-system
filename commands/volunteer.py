@@ -85,14 +85,22 @@ def convert_90_min_slot_into_30_min_slots(slot):
     '''
 
     start_hour, start_minute = int(slot[0][:2]), int(slot[0][3:])
+    hour_plus_two, hour_plus_one = str(start_hour+2), str(start_hour+1)
+    if len(hour_plus_two) == 1:
+        hour_plus_two = '0' + hour_plus_two
+    if len(hour_plus_one) == 1:
+        hour_plus_one = '0' + hour_plus_one
+    start_hour = str(start_hour)
+    if len(start_hour) == 1:
+        start_hour = '0' + start_hour
     if start_minute == 30:
-        return [(slot[0], str(start_hour+1)+':'+'00'),
-                (str(start_hour+1)+':'+'00', str(start_hour+1)+':'+'30'),
-                (str(start_hour+1)+':'+'30', str(start_hour+2)+':'+'00')]
+        return [(slot[0], hour_plus_one+':'+'00'),
+                (hour_plus_one+':'+'00', hour_plus_one+':'+'30'),
+                (hour_plus_one+':'+'30', hour_plus_two+':'+'00')]
     elif start_minute == 0:
-        return [(slot[0], str(start_hour)+':'+'30'),
-                (str(start_hour)+':'+'30', str(start_hour+1)+':'+'00'),
-                (str(start_hour+1)+':'+'00', str(start_hour+1)+':'+'30')]
+        return [(slot[0], start_hour+':'+'30'),
+                (start_hour+':'+'30', hour_plus_one+':'+'00'),
+                (hour_plus_one+':'+'00', hour_plus_one+':'+'30')]
     return []
 
 
@@ -123,7 +131,8 @@ def create_volunteer_slot(username, date, time, volunteer_service, clinic_servic
                                                      username,
                                                      clinic_service)
     if not open_slots:
-        return False, 'ERROR: There are no open slots on this day.'
+        utils.print_output('ERROR: There are no open slots on this day.')
+        return False
     time_slot_lst = list(filter(lambda x : x[0] == time, open_slots))
     if not time_slot_lst:
         utils.print_output('ERROR: Choose a valid/open slot start time.')

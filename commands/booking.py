@@ -113,7 +113,7 @@ def booker_accept_invite(service, uid, event):
                                                                 .execute()
 
 
-def create_booking_body(event, username, description="General code"):
+def create_booking_body(event, username, description):
     '''
     Function will take an event object and sort the relevant data to create a
     body (for the new booking). Student (patient) will be added as an attendee
@@ -130,6 +130,8 @@ def create_booking_body(event, username, description="General code"):
                     event['id']    (str): Unique event of updated event
     '''
 
+    if not description:
+        description = "General code"
     event['attendees'].append({'email': username+'@student.wethinkcode.co.za'})
     blueprint = {
             'summary': event['summary'],
