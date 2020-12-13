@@ -1,5 +1,4 @@
 import os, sys, unittest
-from unittest import mock
 USER_PATHS = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../'))
 sys.path.insert(0, USER_PATHS)
 from utilities import utilities
@@ -21,13 +20,13 @@ class Test(unittest.TestCase):
             if key not in event:
                 result = False
         self.assertEqual(result, True)
+        
 
     def test_split_username(self):
         username = utilities.split_username("jdoe@student.wethinkcode.co.za")
         self.assertEqual(username, "jdoe")
         
         
-    #tests the check date and time function
     def test_date_fomat_correct_with_correct_format(self):
         result = utilities.check_date_and_time_format('2030-11-14', '16:00')
         self.assertTrue(result)

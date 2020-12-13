@@ -17,12 +17,8 @@
             "username": "jroy"
         },
         {
-            "password": "12345678",
+            "password": "password",
             "username": "ayano"
-        },
-        {
-            "password": "12345678",
-            "username": "user"
         }
     ]
 }

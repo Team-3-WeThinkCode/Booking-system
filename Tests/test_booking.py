@@ -1,8 +1,6 @@
-import unittest
+import os, sys, unittest
 from unittest.main import main
 from unittest.mock import patch
-from io import StringIO
-import os, sys
 USER_PATHS = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../'))
 sys.path.insert(0, USER_PATHS)
 from commands import booking

@@ -3,7 +3,9 @@ USER_PATHS = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../'))
 sys.path.insert(0, USER_PATHS)
 from commands import volunteer
 
+
 class Test(unittest.TestCase):
+
 
     def test_convert_90_min_slot_into_min_slot(self):
         slot = ('13:00', '14:30')
