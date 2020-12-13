@@ -1,7 +1,6 @@
-import datetime, json, sys, pytz
-from commands import event_listing as listings
+import datetime, sys, pytz
 from rich.console import Console
-import file_utils
+from utilities import file_utilities as file_utils
 
 
 def print_output(output):
@@ -38,6 +37,44 @@ def error_handling(output):
 
     print_output(output)
     sys.exit()
+
+
+def is_slot_available(service, username, start_datetime, end_datetime):
+    '''
+    Confirms whether student with specified username has an open slot, at the
+    specified datetime, in their calendar.
+
+            Parameters:
+                    service         (obj): Student's Google calendar API
+                                           service
+                    username        (str): Student's username
+                    start_datetime  (str): Datetime (in rfc format) of when
+                                           slot time starts
+                    end_datetime    (str): Datetime (in rfc format) of when
+                                           slot time ends
+
+            Returns:
+                    True        (boolean): Student has an open slot in their
+                                           calendar
+                    False       (boolean): Student does not have an open slot
+                                           in their calendar
+                    
+    '''
+
+    user_email = str(username)+"@student.wethinkcode.co.za"
+    body = {
+      "timeMin": start_datetime,
+      "timeMax": end_datetime,
+      "items": [
+        {"id": user_email}
+      ],
+      "timeZone": 'Africa/Johannesburg'
+    }
+    events = service.freebusy().query(body=body).execute()
+    events = events.get('calendars').get(user_email)
+    if events.get('busy'):
+        return False
+    return True
 
 
 def date_has_passed(date, time):
@@ -110,6 +147,8 @@ def check_date_format(date):
     '''
 
     date_format = "%Y-%m-%d"
+    if not len(date) == 10:
+        return False
     try:
         datetime.datetime.strptime(date, date_format)
         return True
@@ -148,16 +187,22 @@ def get_events(service, start_datetime, end_datetime):
 
             Parameters:
                     service                (obj): Google calendar API service
-                    start_datetime         (str): Datetime (in rfc format) of start time
-                    end_datetime           (str): Datetime (in rfc format) of end time
+                    start_datetime         (str): Datetime (in rfc format) of
+                                                  start time
+                    end_datetime           (str): Datetime (in rfc format) of
+                                                  end time
 
             Returns:
-                    events_result (list of dict): Events occuring in specified date/time
+                    events_result (list of dict): Events occuring in specified
+                                                  date/time
     '''
 
-    events_result = service.events().list(calendarId='primary',  timeMin=start_datetime, timeMax=end_datetime,
-                                               maxResults=500, singleEvents=True,
-                                               orderBy='startTime').execute()
+    events_result = service.events().list(calendarId='primary',
+                                          timeMin=start_datetime,
+                                          timeMax=end_datetime,
+                                          maxResults=500,
+                                          singleEvents=True,
+                                          orderBy='startTime').execute()
     return events_result.get('items', [])
 
 
@@ -240,7 +285,12 @@ def add_event_to_calendar(event_info, service, clinic, username):
     if clinic:
         student_email = str(username) + '@student.wethinkcode.co.za'
         people.append({'email': student_email})
-    event = create_makeshift_event(event_info['summary'], location, '', event_info['start_datetime'], event_info['end_datetime'], people)
+    event = create_makeshift_event(event_info['summary'],
+                                   location,
+                                   '',
+                                   event_info['start_datetime'],
+                                   event_info['end_datetime'],
+                                   people)
     event = service.events().insert(calendarId='primary', body=event).execute()
     return event
 
@@ -260,7 +310,9 @@ def delete_event(service, event_id):
     '''
 
     try:
-        service.events().delete(calendarId='primary', eventId=event_id, sendUpdates='all').execute()
+        service.events().delete(calendarId='primary',
+                                eventId=event_id,
+                                sendUpdates='all').execute()
     except:
         return False
     return True
@@ -284,48 +336,63 @@ def convert_date_and_time_to_rfc_format(date, start_time, end_time):
     start_hr, start_min = int(start_time[:2]), int(start_time[3:])
     end_hr, end_min = int(end_time[:2]), int(end_time[3:])
     tz = pytz.timezone('Africa/Johannesburg')
-    start_datetime = tz.localize(datetime.datetime(year, month, day, start_hr, start_min))
-    end_datetime = tz.localize(datetime.datetime(year, month, day, end_hr, end_min))
+    start_datetime = tz.localize(datetime.datetime(year,
+                                                   month,
+                                                   day,
+                                                   start_hr,
+                                                   start_min))
+    end_datetime = tz.localize(datetime.datetime(year,
+                                                 month,
+                                                 day,
+                                                 end_hr,
+                                                 end_min))
     return start_datetime.isoformat(), end_datetime.isoformat()
 
 
 def update_files(student_service, clinic_service, username):
     '''
     Json data files updated:
-    - ".student_events.json" updated with the new events data for the students events involving Code Clinic.
-    - ".open_slots.json" updated with the open slots data from the Code Clinic calendar.
+    - ".student_events.json" updated with the new events data for the students
+      events involving Code Clinic.
+    - ".open_slots.json" updated with the open slots data from the Code Clinic
+      calendar.
 
             Parameters:
-                    student_service  (obj): Student's Google Calendar API service
-                    clinic_service   (obj): Code clinic's Google Calendar API service
+                    student_service  (obj): Student's Google Calendar API
+                                            service
+                    clinic_service   (obj): Code clinic's Google Calendar
+                                            API service
                     username         (str): Student's username
     '''
 
     try:
         now = datetime.datetime.utcnow().isoformat() + 'Z'
-        end_date = ((datetime.datetime.utcnow()) + datetime.timedelta(days=7)).isoformat() + 'Z'
+        end_date = ((datetime.datetime.utcnow())\
+                + datetime.timedelta(days=7)).isoformat() + 'Z'
         events = get_events(clinic_service, now, end_date)
         personal_data = sort_booked_slots(events, username)
         code_clinic_data = sort_open_slots(events, username)
 
-        personal_data, code_clinic_data = event_data_compactor(personal_data), event_data_compactor(code_clinic_data)
+        personal_data = event_data_compactor(personal_data)
+        code_clinic_data = event_data_compactor(code_clinic_data)
         store_slot_data(personal_data, True)
         store_slot_data(code_clinic_data, False)
     except:
         error_handling('ERROR: Event files could not be updated.')       
 
 
-
 def event_data_compactor(events):
     '''
-    Function will take a event object and sort the relevant data to create a body for the new booking.
-    User will be added as an attendee and only relevant data will be taken from the event object for body.
+    Function will take a event object and sort the relevant data to create
+    a body for the new booking. User will be added as an attendee and only
+    relevant data will be taken from the event object for body.
 
             Parameters:
                     events        (list of dict): Events occuring in calendar
 
             Returns:
-                    new_data_list (list of dict): Events occuring in calendar with customised event body
+                    new_data_list (list of dict): Events occuring in calendar
+                                                  with customised event body
                                                   for each event
     '''
 
@@ -347,20 +414,23 @@ def event_data_compactor(events):
     return new_data_list
 
 
-def volunteer_accept_invite(clinic_service, unique_id, username, event):
+def volunteer_accept_invite(clinic_service, unique_id, event):
     '''
-    Makes user, with specified username, an attendee to the event, with specified event UID,
-    by accepting attendee invite on user's behalf.
+    Makes user, with specified username, an attendee to the event, with
+    specified event UID, by accepting attendee invite on user's behalf.
 
             Parameters:
-                    clinic_service (obj): Code clinic's Google Calendar API service
+                    clinic_service (obj): Code clinic's Google Calendar
+                                          API service
                     unique_id      (str): Unique event id of event
-                    username       (str): Student's username
-                    event         (dict): Event body of event with specified event UID
+                    event         (dict): Event body of event with specified
+                                          event UID
     '''
 
     event['attendees'][0]['responseStatus'] = 'accepted'
-    clinic_service.events().update(calendarId='primary', eventId=unique_id, body=event).execute()
+    clinic_service.events().update(calendarId='primary',
+                                   eventId=unique_id,
+                                   body=event).execute()
 
 
 def sort_open_slots(events, username):
@@ -380,7 +450,9 @@ def sort_open_slots(events, username):
     new_events = []
     for event in events:
         try:
-            if len(event['attendees']) == 1 and event['attendees'][0]['email'] != username+"@student.wethinkcode.co.za":
+            attendee_email = event['attendees'][0]['email']
+            not_patients_booking =  attendee_email != username+"@student.wethinkcode.co.za"
+            if len(event['attendees']) == 1 and not_patients_booking:
                 new_events.append(event)
         except:
             continue
@@ -389,24 +461,27 @@ def sort_open_slots(events, username):
 
 def sort_booked_slots(events, username):
     '''
-    Sorts through a list of events to locate events that the student, specified by username,
-    either volunteered or booked. This is done by locating the student's email in the list
-    of event attendees in the event body. These events are added to a list and returned.
+    Sorts through a list of events to locate events that the student, specified
+    by username, either volunteered or booked. This is done by locating the 
+    student's email in the list of event attendees in the event body.
+    These events are added to a list and returned.
 
             Parameters:
                     events    (list of dict): List of events from calendar
                     username           (str): Student's username
 
             Returns:
-                    new_events (list of dict): Events volunteered or booked by user with
-                                               specified username
+                    new_events (list of dict): Events volunteered or booked by
+                                               user with specified username
     '''
 
     new_events = []
+    user_email = username+'@student.wethinkcode.co.za'
     for event in events:
         try:
             for i in range(len(event['attendees'])):
-                if (event['attendees'][i]["email"]) == username+'@student.wethinkcode.co.za':
+                attendee_email = (event['attendees'][i]["email"]) 
+                if attendee_email == user_email:
                     new_events.append(event)
                 continue
         except:
@@ -416,37 +491,40 @@ def sort_booked_slots(events, username):
 
 def store_slot_data(events, user):
     '''
-    Populates a json file with the details of each open slot recieved from Google 
-    Calendar API. Old data will be deleted from the json file and new data written
-    to the json file, to prevent overpopulating the file.
+    Populates a json file with the details of each open slot recieved from
+    Google Calendar API. Old data will be deleted from the json file and new
+    data written to the json file, to prevent overpopulating the file.
 
             Parameters:
                     events    (list of dict): List of events from calendar
 
-                    user           (boolean): True if events should be added
-                                              to the ".student_events.json" file.
-
-                                              False if events should be added
-                                              to the ".open_slots.json" file.
+                    user            (boolean): True if events should be added
+                                               to the ".student_events.json"
+                                               file.
+                                    (boolean): False if events should be added
+                                               to the ".open_slots.json" file.
     '''
 
+    filename = ''
     if user == False:
+        filename = 'data_files/.open_slots.json'
         new_data = {"open_slots" : []}
         for event in events:
             new_data['open_slots'].append({event['id'] : event})
-        file_utils.write_data_to_json_file('data_files/.open_slots.json', new_data)
+        file_utils.write_data_to_json_file(filename, new_data)
     elif user == True:
+        filename = 'data_files/.student_events.json'
         new_data = {"events" : []}
         for event in events:
             if event["organizer"]["email"] ==  "code.clinic.test@gmail.com":
                 new_data['events'].append({event['id'] : event})
-        file_utils.write_data_to_json_file('data_files/.student_events.json', new_data)
+        file_utils.write_data_to_json_file(filename, new_data)
 
     
 def split_username(email):
     '''
-    Function will split the users email address to grab the username before the 
-    @ symbol.
+    Function will split the users email address to grab the username before
+    the @ symbol.
 
             Parameters:
                     email  (str): Email address
@@ -470,7 +548,8 @@ def get_chosen_slot(events, username, uid):
 
             Returns:
                     True  (boolean): Event with specified event UID exists
-                    False (boolean): Event with specified event UID does not exist
+                    False (boolean): Event with specified event UID does
+                                     not exist
                     
                     event    (dict): Dictionary with event information
                     *        (dict): Empty dictionary (event was not found)

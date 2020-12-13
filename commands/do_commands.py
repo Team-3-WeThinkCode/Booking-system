@@ -5,7 +5,7 @@ from commands import volunteer, booking, login
 from commands import event_listing as listings
 from commands import registration as register
 from commands import help as help_command
-import utilities as utils
+from utilities import utilities as utils
 
 
 def do_register_command(username, password):
@@ -55,12 +55,21 @@ def do_volunteer_commands(student, clinic):
                     student  (obj): Object with information on logged-in student
                     clinic   (obj): Object with information on Code clinic      
     '''
-
-    if student.info['command'] == 'create'and utils.check_date_and_time_format(student.info['date'], student.info['start_time']):
-        created = volunteer.create_volunteer_slot(student.username, student.info['date'], student.info['start_time'], student.service, clinic.service)
+    format_correct = utils.check_date_and_time_format(student.info['date'],
+                                                      student.info['start_time'])
+    if student.info['command'] == 'create'and format_correct:
+        created = volunteer.create_volunteer_slot(student.username,
+                                                  student.info['date'],
+                                                  student.info['start_time'],
+                                                  student.service,
+                                                  clinic.service)
         listings.print_correlating_table(True, True, student, clinic, created, False)
     elif student.info['command'] == 'cancel':
-        created = volunteer.delete_volunteer_slot(student.username, student.info['date'], student.info['start_time'], student.service, clinic.service)
+        created = volunteer.delete_volunteer_slot(student.username,
+                                                  student.info['date'],
+                                                  student.info['start_time'],
+                                                  student.service,
+                                                  clinic.service)
         listings.print_correlating_table(True, False, student, clinic, created, False)
 
 
@@ -76,27 +85,39 @@ def do_patient_commands(student, clinic):
     created = False
     if student.info['command'] == 'create':
         try:
-            created = booking.make_booking(student.username, student.info['UD'], clinic, student.info)
+            created = booking.make_booking(student.username,
+                                           student.info['UD'],
+                                           clinic,
+                                           student.info,
+                                           student.service)
         except(KeyError):
-            utils.print_output('ERROR: Please enter a description in enclosed quotes.\ne.g. "Recursion"')
+            msg = 'ERROR: Please enter a description in enclosed quotes.\n'\
+                                                        +'e.g. "Recursion"'
+            utils.print_output(msg)
         if not created:
             listings.print_correlating_table(False, True, student, clinic, False, False)
     elif student.info['command'] == 'cancel':
         try:    
-            created = booking.cancel_attendee(student.username, clinic ,student.info['UD'])
+            created = booking.cancel_attendee(student.username,
+                                              clinic ,
+                                              student.info['UD'])
         except(KeyError):
-            utils.print_output("ERROR: Please include the correct uid when cancelling a booking.\nFormat: <username> cancel patient <uid>.")
+            msg = "ERROR: Please include the correct uid when cancelling a booking.\n"\
+                                            +"Format: <username> cancel patient <uid>"
+            utils.print_output(msg)
         if not created:    
             listings.print_correlating_table(False, False, student, clinic, False, False)
 
 
 def do_event_listing_commands(student, clinic):
     '''
-    Executes specified event listing command, namely list booking, list slots or list open.
+    Executes specified event listing command, namely list booking,
+    list slots or list open.
 
             Parameters:
-                    student  (obj): Object with information on logged-in student
-                    clinic   (obj): Object with information on Code clinic       
+                    student  (obj): Object with information on logged-in
+                                    student
+                    clinic   (obj): Object with information on Code clinic      
     '''
 
     if 'command' in student.info and student.info['command'] == 'list-bookings':

@@ -1,13 +1,9 @@
-import os, sys, json
+import os, sys
 from datetime import datetime, timedelta
 USER_PATHS = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../'))
 sys.path.insert(0, USER_PATHS)
-import utilities as utils
-import file_utils
-
-
-# [login] [username] [password]
-# password : 8 characters long
+from utilities import utilities as utils
+from utilities import file_utilities as file_utils
 
 
 def log_in_expired(username):
@@ -22,30 +18,33 @@ def log_in_expired(username):
                     username  (str): Student's username
     '''
 
-    timestamp, date = '', ''
+    timestamp, date, msg = '', '', ''
     date_now = datetime.now().strftime('%y-%m-%d')
     time_now = time_now = datetime.now().strftime('%H:%M:%S')
-    executed, info = file_utils.read_data_from_json_file('student-info/.login_time.json')
+    filename = 'student-info/.login_time.json'
+    executed, info = file_utils.read_data_from_json_file(filename)
     if not executed:
-        utils.error_handling("ERROR: Please log-in with username and password.")
+        msg = "ERROR: Please log-in with username and password."
+        utils.error_handling(msg)
     if info:
         for student in info['expiration']:
             if student['username'] == username:
                 timestamp = student['time']
                 date = student['date']
         if date and date < date_now:
-            utils.error_handling("ERROR: Log-in time expired. Please log-in again!")
+            msg = "ERROR: Log-in time expired. Please log-in again!"
+            utils.error_handling(msg)
         elif timestamp and timestamp < time_now:
-            try:
-                filepath = file_utils.find_home_directory()+'/.'+username+'.pickle'
-                os.remove(filepath)
-            except:
-                utils.error_handling("Something went wrong.")
-            utils.error_handling("ERROR: Log-in time expired. Please log-in again!")
+            msg = "ERROR: Log-in time expired. Please log-in again!"
+            filepath = file_utils.find_home_directory()+'/.'+username+'.pickle'
+            os.remove(filepath)
+            utils.error_handling(msg)
         elif not (date and timestamp):
-            utils.error_handling("ERROR: Please log-in with username and password.")
+            msg = "ERROR: Please log-in with username and password."
+            utils.error_handling(msg)
     else:
-        utils.error_handling("ERROR: Please log-in with username and password.")
+        msg = "ERROR: Please log-in with username and password."
+        utils.error_handling(msg)
 
 
 def add_timestamps_to_json(username):
@@ -64,10 +63,13 @@ def add_timestamps_to_json(username):
         if not file_utils.is_non_zero_file('student-info/.login_time.json'):
             with open('student-info/.login_time.json', 'w') as json_file:
                 pass
-            info = {'expiration':[{'username': username, 'date': expiry_date, 'time': expiry_time}]}
+            info = {'expiration':[{'username': username,
+                                   'date': expiry_date,
+                                   'time': expiry_time}]}
         else:
             index = -1
-            executed, info = file_utils.read_data_from_json_file('student-info/.login_time.json')
+            filename = 'student-info/.login_time.json'
+            executed, info = file_utils.read_data_from_json_file(filename)
             if not executed:
                 return False
             for i in range(len(info['expiration'])):
@@ -75,7 +77,9 @@ def add_timestamps_to_json(username):
                     index = i
             if index > -1:
                 info['expiration'].pop(index)
-            info['expiration'].append({'username': username, 'date': expiry_date, 'time': expiry_time})
+            info['expiration'].append({'username': username,
+                                       'date': expiry_date,
+                                       'time': expiry_time})
         file_utils.write_data_to_json_file('student-info/.login_time.json', info)
         return True
     except:
@@ -120,13 +124,16 @@ def login_details(username, password):
                     password  (str): Student's password
     '''
 
-    executed, student_data = file_utils.read_data_from_json_file('student-info/.student.json')
+    filename = 'student-info/.student.json'
+    msg = "INVALID: You are not registered! Register before logging in."
+    executed, student_data = file_utils.read_data_from_json_file(filename)
     if not executed:
-        utils.error_handling("INVALID: You are not registered! Register before logging in.")
+        utils.error_handling(msg)
     if is_valid_student_info(student_data['student_info'], username, password):
         if add_timestamps_to_json(username):
-            utils.print_output("Login successful. Welcome to Code Clinic "+username+"!")
-        else:
-            utils.error_handling("Something went wrong!")
+            msg = "Login successful. Welcome to Code Clinic "+username+"!"
+            utils.print_output(msg)
+            return
     else:
-        utils.error_handling("ERROR: Incorrect username or password. Try again!")
+        msg = "ERROR: Incorrect username or password. Try again!"
+        utils.error_handling(msg)

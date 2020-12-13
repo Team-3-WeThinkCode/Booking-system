@@ -5,8 +5,8 @@ from googleapiclient.discovery import build
 from urllib.request import urlopen
 USER_PATHS = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../'))
 sys.path.insert(0, USER_PATHS)
-import utilities as utils
-from file_utils import find_home_directory
+from utilities import utilities as utils
+from utilities.file_utilities import find_home_directory
 
 
 # If modifying these scopes, delete the file token.pickle.
@@ -44,8 +44,10 @@ def create_service(username):
             except:
                 print("ERROR: Major Error!")
         else:
-            flow = InstalledAppFlow.from_client_secrets_file('credentials/client_secret.json', SCOPES)
-            creds = flow.run_local_server(port=0, success_message='You now have access to the codeclinic system!')
+            filename = 'credentials/client_secret.json'
+            message = 'You now have access to the codeclinic system!'
+            flow = InstalledAppFlow.from_client_secrets_file(filename, SCOPES)
+            creds = flow.run_local_server(port=0, success_message=message)
         # Save the credentials for the next run
         with open(directory, 'wb') as token:
             pickle.dump(creds, token)

@@ -1,15 +1,12 @@
-import unittest
+import os, sys, unittest
 from unittest.main import main
 from unittest.mock import patch
-from io import StringIO
-import sys
-import os
-
 USER_PATHS = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../'))
 sys.path.insert(0, USER_PATHS)
 from commands import registration
-import file_utils
-# [register] [username] [password]
+from utilities import file_utilities as file_utils
+
+
 class Test(unittest.TestCase):
 
     def test_if_student_registered(self):

@@ -1,20 +1,22 @@
 import os, sys, datetime
-from commands import event_listing as listings
 USER_PATHS = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../'))
 sys.path.insert(0, USER_PATHS)
 import API.gmail_api as email
-import utilities as utils
+from utilities import utilities as utils
         
 
-def get_chosen_slot(events, username, uid):
+def get_chosen_slot(events, username, uid, student_service):
     '''
     Sorts through list of events on clinic calendar and looks for the specified
-    event UID so that it can return event with specified event UID.
+    event UID. If the student has an available slot in their calendar at the 
+    time of the event, with the specified event ID, the event body is returned.
 
             Parameters:
-                    events   (list): List of events from clinic calendar
-                    username  (str): Patient's (student) username
-                    uid       (str): Unique event id of event
+                    events         (list): List of events from clinic calendar
+                    username        (str): Patient's (student) username
+                    uid             (str): Unique event id of event
+                    student_service (obj): Student's (patient) Google Calendar
+                                           API service
 
             Returns:
                     True  (boolean): Event with specified event UID exists
@@ -27,13 +29,17 @@ def get_chosen_slot(events, username, uid):
     
     for event in events:
         if event['id'] == uid and len(event['attendees']) == 1:
+            start = event['start'].get('dateTime')
+            end = event['end'].get('dateTime')
             if "VOLUNTEER: " + str(username) in event['summary']:
+                return False, {}
+            if not utils.is_slot_available(student_service, username, start, end):
                 return False, {}
             return True, event
     return False, {}
 
 
-def make_booking(username, uid, clinic, student_info):
+def make_booking(username, uid, clinic, student_info, student_service):
     '''
     Function will handle the logic for booking an empty slot. Sorts through
     events occuring in the next 7 days to find specified volunteer slot to
@@ -56,29 +62,42 @@ def make_booking(username, uid, clinic, student_info):
     '''
 
     now = datetime.datetime.utcnow().isoformat() + 'Z'
-    end_date = ((datetime.datetime.utcnow()) + datetime.timedelta(days=7)).isoformat() + 'Z'
+    end_date = ((datetime.datetime.utcnow())\
+        + datetime.timedelta(days=7)).isoformat() + 'Z'
     slots = utils.get_events(clinic.service, now, end_date)
     if slots == []:
         utils.print_output('ERROR: This slot is unavailable')
         return False
-    available, volunteered_event = get_chosen_slot(slots, username, uid)
+    available, volunteered_event = get_chosen_slot(slots,
+                                                   username,
+                                                   uid,
+                                                   student_service)
     if not available:
         utils.print_output('ERROR: Choose a valid event id.')
         return False
-    updated_event, unique_id = create_booking_body(volunteered_event, username, student_info['description'])
+    updated_event, unique_id = create_booking_body(volunteered_event,
+                                                   username,
+                                                   student_info['description'])
     try:
-        updated_event_response = clinic.service.events().update(calendarId='primary',eventId=unique_id, body=updated_event).execute()
+        updated_response = clinic.service.events()\
+                                    .update(calendarId='primary',
+                                            eventId=unique_id,
+                                            body=updated_event).execute()
 
-        booker_accept_invite(clinic.service, unique_id, username, updated_event_response)
-        email.send_message('me', email.patient_create_text(username, updated_event_response), clinic.email_service)
-        utils.print_output("Booking succesfully made! You're unique id is: "+ str(updated_event_response['id']))
+        booker_accept_invite(clinic.service, unique_id, updated_response)
+        email.send_message('me', email.patient_create_text(username,
+                                                           updated_response),
+                                                           clinic.email_service)
+        utils.print_output("Booking succesfully made! You're unique id is: "\
+                                                + str(updated_response['id']))
         return True
     except:
-        error_message = 'ERROR: An error has stopped the booking from being made.\nPlease try again.'
-        utils.error_handling(error_message)
+        error_msg = 'ERROR: An error has stopped the booking from being made.\n'\
+                                                        +'Please try again.'
+        utils.error_handling(error_msg)
 
 
-def booker_accept_invite(service, uid, username, event):
+def booker_accept_invite(service, uid, event):
     '''
     Accepts student's invite to event, with specified event UID, and updates 
     event body accordingly.
@@ -86,12 +105,12 @@ def booker_accept_invite(service, uid, username, event):
             Parameters:
                     service (obj): Code clinic's Google calendar API service
                     uid            (str): Unique event id of event
-                    username       (str): Patient's (student) username
                     event         (dict): Event body
     '''
 
     event['attendees'][1]['responseStatus'] = 'accepted'
-    service.events().update(calendarId='primary', eventId=uid, body=event).execute()
+    service.events().update(calendarId='primary', eventId=uid, body=event)\
+                                                                .execute()
 
 
 def create_booking_body(event, username, description="General code"):
@@ -173,25 +192,34 @@ def cancel_attendee(username, clinic, uid):
                                           from event (events left unchanged)
     '''
 
+    msg = ''
     now = datetime.datetime.utcnow().isoformat()+'Z'
-    end_date = ((datetime.datetime.utcnow()) + datetime.timedelta(days=7)).isoformat()+'Z'
+    end_date = ((datetime.datetime.utcnow())\
+                    + datetime.timedelta(days=7)).isoformat()+'Z'
     deletion = False
     slots = utils.get_events(clinic.service,now, end_date)
     deletion, event = utils.get_chosen_slot(slots, username, uid)
     if not is_user_valid(event, username):
-        utils.print_output("ERROR: You cannot cancel another users booking")
+        msg = "ERROR: You cannot cancel another users booking"
+        utils.print_output(msg)
         return False
     if deletion == True:
         try:
             updated_event = update_booking_body(event, username)
-            event = clinic.service.events().update(calendarId='primary', eventId=event['id'], body=updated_event).execute()
-            email.send_message('me', email.patient_cancel_text(username,event), clinic.email_service)
+            event = clinic.service.events().update(calendarId='primary',\
+                         eventId=event['id'], body=updated_event).execute()
+            email.send_message('me', email.patient_cancel_text(username,event),\
+                                                          clinic.email_service)
         except:
-            utils.error_handling("ERROR: Could not cancel booking.")
-        utils.print_output("Booking successfully deleted.")
+            msg = "ERROR: Could not cancel booking."
+            utils.error_handling(msg)
+        msg = "Booking successfully deleted."
+        utils.print_output(msg)
         return True
     else:
-        utils.print_output('ERROR: You cannot cancel selected booking.\nUse the help command (-h) for more infromation.')
+        msg = 'ERROR: You cannot cancel selected booking.\n'\
+                            +'Use the help command (-h) for more infromation.'
+        utils.print_output(msg)
         return False
 
 

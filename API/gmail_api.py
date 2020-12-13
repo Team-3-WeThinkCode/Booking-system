@@ -6,7 +6,7 @@ from email.mime.text import MIMEText
 import base64
 USER_PATHS = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../'))
 sys.path.insert(0, USER_PATHS)
-from utilities import split_username
+from utilities.utilities import split_username
 
 
 # If modifying these scopes, delete the file token.pickle.
@@ -37,7 +37,8 @@ def create_email_service():
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
-            flow = InstalledAppFlow.from_client_secrets_file('credentials/client_secret.json', SCOPES)
+            filename = 'credentials/client_secret.json'
+            flow = InstalledAppFlow.from_client_secrets_file(filename, SCOPES)
             creds = flow.run_local_server(port=0)
         # Save the credentials for the next run
         with open('tokens/.code_gmail.pickle', 'wb') as token:
@@ -75,7 +76,7 @@ def create_message(sender, to, subject, message_text):
 
 def patient_create_text(username, event):
     '''
-    Create a email body to be used with the Gmail API, message will be created 
+    Create a email body to be used with the Gmail API, message will be created
     and encoded in return. This message is for creating bookings
 
             Parameters:
@@ -110,7 +111,7 @@ WeThinkCode_ Code-clinic.
 
 def patient_cancel_text(username, event):
     '''
-    Create a email body to be used with the Gmail API, message will be created 
+    Create a email body to be used with the Gmail API, message will be created
     and encoded in return. This message is for canceling bookings
 
             Parameters:
@@ -152,6 +153,7 @@ def send_message(user_id, message, service):
     '''
 
     try:
-        message = (service.users().messages().send(userId=user_id, body=message).execute())
+        message = (service.users().messages()\
+            .send(userId=user_id, body=message).execute())
     except:
         print('An error occurred:')

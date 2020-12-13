@@ -4,11 +4,11 @@ from unittest.mock import patch
 from io import StringIO
 import sys
 import os
-
 USER_PATHS = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../'))
 sys.path.insert(0, USER_PATHS)
 from commands import login
-import file_utils
+from utilities import file_utilities as file_utils
+
 
 class Test(unittest.TestCase):
     def test_student_info(self):

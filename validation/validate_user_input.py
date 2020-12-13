@@ -1,8 +1,8 @@
-import os, sys, json
+import os, sys
 USER_PATHS = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../'))
 sys.path.insert(0, USER_PATHS)
-import utilities as utils
-import file_utils
+from utilities import utilities as utils
+from utilities import file_utilities as file_utils
 
 
 def is_registered(username):
@@ -19,16 +19,17 @@ def is_registered(username):
                     False (boolean): Student is not registered             
     '''
 
+    filename = 'student-info/.student.json'
     try:
-        if not os.stat('student-info/.student.json').st_size == 0:
-            executed, data = file_utils.read_data_from_json_file('student-info/.student.json')
+        if not os.stat(filename).st_size == 0:
+            executed, data = file_utils.read_data_from_json_file(filename)
             if executed:
                 students = data['student_info']
                 for student in students:
                     if student['username'] == username:
                         return True
     except FileNotFoundError:
-        with open('student-info/.student.json', 'w') as json_file:
+        with open(filename, 'w') as json_file:
             pass
     return False
 
@@ -64,7 +65,19 @@ def get_username(info):
                     info  (dict): Student information (includes username)      
     '''
 
-    valid_args = ['create', 'cancel', 'register','volunteer', 'patient', 'list-bookings', 'list-open', 'list-slots', 'help', '-h', 'login', 'format','export']
+    valid_args = ['create',
+                  'cancel',
+                  'register',
+                  'volunteer',
+                  'patient',
+                  'list-bookings',
+                  'list-open',
+                  'list-slots',
+                  'help',
+                  '-h',
+                  'login',
+                  'format',
+                  'export']
     lst_not_args = list(filter(lambda x: x not in valid_args, sys.argv))
     if lst_not_args:
         lst_command_arg = list(filter(lambda y: 'main.py' not in y, lst_not_args))
@@ -113,11 +126,13 @@ def get_command(info, criteria):
 
             Parameters:
                         info  (dict): Student information
-                    criteria  (list): Booleans that help to clarify which support 
-                                      infomation is needed to execute command 
+                    criteria  (list): Booleans that help to clarify
+                                      which support infomation is
+                                      needed to execute command 
  
             Returns:
-                    info  (dict): Student information (includes command type)   
+                    info  (dict): Student information
+                                  (includes command type)   
     '''
 
     if 'create' in sys.argv:
@@ -155,15 +170,21 @@ def get_support(info, criteria):
 
             Parameters:
                         info  (dict): Student information
-                    criteria  (list): Booleans that help to clarify which support 
-                                      infomation is needed to execute command 
+                    criteria  (list): Booleans that help to clarify which
+                                      support infomation is needed to
+                                      execute command 
  
             Returns:
                     True    (boolean): Required support information was given
-                    info       (dict): Student information (includes support information)
+                    info       (dict): Student information
+                                       (includes support information)
     '''
 
-    get_date, get_time, get_id, get_password = criteria[0], criteria[1], criteria[2], criteria[3]
+    msg = ''
+    get_date = criteria[0]
+    get_time = criteria[1]
+    get_id = criteria[2]
+    get_password = criteria[3]
     if get_date:
         if len(sys.argv) >= 5 and utils.check_date_format(sys.argv[4]):
             info['date'] = sys.argv[4]
@@ -171,10 +192,20 @@ def get_support(info, criteria):
             if utils.check_date_format(sys.argv[3]):
                 info['date'] = sys.argv[3]
             else:
-                utils.error_handling('INVALID: Date is either invalid or format is incorrect.\nEnter date as <yyyy-mm-dd>')
+                msg = 'INVALID: Date is either invalid or format is incorrect.\n'\
+                                                  +'Enter date as <yyyy-mm-dd>'
+                utils.error_handling(msg)
+        else:
+            msg = 'INVALID: Date is either invalid or format is incorrect.\n'\
+                                                  +'Enter date as <yyyy-mm-dd>'
+            utils.error_handling(msg)
     if get_time:
         if len(sys.argv) >= 6 and utils.check_time_format(sys.argv[5]):
             info['start_time'] = sys.argv[5]
+        else:
+            msg = 'ERROR: Time is either invalid or format is incorrect.\n'\
+                                                +'Enter time in format <hh:mm>'
+            utils.error_handling(msg)
     if get_id:
         info['UD'] = ''
         if 'command' in info and info['command'] == 'create':
@@ -189,7 +220,8 @@ def get_support(info, criteria):
         if len(sys.argv) == 4 and len(sys.argv[3]) == 8 and 'username' in info:
             info['password'] = sys.argv[3]
         else:
-            utils.error_handling('INVALID: Password needs to be at exactly 8 characters long.')
+            msg = 'INVALID: Password needs to be at exactly 8 characters long.'
+            utils.error_handling(msg)
     return info
 
 
@@ -202,38 +234,53 @@ def check_if_support_info_is_present(info):
                     info     (dict): Student information
  
             Returns:
-                    True  (boolean): All required information is present in info dictionary
-                    False (boolean): All required information is not present in info dictionary
+                    True  (boolean): All required information is present
+                                     in info dictionary
+                    False (boolean): All required information is not
+                                     present in info dictionary
     '''
 
+    msg = ''
     if 'user_type' in info:
+        is_user_type_command = (info['command'] == 'create' or info['command'] == 'cancel')
         if info['user_type'] == 'volunteer':
-            if ('date' in info and 'start_time' in info) and utils.date_has_passed(info['date'], info['start_time']):
-                utils.error_handling('INVALID: Specified date/time has already passed.')
-                return False
+            date_passed = utils.date_has_passed(info['date'], info['start_time'])
+            if ('date' in info and 'start_time' in info) and date_passed:
+                msg = 'INVALID: Specified date/time has already passed.'
+                utils.error_handling(msg)
             if 'date' in info and 'start_time' in info:
-                if 'command' in info and (info['command'] == 'create' or info['command'] == 'cancel'):
+                if 'command' in info and is_user_type_command:
                     return True
-            utils.error_handling('INVALID: Enter command in format: <username> volunteer <command> <yyyy-mm-dd> <hh:mm>')
+            msg = 'INVALID: Enter command in format: '\
+                +'<username> volunteer <command> <yyyy-mm-dd> <hh:mm>'
+            utils.error_handling(msg)
         if info['user_type'] == 'patient':
             if 'UD' in info:
-                if 'command' in info and (info['command'] == 'create' or info['command'] == 'cancel'):
+                if 'command' in info and is_user_type_command:
                     return True
-            utils.error_handling('INVALID: Enter command in format: <username> patient <command> <event_id> <"description">')
+            msg = 'INVALID: Enter command in format: '\
+                    +'<username> patient <command> <event_id> <"description">'
+            utils.error_handling(msg)
     elif 'command' in info:
         if info['command'] == 'list-open':
             if 'date' in info:
                 return True
-            utils.error_handling('INVALID: Enter command in format: <username> list-open <yyyy-mm-dd>')
+            msg = 'INVALID: Enter command in format: '\
+                                          +'<username> list-open <yyyy-mm-dd>'
+            utils.error_handling(msg)
         if info['command'] == 'register':
             if sys.argv[1] == 'register':
                 if 'password' in info and 'username' in info:
                     return True
-            utils.error_handling('INVALID: Enter command in format: register <username> <password>')
+            msg = 'INVALID: Enter command in format: '\
+                                +'register <username> <password>'
+            utils.error_handling(msg)
         if info['command'] == 'login':
             if 'password' in info and 'username' in info:
                 return True
-            utils.error_handling('INVALID: Enter command in format: login <username> <password>') 
+            msg = 'INVALID: Enter command in format: '\
+                            +'login <username> <password>'
+            utils.error_handling(msg) 
         if not (info['command'] == 'cancel' or info['command'] == 'create'):
             return True
     return False
@@ -246,8 +293,10 @@ def get_user_commands():
     or return an empty dictionary.
  
             Returns:
-                    True     (boolean): All required information is present in info dictionary
-                    False    (boolean): All required information is not present in info dictionary
+                    True     (boolean): All required information is present
+                                        in info dictionary
+                    False    (boolean): All required information is not
+                                        present in info dictionary
 
                     info        (dict): Student information
                     *     (empty dict): Incorrect information provided by user

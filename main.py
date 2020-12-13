@@ -1,9 +1,10 @@
-import sys, utilities
-from validation import do_commands, validate_user_input
+import sys
+from utilities import utilities
+from validation import validate_user_input
 from API.gmail_api import create_email_service
 from API.calendar_api import create_service
 from commands import export_calendar as export
-from commands import login
+from commands import login, do_commands
 
        
 class Student:
@@ -57,17 +58,23 @@ def run_program():
     Executes program
     '''
 
-    data = ''
+    data, msg = '', ''
     student = Student()
     codeclinic = CodeClinic()
     #checks if input entered is invalid
     if not student.info:
-        utilities.error_handling('INVALID: Input invalid. Use the help command for further information.\nHelp command: -h')
+        msg = 'INVALID: Input invalid. '\
+            +'Use the help command for further information.\nHelp command: -h'
+        utilities.error_handling(msg)
     #checks if student's login token has expired
-    if not (student.info['command'] == 'login' or student.info['command'] == 'register'):
+    is_auth_command = (student.info['command'] == 'login' \
+                    or student.info['command'] == 'register')
+    if not is_auth_command:
         login.log_in_expired(student.username)
     #update data files
-    utilities.update_files(student.service, codeclinic.service, student.username)
+    utilities.update_files(student.service,
+                           codeclinic.service,
+                           student.username)
     #ensures piping input accepted
     if not sys.stdin.isatty():
         data = sys.stdin.readlines()
@@ -79,9 +86,11 @@ def run_program():
             do_commands.do_patient_commands(student, codeclinic)
     elif 'command' in student.info:
         if student.info['command'] == 'register':
-            do_commands.do_register_command(student.info['username'], student.info['password'])
+            do_commands.do_register_command(student.info['username'],
+                                            student.info['password'])
         elif student.info['command'] == 'login':
-            do_commands.do_login_command(student.info['username'], student.info['password'])
+            do_commands.do_login_command(student.info['username'],
+                                         student.info['password'])
         elif student.info['command'] == 'help':
             do_commands.do_help_command(False)
         elif student.info['command'] == 'format-help':

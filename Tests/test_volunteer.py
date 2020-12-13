@@ -1,10 +1,7 @@
-import unittest
-import sys
-import os
+import os, sys, unittest
 USER_PATHS = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../'))
 sys.path.insert(0, USER_PATHS)
 from commands import volunteer
-import quickstart
 
 class Test(unittest.TestCase):
 

@@ -3,8 +3,7 @@ from rich.console import Console
 from rich.table import Table
 USER_PATHS = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../'))
 sys.path.insert(0, USER_PATHS)
-from commands import volunteer
-import utilities as utils
+from utilities import utilities as utils
 
 
 console = Console()
@@ -68,7 +67,11 @@ def get_booked_slots_table_info(events, username):
         if len(event['attendees']) > 1:
             patient = utils.split_username(event['attendees'][1]['email'])
             if patient == username:
-                row = (event['summary'][10:],start_date,start_time, event['id'],patient)
+                row = (event['summary'][10:],
+                              start_date,
+                              start_time,
+                              event['id'],
+                              patient)
                 table_info.append(row)
     return table_info
 
@@ -105,7 +108,11 @@ def get_all_booked_slots_table_info(events, username):
                 patient = "Open-slot"
             volunteer = utils.split_username(event['attendees'][0]['email'])
             if patient == username or volunteer == username:
-                row = (event['summary'][10:],start_date,start_time, event['id'],patient)
+                row = (event['summary'][10:],
+                       start_date,
+                       start_time,
+                       event['id'],
+                       patient)
                 table_info.append(row)
     return table_info
 
@@ -132,19 +139,24 @@ def get_open_volunteer_slots_table_info(username, volunteer_service, date):
     '''
 
     table_info = []
-    ninty_min_slots = [('08:30', '10:00'), ('10:00', '11:30'), ('11:30', '13:00'),
-                ('13:00', '14:30'), ('14:30', '16:00'), ('16:00', '17:30')]
+    ninty_min_slots = [('08:30', '10:00'), ('10:00', '11:30'),
+                       ('11:30', '13:00'), ('13:00', '14:30'),
+                       ('14:30', '16:00'), ('16:00', '17:30')]
     for slot in ninty_min_slots:
         if utils.date_has_passed(date, slot[0]):
             continue
-        start_datetime, end_datetime = utils.convert_date_and_time_to_rfc_format(date, slot[0], slot[1])
-        if volunteer.is_slot_available(volunteer_service,username, start_datetime, end_datetime):
+        start_datetime, end_datetime = utils.convert_date_and_time_to_rfc_format(date,slot[0],slot[1])
+        available = utils.is_slot_available(volunteer_service,
+                                            username,
+                                            start_datetime,
+                                            end_datetime)
+        if available:
             row = ('-', date, slot[0], '-', 'Open slot.')
             table_info.append(row)
     return table_info
 
 
-def get_open_booking_slots_table_info(events):
+def get_open_booking_slots_table_info(events, student_service, username):
     '''
     Returns a list of volunteer usernames, dates, start times and event UIDs
     of volunteer events that are still open to book by students (patients).
@@ -153,6 +165,9 @@ def get_open_booking_slots_table_info(events):
 
             Parameters:
                     events           (list): Events from the clinic calendar
+                    student_service   (obj): Student's Google Calendar API
+                                             service
+                    username          (str): Student's username
 
             Returns:
                     table_info    (2D-list): Information on volunteer
@@ -169,13 +184,21 @@ def get_open_booking_slots_table_info(events):
         end = event['end'].get('dateTime', event['end'].get('date'))
         start_date = (start[0:10])
         start_time = (start[11:16]+' - '+end[11:16])
-        if not len(event['attendees']) > 1:
-            row = (event['summary'][10:], start_date,start_time,event['id'],'Open slot.')
+        available = utils.is_slot_available(student_service,
+                                            username,
+                                            start,
+                                            end)
+        if not len(event['attendees']) > 1 and available:
+            row = (event['summary'][10:],
+                   start_date,
+                   start_time,
+                   event['id'],
+                   'Open slot.')
             table_info.append(row)
     return table_info
 
 
-def get_all_open_booking_slots_table_info(events, username):
+def get_all_open_booking_slots_table_info(events, student_service, username):
     '''
     Returns a list of volunteer usernames, dates, start times and event UIDs
     of volunteer events that are still open to book by user. This information
@@ -184,6 +207,7 @@ def get_all_open_booking_slots_table_info(events, username):
 
             Parameters:
                     events           (list): Events from the clinic calendar
+                    student_service   (obj): Student's Google Calendar API service
                     username          (str): Student's username
 
             Returns:
@@ -204,9 +228,18 @@ def get_all_open_booking_slots_table_info(events, username):
         start_time = (start[11:16]+' - '+end[11:16])
         event_username = utils.split_username(event['attendees'][0]['email'])
         if not len(event['attendees']) > 1 and event_username != username:
-            uid = event['id']
-            row = (event['summary'][10:],start_date,start_time,uid,attendee)
-            table_info.append(row)
+            available = utils.is_slot_available(student_service,
+                                                username,
+                                                start,
+                                                end)
+            if available:
+                uid = event['id']
+                row = (event['summary'][10:],
+                       start_date,
+                       start_time,
+                       uid,
+                       attendee)
+                table_info.append(row)
     return table_info
 
 
@@ -285,7 +318,8 @@ def get_events_for_n_days(service):
     now = datetime.datetime.utcnow().isoformat() + 'Z'
     if sys.argv[-1].isdigit():
         n_days = int(sys.argv[-1])
-    end_date = ((datetime.datetime.utcnow()) + datetime.timedelta(days=n_days)).isoformat() + 'Z'
+    end_date = ((datetime.datetime.utcnow()) + datetime.timedelta(days=n_days))\
+                                                             .isoformat() + 'Z'
     events = utils.get_events(service, now, end_date)
     return n_days, events
 
@@ -312,7 +346,7 @@ def print_correlating_table(volunteer, create, student, clinic, created, event_l
     '''
 
     table_info = []
-    heading, error_message = '', ''
+    heading, msg = '', ''
     days, events = get_events_for_n_days(clinic.service)
     if created:
         return
@@ -320,31 +354,38 @@ def print_correlating_table(volunteer, create, student, clinic, created, event_l
         # user list-bookings: print table with all booked slots (volunteer & patient)
         table_info = get_all_booked_slots_table_info(events, student.username)
         heading = f'Your booked slots for the next {days} days:'
-        error_message = f'ERROR: You have no booked slots for the next {days} days.'
+        msg = f'ERROR: You have no booked slots for the next {days} days.'
     elif event_list and not volunteer:
         # user list-slots: print table with all open slots besides the user requesting
-        table_info = get_all_open_booking_slots_table_info(events, student.username)
+        table_info = get_all_open_booking_slots_table_info(events,
+                                                           student.service,
+                                                           student.username)
         heading = f'Volunteer slots for the next {days} days available for booking:'
-        error_message = 'ERROR: There are no volunteer slots available to book.'
+        msg = 'ERROR: There are no volunteer slots available to book.'
     elif volunteer and create:
         #volunteer create slot: print table with open slot times where can volunteer
-        table_info = get_open_volunteer_slots_table_info(student.username, student.service, student.info['date'])
+        table_info = get_open_volunteer_slots_table_info(student.username,
+                                                         student.service,
+                                                         student.info['date'])
         heading = 'Open volunteer slots for '+student.info['date']+':'
-        error_message = 'ERROR: There are no open volunteer slots on '+student.info['date']+'.'
+        msg = 'ERROR: There are no open volunteer slots on '+student.info['date']+'.'
     elif volunteer and not create:
         #volunteer delete slot: print table with volunteered slots
-        table_info = get_volunteered_slots_table_info(events,\
-                                                 student.username)
+        table_info = get_volunteered_slots_table_info(events,
+                                                      student.username)
         heading = f'Volunteered slots for the next {days} days:'
-        error_message = f'ERROR: You have no volunteer slots in the next {days} days.'
+        msg = f'ERROR: You have no volunteer slots in the next {days} days.'
     elif create and not volunteer:
         #patient create booking: print table with open volunteer slots to book
-        table_info = get_open_booking_slots_table_info(events)
+        table_info = get_open_booking_slots_table_info(events,
+                                                       student.service,
+                                                       student.username)
         heading = f'Volunteer slots for the next {days} days available for booking:'
-        error_message = 'ERROR: There are no volunteer slots available to book.'
+        msg = 'ERROR: There are no volunteer slots available to book.'
     elif not (volunteer and create):
         #patient delete booking: print table with volunteer slots booked by user
-        table_info = get_booked_slots_table_info(events, student.username)
+        table_info = get_booked_slots_table_info(events,
+                                                 student.username)
         heading = f'Your booked slots for the next {days} days:'
-        error_message = f'ERROR: You have no booked slots for the next {days} days.'
-    print_correct_table(table_info, heading, error_message)
+        msg = f'ERROR: You have no booked slots for the next {days} days.'
+    print_correct_table(table_info, heading, msg)

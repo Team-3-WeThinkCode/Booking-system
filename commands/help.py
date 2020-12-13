@@ -1,11 +1,9 @@
-import os, sys
 from rich.console import Console
 from rich.table import Table
-USER_PATHS = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../'))
-sys.path.insert(0, USER_PATHS)
-import utilities as utils
+
 
 console = Console()
+
 
 def print_table(table_info, heading):
     '''
@@ -166,7 +164,7 @@ def print_support_type():
     table_info.append(['time', 
                        'Time the slot starts in format <hh:mm>'])
     table_info.append(['description',
-             'Topic to be discussed (entered in enclosed quotation marks)'])
+                       'Topic to be discussed (entered in enclosed quotation marks)'])
     table_info.append(['#days', 'Specify amount of days the listing lists'])
     print_support_commands_table(table_info, heading)
     print()
